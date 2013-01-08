@@ -2,7 +2,8 @@ require.config({
 	'paths': {
 		'jquery': 'libs/jquery-1.8.3.min',
 		'backbone': 'libs/backbone-min',
-		'underscore': 'libs/underscore-min'
+		'underscore': 'libs/underscore-min',
+		'easel' : 'libs/easeljs-0.5.0.min'
 	},
  
 	shim: {
@@ -12,7 +13,10 @@ require.config({
 		},
 		'underscore': {
 			exports: '_'
-		}
+		},
+		'easel': {
+            exports: 'createjs'
+        }
 	}
 });
  
