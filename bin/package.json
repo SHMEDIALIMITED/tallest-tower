@@ -1,0 +1,24 @@
+{
+  "name": "Tallest Tower",
+  "version": "0.0.1",
+  "author": "Patrick Wolleb <patrick.wolleb@shmedia.co.uk",
+  "description": "Tallest Tower JS/HTML5 game with Facebook integration",
+  "scripts": {
+    "start": "node server"
+  },
+  "engines": {
+    "node": "0.8.14",
+    "npm": "1.1.65"
+  },
+  "dependencies": {
+    "express": "3.0.4",
+    "ejs": "0.8.3"
+  },
+  "bugs": {
+    "url": "https://github.com/SHMEDIALIMITED/tallest-tower/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "heroku git repo url"
+  }
+}

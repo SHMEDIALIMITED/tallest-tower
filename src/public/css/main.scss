@@ -1,0 +1,46 @@
+/* 
+	SH MEDIA SASS Stylesheet
+	author : Patrick Wolleb patrick.wolleb@shmedia.co.uk
+*/
+@import "reset";
+@import "grid";
+@import "container";
+@import "form";
+@import "button";
+@import "table";
+
+@import "a";
+
+
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 62.5%;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+h1, h2, h3 {
+	margin: 1em 0;
+  	font-family: inherit;
+  	font-weight: bold;
+  	color: inherit;
+  	text-rendering: optimizelegibility;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.8em;
+}
+
+h3 {
+	font-size: 1.6em;
+}
+
+p {
+	font-size: 1.4em;
+}
