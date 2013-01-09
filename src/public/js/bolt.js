@@ -52,8 +52,8 @@ define(['easel'], function(E) {
 		
 		 var tempX = this.x;
        	 var tempY = this.y;
-       	 this.setX(this.x + this.getVX());
-         this.setY(this.y + this.getVY());
+       	 this.setX(this.x + this.x - this._oldX);
+         this.setY(this.y + this.y - this._oldY);
          this._oldX = tempX;
          this._oldY = tempY;
 
@@ -76,22 +76,9 @@ define(['easel'], function(E) {
 		if(!this.selected) this.shape.graphics.clear();
 	}
 	
-	p.getVX = function () {
-		return this.x - this._oldX;
-	}
 	
-	p.setVX = function (value) {
-		
-		this._oldX = this.x - value;
-	}
 	
-	p.getVY = function () {
-		return this.y - this._oldY;
-	}
 	
-	p.setVY = function (value) {
-		this._oldY = this.y - value;
-	}
 	
 	
 	p.setX = function(value) {

@@ -1,8 +1,9 @@
 define([ 
 	'router',
 	'backbone',
-	'game-engine'
-	], function(Router, Backbone, GameEngine) {
+	'game-engine',
+	'model/game'
+	], function(Router, Backbone, GameEngine, Game) {
 
 	var router;
 	var engine;
@@ -10,8 +11,15 @@ define([
 		init: function() {
 			router = new Router();
 			Backbone.history.start();
-
-			engine = new GameEngine();
+			
+			var gameModel = new Game();
+			engine = new GameEngine({model:gameModel});
+			
+			gameModel.fetch({success:function(model) {
+				
+				engine.start();		
+			}});
+			
 		}
 	}
 })

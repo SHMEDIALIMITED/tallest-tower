@@ -1,75 +1,126 @@
-define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore'], 
-	function(Backbone, $, E, Bolt, Stick, _) {
+define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/point', 'view/bolt'], 
+	function(Backbone, $, E, Bolt, Stick, _, Point, Bolt) {
 	return Backbone.View.extend({
 		el: '#game-engine',
 		stage : null,
-		points : [],
-		sticks : [],
+		points : null,
+		sticks : null,
 		scaffold : null,
 		bg : null,
 		selectedPoint : null,
 		scaffoldHeight : 0.0,
+		objects: [],
 		initialize: function() {
 
-			 _.bindAll(this, 'onPointSelected');
-			 _.bindAll(this, 'createStick');
+			
+			
+			
+			 _.bindAll(this, 'render');	
+			 _.bindAll(this, 'selectBolt');
+			 _.bindAll(this, 'addStick');
+			  _.bindAll(this, 'resize');
 
-			this.el.width = 760;
-			this.el.height = 500;
+			 this.model.on('change', this.render);
+			 
+			
 			
 			this.stage = new E.Stage(this.el);
 			this.stage.enableMouseOver(30);
 
-			console.log(this.stage)
+			
 
 			this.bg = new E.Shape();
-			this.bg.graphics.beginFill('#999')
-				.drawRect(0,0,this.el.width, this.el.height)
-				.beginFill(null);
 			this.stage.addChild(this.bg);
+
 
 			this.scaffold = new E.Container();	
 			this.scaffold.y = 300;
 			this.stage.addChild(this.scaffold);
 
-
-			var p2 = new Bolt(200,0, true);
-			this.points.push(p2);
-			p2.onPress = this.onPointSelected;
+			$(window).resize(this.resize);
 			
-			var p3 = new Bolt(400,0, true);
-			this.points.push(p3);
-			p3.onPress = this.onPointSelected;
+			console.log(this.trigger)
+			
 
-			this.scaffold.addChild(p2, p3);
+			
 
-			E.Ticker.addListener(this);
+
 			E.Ticker.useRAF = true;
 			E.Ticker.setFPS(30);
 
+			
+				
+
+
 		},
 
-		onPointSelected: function(e) {
-			console.log(this.bg)
-			this.bg.onPress = this.createStick;
-			if(this.selectedPoint && this.selectedPoint != e.target) {
-				this.createStick(e.target);
+		drawBG: function() {
+			this.bg.graphics.clear();
+			this.bg.graphics.beginFill('#999')
+				.drawRect(0,0,this.el.width, this.el.height)
+				.beginFill(null);
+			
+		},
+
+		resize : function() {
+			this.stage.canvas.width = window.innerWidth;
+       		this.stage.canvas.height = window.innerHeight;      
+
+			this.scaffold.x = window.innerWidth * .5;
+			this.scaffold.y = window.innerHeight - window.innerHeight / 100 * 28;
+		
+			this.drawBG();
+		},
+
+		start:function() {
+			this.resize();
+			E.Ticker.addListener(this);
+		},
+
+		stop: function() {
+			E.Ticker.removeListener(this);	
+		},
+
+		render : function() {
+			this.stop();
+			this.points = this.model.get('points').models;
+			this.sticks = this.model.get('sticks').models;
+			var that = this;
+			this.model.get('points').each(function(point){
+				that.addBolt(point);
+			});
+
+			this.start();
+		},
+
+		addBolt : function(point){
+			var bolt = new Bolt({model:point});
+			bolt.on('selected', this.selectBolt)
+			this.scaffold.addChild(bolt.container);
+			this.objects.push(bolt);
+		},
+
+		selectBolt: function(bolt) {
+			console.log(bolt)
+			this.bg.onPress = this.addStick;
+			if(this.selectedPoint && this.selectedPoint != bolt.model) {
+				this.addStick(bolt);
 				return;
 			}
-			this.selectedPoint = e.target;
-			this.selectedPoint.setSelected(true);
+			this.selectedPoint = bolt.model;
+			bolt.setSelected(true);
 		},
 
-		createStick: function(e) {
+		addStick: function(e) {
 			var point;
 			if(e instanceof Bolt) {
 				point = e;
 			}else {
-				point = new Bolt(e.stageX, e.stageY - this.scaffold.y);
-				point.onPress = this.onPointSelected;				
-				this.scaffold.addChild(point);
+				point = new Point({x: e.stageX, y: e.stageY - this.scaffold.y});		
+				this.addBolt();
 			}
-			var s = new Stick(point, this.selectedPoint, null, null);
+			var s = new Stick(point, this.selectedPoint);
+			this.model.sticks.add(s);
 			this.scaffold.addChildAt(s,0); 
 			
 			var i = this.points.length;
@@ -88,14 +139,14 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore'],
 			
 			console.log("SCAFFOLD HEIGHT " + this.scaffoldHeight);
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
-			console.log(pX);
+			
 		},
 
 		tick: function() {
 			
 			var i = this.points.length;
 			while( --i > -1 ) {
-				this.points[i].setY(this.points[i].y + 1);
+				//this.points[i].set({y: this.points[i].get('y') + 1});
 				this.points[i].update();
 			}
 			
@@ -108,9 +159,15 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore'],
 			
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
-				this.scaffold.y++;
+				//this.scaffold.y++;
 			}
-		
+
+			var gameObjects = this.objects;
+			var i = gameObjects.length;
+			while( --i > -1 ) {
+				gameObjects[i].render();
+			} 
+			
 			
 			this.stage.update();
 		}
