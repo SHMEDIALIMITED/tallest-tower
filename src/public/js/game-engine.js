@@ -1,5 +1,14 @@
-define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/point', 'view/bolt'], 
-	function(Backbone, $, E, Bolt, Stick, _, Point, Bolt) {
+define(['backbone', 
+		'jquery', 
+		'easel', 
+		'bolt', 
+		'model/stick', 
+		'underscore', 
+		'model/point', 
+		'view/bolt', 
+		'view/rod'], 
+	function(Backbone, $, E, Bolt, Stick, _, Point, Bolt, Rod) {
+
 	return Backbone.View.extend({
 		el: '#game-engine',
 		stage : null,
@@ -16,11 +25,14 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 			
 			
 			 _.bindAll(this, 'render');	
+			 _.bindAll(this, 'addRod');	
+			 _.bindAll(this, 'addBolt');	
 			 _.bindAll(this, 'selectBolt');
 			 _.bindAll(this, 'addStick');
 			  _.bindAll(this, 'resize');
 
-			 this.model.on('change', this.render);
+			 this.model.once('change', this.render);
+			 
 			 
 			
 			
@@ -39,7 +51,6 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 
 			$(window).resize(this.resize);
 			
-			console.log(this.trigger)
 			
 
 			
@@ -82,15 +93,36 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 		},
 
 		render : function() {
+
+
+
 			this.stop();
+
+			console.log('OOPPPPSKSJJSJS', this.model);
+
 			this.points = this.model.get('points').models;
 			this.sticks = this.model.get('sticks').models;
 			var that = this;
+			
+			this.model.get('points').on('add', this.addBolt);
+			this.model.get('sticks').on('add', this.addRod);
+			//this.model.get('sticks').on('add', this.addRod);
+
+
 			this.model.get('points').each(function(point){
 				that.addBolt(point);
 			});
 
+
+			this.model.once('change', this.render);
+
 			this.start();
+		},
+		
+		addRod : function(stick) {
+			var rod = new Rod({model:stick});
+			this.scaffold.addChildAt(rod.container, 0);
+			this.objects.push(rod);
 		},
 
 		addBolt : function(point){
@@ -101,7 +133,6 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 		},
 
 		selectBolt: function(bolt) {
-			console.log(bolt)
 			this.bg.onPress = this.addStick;
 			if(this.selectedPoint && this.selectedPoint != bolt.model) {
 				this.addStick(bolt);
@@ -111,33 +142,51 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 			bolt.setSelected(true);
 		},
 
+
+		addPoint : function(e) {
+			point = new Point({x: e.stageX - this.scaffold.x, y: e.stageY - this.scaffold.y});
+			this.model.get('points').add(point);
+			return point
+		},
+
 		addStick: function(e) {
 			var point;
-			if(e instanceof Bolt) {
-				point = e;
+			if(e instanceof Bolt
+				 ) {
+				point = e.model;
 			}else {
-				point = new Point({x: e.stageX, y: e.stageY - this.scaffold.y});		
-				this.addBolt();
+				point = this.addPoint(e);		
+				//this.addBolt();
 			}
-			var s = new Stick(point, this.selectedPoint);
-			this.model.sticks.add(s);
-			this.scaffold.addChildAt(s,0); 
+
+			console.log('AddStickk:', point, this.selectedPoint)
+
 			
-			var i = this.points.length;
-			var insert = true;
-			while( --i > -1 ) {
-				if(this.points[i] === point) {
-					insert = false;
-				}
-				this.points[i].setSelected(false);
-				if(this.points[i].y < this.scaffoldHeight) this.scaffoldHeight = this.points[i].y;
-			}
-			if(insert) this.points.push(point);
-			this.sticks.push(s);
+
+			var s = new Stick({a:point, b:this.selectedPoint});
+			
+
+			this.model.get('sticks').add(s);
+
+
+			 
+			
+			// var i = this.points.length;
+			// var insert = true;
+			// while( --i > -1 ) {
+			// 	if(this.points[i] === point) {
+			// 		insert = false;
+			// 	}
+			// 	this.points[i].setSelected(false);
+			// 	if(this.points[i].y < this.scaffoldHeight) this.scaffoldHeight = this.points[i].y;
+			// }
+			// if(insert) this.points.push(point);
+			// this.sticks.push(s);
+			//this.selectedPoint.setSelected(false);
 			this.selectedPoint = null;
 			delete this.bg.onPress;
 			
-			console.log("SCAFFOLD HEIGHT " + this.scaffoldHeight);
+			
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			
 		},
@@ -146,14 +195,16 @@ define(['backbone', 'jquery', 'easel', 'bolt', 'stick', 'underscore', 'model/poi
 			
 			var i = this.points.length;
 			while( --i > -1 ) {
-				//this.points[i].set({y: this.points[i].get('y') + 1});
+				this.points[i].set({y: this.points[i].get('y') + 1});
 				this.points[i].update();
 			}
-			
 			var j = 1;
 			while( --j > -1) {
 				i = this.sticks.length;
-				while( --i > -1 ) this.sticks[i].update();			
+				while( --i > -1 ) {
+					this.sticks[i].update();
+
+				}			
 			}
 			
 			
