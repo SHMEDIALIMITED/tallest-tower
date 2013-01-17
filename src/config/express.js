@@ -3,10 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , mongoStore = require('connect-mongo')(express)
-  , flash = require('connect-flash')
-  , viewHelpers = require('./middlewares/view')
+var express = require('express');
 
 module.exports = function (app, config) {
 
@@ -16,7 +13,6 @@ module.exports = function (app, config) {
   // should be placed before express.static
   app.use(express.compress({
     filter: function (req, res) {
-      console.log(res.getHeader('Content-Type'));
       return /json|text|javascript|css/.test(res.getHeader('Content-Type'));
     },
     level: 9
@@ -40,14 +36,7 @@ module.exports = function (app, config) {
     app.use(express.bodyParser())
     app.use(express.methodOverride())
 
-    // express/mongo session storage
-    app.use(express.session({
-      secret: 'noobjs',
-      store: new mongoStore({
-        url: config.db,
-        collection : 'sessions'
-      })
-    }))
+
 
     
 

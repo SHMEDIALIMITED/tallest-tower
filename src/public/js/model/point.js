@@ -1,15 +1,15 @@
 define(['backbone'], function(Backbone) {
 	return Backbone.Model.extend({
 		defaults: {
+			idAtrribute: '_id',
 			fixed:false,
 			ready : false,
 			oldX : 0.0,
-			oldY : 0.0,
+			oldY : 0.0, 	
 			selected:false
 		},
 
 		initialize: function() {
-			
 	         this.set('oldX', this.get('x'));
 	         this.set('oldY', this.get('y'));
 		},

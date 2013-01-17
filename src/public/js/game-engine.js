@@ -12,8 +12,6 @@ define(['backbone',
 	return Backbone.View.extend({
 		el: '#game-engine',
 		stage : null,
-		points : null,
-		sticks : null,
 		scaffold : null,
 		bg : null,
 		selectedPoint : null,
@@ -21,8 +19,12 @@ define(['backbone',
 		objects: [],
 		initialize: function() {
 
+
 			
-			
+
+			this.model.get('points').models;
+			this.model.get('sticks').models;
+				
 			
 			 _.bindAll(this, 'render');	
 			 _.bindAll(this, 'addRod');	
@@ -31,7 +33,7 @@ define(['backbone',
 			 _.bindAll(this, 'addStick');
 			  _.bindAll(this, 'resize');
 
-			 this.model.once('change', this.render);
+			 this.model.on('change', this.render);
 			 
 			 
 			
@@ -94,14 +96,15 @@ define(['backbone',
 
 		render : function() {
 
-
+			
 
 			this.stop();
 
-			console.log('OOPPPPSKSJJSJS', this.model);
+			console.log(this.model)
 
-			this.points = this.model.get('points').models;
-			this.sticks = this.model.get('sticks').models;
+
+
+			
 			var that = this;
 			
 			this.model.get('points').on('add', this.addBolt);
@@ -111,6 +114,10 @@ define(['backbone',
 
 			this.model.get('points').each(function(point){
 				that.addBolt(point);
+			});
+
+			this.model.get('sticks').each(function(stick){
+				that.addRod(stick);
 			});
 
 
@@ -192,19 +199,17 @@ define(['backbone',
 		},
 
 		tick: function() {
-			
-			var i = this.points.length;
+			console.log('tick')	
+			var points = this.model.get('points').models;
+			i = points.length;
 			while( --i > -1 ) {
-				this.points[i].set({y: this.points[i].get('y') + 1});
-				this.points[i].update();
+				points[i].set({y: points[i].get('y') + 1});
+				points[i].update();
 			}
-			var j = 1;
-			while( --j > -1) {
-				i = this.sticks.length;
-				while( --i > -1 ) {
-					this.sticks[i].update();
-
-				}			
+			var sticks = this.model.get('sticks').models;
+			i = sticks.length;
+			while( --i > -1 ) {
+				sticks[i].update();
 			}
 			
 			

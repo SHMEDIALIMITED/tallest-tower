@@ -2,10 +2,10 @@ define([
 	'router',
 	'backbone',
 	'game-engine',
-	'model/game',
+	'model/user',
 	'facebook',
 	'jquery'
-	], function(Router, Backbone, GameEngine, Game, FB, $) {
+	], function(Router, Backbone, GameEngine, User, FB, $) {
 
 	var router;
 	var engine;
@@ -31,8 +31,14 @@ define([
 
             FB.getLoginStatus(function (response) {
 
-
-
+            	if(response.status == 'connected') {
+            		// USER HAS DATA
+            		//createNewUser();
+            	}else if(response.status == 'not_authorized') {
+            		// USER LOGGED IN BUT NO DATA
+            	}else {
+            		// USER NOT LOGGED IN
+            	} 
 			
             });
 
@@ -54,30 +60,42 @@ define([
 				FB.logout();
 			});
 
-			
+			$('#createButton').click(function() {
+				createNewUser();
+			});
+
+			$('#readButton').click(function() {
+				user.fetch({success: function(model, response, options) {
+
+
+
+					console.log('USER READ', model);
+
+					engine.render();
+				}});
+			});
+
+
+
+			function createNewUser() {
+				
+				user.save(null, {success: function(user) {
+					console.log('USER CREATED', user);
+				}});
+			}
 
 
 			router = new Router();
 			Backbone.history.start();
-			
-			var gameModel = new Game();
-			engine = new GameEngine({model:gameModel});
-			
 
+			var user = new User();
+				engine = new GameEngine({model:user});
+				engine.render();
 
-			gameModel.fetch({success:function(model) {
-				console.log('MAIN' , model)
-				engine.start();		
-			}});
-
-			setTimeout(function() {
-				return;
-				console.log('OOOOOOOO', gameModel.toJSON())
-				gameModel.save({success:function(model){
-					console.log('Saved', model)
-				}});
 				
-			},4000)
+			
+			
+
 			
 		}
 	}

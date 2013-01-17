@@ -1,23 +1,22 @@
 
 
+module.exports = function (app, config) { 
 
-module.exports = function (app) { 
-	app.get
+	var pages = require('../app/controllers/pages');
+	var users = require('../app/controllers/users')(config);
+
+	// Backbone App
+	app.get('/', pages.index);
+	
+	// REST API 
+	app.post('/api/users', users.create);	
+
+	app.get('/api/users', users.read);
+	app.get('/api/users/:id', users.read);
+	
+	app.put('/api/users', users.update);
+	app.put('/api/users/:id', users.update);
+
+	app.delete('/api/users', users.del);
+	app.delete('/api/users/:id', users.del);
 }
-
-var game = { 
-		id: 1,
-		points: [{x:-100, y:0, fixed:true}, {x:100, y:0, fixed:true}],  
-		sticks: [],
-		score : {height:100, time:200},
-		modified: new Date()  
-	};
-
-
-
-/*
- * GET home page.
- */
-exports.index = function(req, res){
-  res.render('index.html', { title: 'SH MEDIA' , description:'Basic Web App Template'});
-};

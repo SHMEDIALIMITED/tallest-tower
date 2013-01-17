@@ -11,7 +11,12 @@ define(['backbone'], function(Backbone) {
 			fixed:false
 		},
 
+		points : null,
+
 		initialize: function() {
+
+
+			
 			
 			var dx = this.get('a').get('x') - this.get('b').get('x');
       		var dy = this.get('a').get('y') - this.get('b').get('y');
@@ -49,6 +54,28 @@ define(['backbone'], function(Backbone) {
 	      
 	
 	        this._diff = diff;
+		},
+		parse : function(response) {
+			
+			//console.log('STICK RESPONSE:', response);
+
+			// //console.log('STICK MODEL:', this);
+
+			// //response.set({a: this.get('a').set(response.a)});
+			// //response.set({b: this.get('b').set(response.b)});
+			// console.log('STIVCK', response.a);
+			// response.a = new Point(response.a);
+			// response.b = this.get('b').set(response.b);
+
+			
+			return response;
+		},
+
+		toJSON : function() {
+			var json =  _.clone(this.attributes);
+			json.a = this.get('a').toJSON();
+			json.b = this.get('b').toJSON();
+			return json;	
 		}
 
 	});
