@@ -4,13 +4,82 @@ define([
 	'game-engine',
 	'model/user',
 	'facebook',
-	'jquery'
-	], function(Router, Backbone, GameEngine, User, FB, $) {
+	'jquery',
+	'state-machine',
+	'view/lobby',
+	'model/game-list',
+	'view/game-list',
+	'view/create'
+	], function(Router, 
+				Backbone, 
+				GameEngine, 
+				User, 
+				FB, 
+				$, 
+				StateMachine, 
+				Lobby, 
+				GameList,
+				GameListView,
+				CreateView) {
 
 	var router;
 	var engine;
+	var fsm;
+
 	return {
 		init: function() {
+
+			fsm = StateMachine.create({
+				events : [ 
+					{ name: 'Init', from: 'none', to:'lobby' },
+					{ name: 'Home', from: ['game', 'browse'], to:'lobby' },
+					{ name: 'LoadGame', from: ['lobby', 'browse', 'play', 'create'], to:'game' },
+					{ name: 'PlayGame', from: 'game', to:'play' },
+					{ name: 'CreateGame', from: 'game', to:'create' },
+				],
+				callbacks: {
+
+				    onInit: function() { 
+				    	
+				    	$('#lobby').show(); 
+				    },
+				    onHome: function() {
+				    	$('#game-engine').hide(); 
+				    	$('#lobby').show(); 
+				    },
+				    onLoadGame: function() { 
+				    	$('#game').show(); 
+				    },
+				    onPlayGame: function() { 
+				    	$('#engine').show(); 
+				    },
+				    onCreateGame: function() {
+				    	$('#create').show();
+				    }
+
+  				}
+			});
+
+			$('#game-engine').hide();
+				
+			var create = new CreateView();
+			create.render();
+			$('.container-fluid').append(create.el);
+
+			var gamelist = new GameList();
+			var gameLististView = new GameListView({collection:gamelist})
+
+			//gamelist.fetch(); 
+
+			var lobby = new Lobby();
+			lobby.render();
+			//$('.container-fluid').append(lobby.el)
+			
+			$(window).resize(function() {
+				$('.container-fluid').height( window.innerHeight - 50 )
+			})
+
+
 
 			FB.init({
 		      appId      : '490996157610487', // App ID
@@ -92,7 +161,10 @@ define([
 				engine = new GameEngine({model:user});
 				engine.render();
 
-				
+			
+			//fsm.Init();
+
+			
 			
 			
 

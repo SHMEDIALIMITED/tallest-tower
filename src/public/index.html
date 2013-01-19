@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= title %> : <%= description %></title>
+    <link href='http://fonts.googleapis.com/css?family=Wendy+One' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='css/main.css' />
 
    <script data-main="js/main" src="js/libs/require-min.js"></script>
@@ -10,12 +11,39 @@
   </head>
   <body>
   	<div id="fb-root"></div>
-  	<header>
-  		<a id="loginButton" href="#">Login with Facebook</a> 
-  		<a id="logoutButton" href="#">  Logout</a> 
-      <a id="createButton" href="#">  Create</a> 
-      <a id="readButton" href="#">  Read</a> 
-  	</header>
+  	
+    <header class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="#">Tallest Tower</a>
+        <ul class="nav">
+          <li class="active"><a href="#">Lobby</a></li>
+          <li><a href="#">Create</a></li>
+         </ul>
+      </div>
+     <!--  <div class="pull-right"> 
+          <a id="loginButton" href="#">Login with Facebook</a> 
+      		<a id="logoutButton" href="#">  Logout</a> 
+          <a id="createButton" href="#">  Create</a> 
+          <a id="readButton" href="#">  Read</a> 
+      	</div> -->
+    </header>
+    
     <canvas id="game-engine"></canvas>
+    
+    <div class="container-fluid" aria-live="polite"></div>
+
+
+     <footer class="navbar-bottom">
+      <div class="navbar-inner">
+        <a class="brand" href="#">Build: 0.0.0</a>
+      </div>
+     <!--  <div class="pull-right"> 
+          <a id="loginButton" href="#">Login with Facebook</a> 
+          <a id="logoutButton" href="#">  Logout</a> 
+          <a id="createButton" href="#">  Create</a> 
+          <a id="readButton" href="#">  Read</a> 
+        </div> -->
+    </footer>
+  
   </body>
 </html>

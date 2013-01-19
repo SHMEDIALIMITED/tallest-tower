@@ -3,29 +3,39 @@
 	author : Patrick Wolleb patrick.wolleb@shmedia.co.uk
 */
 @import "reset";
+@import "a";
 @import "grid";
 @import "container";
 @import "form";
 @import "button";
 @import "table";
+@import "nav";
+@import "navbar";
 
-@import "a";
 
 
+
+html, body { 
+  height: 100%;
+}
 
 body {
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Wendy One", Helvetica, Arial, sans-serif;
   font-size: 62.5%;
   color: #333333;
   background-color: #ffffff;
+}
+
+.navbar .brand {
+  font-size: 3.8em;
 }
 
 h1, h2, h3 {
 	margin: 1em 0;
   	font-family: inherit;
   	font-weight: bold;
-  	color: inherit;
+  	color: #333;
   	text-rendering: optimizelegibility;
 }
 
@@ -34,13 +44,121 @@ h1 {
 }
 
 h2 {
-	font-size: 1.8em;
+	font-size: 4.3em;
+  margin: .5em 0;
 }
 
 h3 {
-	font-size: 1.6em;
+	font-size: 3.2em;
+ 
 }
 
 p {
 	font-size: 1.4em;
 }
+
+//*  LAYOUT */
+
+
+
+.container-fluid {
+  position: relative;
+  z-index: 1;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.span7 {
+  border-right: 1px solid #eee;
+}
+.span5 {
+
+}
+
+header {
+  position: relative;
+  z-index: 2;
+}
+
+footer {
+  position :fixed;
+  width: 100%;
+  min-width: 100%;
+  bottom: 0px;
+  z-index: 3;
+}
+
+canvas {
+  position: absolute;
+  top:40px;
+  left: 0px;
+  z-index: 0;
+}
+
+
+.nav {
+  font-size: 3em;
+}
+
+#lobby {
+  top: 0px;
+  left: 0px;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.navbar-bottom {
+  height: 10px;
+}
+
+#lobby ol li {
+  float: left;
+}
+
+#lobby ul li {
+ 
+}
+
+.game-list {
+   border: solid 1px #999;
+  padding: 5px 0px;
+}
+
+.game-list h3 {
+    margin:  0px;
+  margin-left: 20px;
+  position:relative;
+  text-align: center;
+  padding-top:12px;
+  padding-left:13px;
+}
+
+#create .btn-group {
+  margin-bottom: 25px;
+}
+
+.feature-list-item {
+  margin: 10px;
+  float: left;
+}
+
+.feature-list-item {
+  
+}
+
+.feature-list-item input[type="checkbox"] {
+    display:none;
+}
+.feature-list-item input[type="checkbox"] + label {
+    display:inline-block;
+    
+    
+    cursor:pointer;
+}
+.feature-list-item input[type="checkbox"]:checked + label {
+    background:#777;
+}
+
+
+
+

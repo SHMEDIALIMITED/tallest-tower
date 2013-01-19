@@ -25,4 +25,32 @@ var User = new Schema({
     modified: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('UserModel', User);
+var GameData = new Schema({ 
+	fbID: { type: Number }, 
+    points: [Point],  
+    sticks : [Stick],
+    height: { type : Number},
+    modified: { type: Date, default: Date.now }
+});
+
+var Game = new Schema({
+	wind : {type: Number},
+	points: [Point],
+	sticks: [Stick],
+    data : [GameData],
+    modified: { type: Date, default: Date.now }
+});
+
+var GameObject = new Schema({
+
+});
+
+var BoltType = new Schema({
+	data: [GameObject]
+});
+
+module.exports = { 
+	User : mongoose.model('User', User),
+	Game : mongoose.model('Game', Game),
+	BoltType : mongoose.model('Game', BoltType)
+}

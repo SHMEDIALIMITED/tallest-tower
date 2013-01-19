@@ -77,7 +77,7 @@ define(['backbone',
 
 		resize : function() {
 			this.stage.canvas.width = window.innerWidth;
-       		this.stage.canvas.height = window.innerHeight;      
+       		this.stage.canvas.height = window.innerHeight-40;      
 
 			this.scaffold.x = window.innerWidth * .5;
 			this.scaffold.y = window.innerHeight - window.innerHeight / 100 * 28;

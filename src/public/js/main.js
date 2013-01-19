@@ -5,7 +5,8 @@ require.config({
 		'backbone': 'libs/backbone-min',
 		'underscore': 'libs/underscore-min',
 		'easel' : 'libs/easeljs-0.5.0.min',
-		'facebook' : '//connect.facebook.net/en_US/all'
+		'facebook' : '//connect.facebook.net/en_US/all',
+		'state-machine' : 'libs/state-machine.min'
 	},
  
 	shim: {
@@ -21,7 +22,10 @@ require.config({
         },
         'facebook' : {
             exports: 'FB'
-        }
+        },
+        'state-machine' : {
+        	exports : 'StateMachine'
+        } 
 	}
 });
  

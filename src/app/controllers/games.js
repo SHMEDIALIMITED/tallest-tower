@@ -3,43 +3,28 @@ var base64url = require('b64url');
 
 module.exports = function(config) {
 
-    var User = Models.User;
+    var Game = Models.Game;
 
 	var api = {};
 
 	api.read = function(req,res) {
 		var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
-	    User.findOne({fbID: id}, function(err, user) {
-            console.log('READ USER', user.sticks )
+	    Game.find({fbID: id}, function(err, user) {
             res.send(user);
         });    
     }
 
 	api.create = function(req, res) {
 
+        var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
         
+        var data = req.body;
+        data.fbID = id;
+        var game = new Game(data);
 
-		var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
-		User.findOne({fbID: id},  function (err, user) {
-			
-            if(user) {
-				res.send(user);
-			}else {
-				console.log('CRATED NEW USER');
-                
-                var data = req.body;
-
-                data.fbID = id;
-                //console.log('BODY', JSON.stringify(data));
-                user = new User(data);
-        
-                //console.log('DB MODEL', user.sticks);
-                user.save(function(err, user) {
-                    console.log('SAVED', user)
-                    res.send(user);
-                });
-			}
-		});
+        game.save(function(err, game){
+            res.send(game);
+        });
 	}
 
 	api.update = function(req, res) {
