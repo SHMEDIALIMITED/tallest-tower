@@ -45,12 +45,15 @@ var GameObject = new Schema({
 
 });
 
-var BoltType = new Schema({
-	data: [GameObject]
+var Feature = new Schema({
+	price : { type: Number },
+	image : {type: String },
+	type : { type: String, enum: [ 'Fixed Bolt', 'Rod', 'Long Rod', 'Wind' ] },
+	factor : {type: Number}
 });
 
 module.exports = { 
 	User : mongoose.model('User', User),
 	Game : mongoose.model('Game', Game),
-	BoltType : mongoose.model('Game', BoltType)
+	Feature : mongoose.model('Feature', Feature)
 }

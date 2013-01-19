@@ -4,12 +4,18 @@ module.exports = function (app, config) {
 
 	var pages = require('../app/controllers/pages');
 	var users = require('../app/controllers/users')(config);
-	var users = require('../app/controllers/games')(config);
+	var games = require('../app/controllers/games')(config);
+	var features = require('../app/controllers/features')(config);
 
 	// Backbone App
 	app.get('/', pages.index);
 	
+
+	////////////////
 	// REST API 
+	////////////////
+
+
 	// 	/users
 	app.post('/api/users', users.create);	
 
@@ -21,6 +27,13 @@ module.exports = function (app, config) {
 
 	app.delete('/api/users', users.del);
 	app.delete('/api/users/:id', users.del);
+
+
+
+	// /features
+	app.get('/api/features', features.read)
+
+	
 
 
 	// 	/games
