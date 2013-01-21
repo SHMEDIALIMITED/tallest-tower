@@ -4,7 +4,7 @@ define(['backbone',
 		'model/game-list-item'], function(Backbone, E, _, GameData) {
 	return Backbone.Collection.extend({
 
-		url: '/gamedata',
+		url: '/api/games',
 
 		model : GameData, 
 

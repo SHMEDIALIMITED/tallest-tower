@@ -1,20 +1,27 @@
 define(['backbone', 
-		'easel', 
-		'underscore',
-		'text!templates/lobby.html'], function(Backbone, E, _, lobbyTemplate) {
+		'text!templates/lobby.html',
+		'view/GameListView'], 
+
+		function(	Backbone, 
+					template, 
+					GameListView) {
+
 	return Backbone.View.extend({
 
 		id: 'lobby',
 
-
-
 		initialize : function() {
-			//this.model.on('change', this.render);
+			this.gameListView = new GameListView({collection: this.model.get('games')});
 		},
 
 		render : function() {
-			var t = _.template(lobbyTemplate);
-			this.$el.append(t);
+			var t = _.template(template);
+			this.$el.empty().append(t);
+
+
+
+			this.$el.find('.span7').append(this.gameListView.el);
+
 		}
 	});
 });

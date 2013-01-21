@@ -4,16 +4,34 @@ define(['backbone',
 		'text!templates/game-list-item.html'], function(Backbone, E, _, template) {
 	return Backbone.View.extend({
 
-		className: 'game-list-item',
+		tagName: 'li',
+
+
+		className: 'game-list-item row-fluid btn',
+
+		events : {
+			'click' : 'onClick'
+		},
+
+		onClick: function() {
+			this.trigger('clicked', this.model);
+		},
 
 		initialize : function() {
 			 _.bindAll(this, "render");
-			this.model.bind("reset", this.render);
+		},
+
+		release: function() {
+			this.undelegateEvents();
+			this.model = null;
 		},
 
 		render : function() {
-			var t = _.template(template);
+			var data = this.model.toJSON();
+			data.height = 1
+			var t = _.template(template, data);
 			this.$el.empty().append(t);
+			return this;
 		}
 	});
 });

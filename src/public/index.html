@@ -9,28 +9,28 @@
     
     <!-- Compile JS END -->
   </head>
-  <body>
+  <body id="app">
   	<div id="fb-root"></div>
   	
     <header class="navbar">
       <div class="navbar-inner">
         <a class="brand" href="#">Tallest Tower</a>
         <ul class="nav">
-          <li class="active"><a href="#">Lobby</a></li>
-          <li><a href="#">Create</a></li>
-         </ul>
+          <li class="active"><a id="lobby-btn" href="#">Lobby</a></li>
+          <li><a id="create-btn" href="#">Create</a></li>
+          <li><a id="login-facebook-btn" href="#">Login Facebook</a><li>
+        </ul>
+          <span id="cash">
+            <span>$ 100000</span>
+          </span>
+        
       </div>
-     <!--  <div class="pull-right"> 
-          <a id="loginButton" href="#">Login with Facebook</a> 
-      		<a id="logoutButton" href="#">  Logout</a> 
-          <a id="createButton" href="#">  Create</a> 
-          <a id="readButton" href="#">  Read</a> 
-      	</div> -->
+
     </header>
     
     <canvas id="game-engine"></canvas>
     
-    <div class="container-fluid" aria-live="polite"></div>
+    <div id="main" role="main" class="container-fluid" aria-live="polite"></div>
 
 
      <footer class="navbar-bottom">

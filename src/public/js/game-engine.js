@@ -100,7 +100,7 @@ define(['backbone',
 
 			this.stop();
 
-			console.log(this.model)
+			//console.log(this.model)
 
 
 
@@ -199,7 +199,7 @@ define(['backbone',
 		},
 
 		tick: function() {
-			console.log('tick')	
+			//console.log('tick')	
 			var points = this.model.get('points').models;
 			i = points.length;
 			while( --i > -1 ) {

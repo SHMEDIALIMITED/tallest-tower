@@ -1,0 +1,17 @@
+define(
+	
+		['backbone'],
+
+function(Backbone) {
+			
+
+	return Backbone.Collection.extend({
+
+		url: '/api/features',
+
+		model: Backbone.Model	
+	
+		
+	});
+
+});

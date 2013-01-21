@@ -8,7 +8,6 @@ module.exports = function(config) {
 	var api = {};
 
 	api.read = function(req,res) {
-		var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
 	    GameData.find({fbID: id}, function(err, user) {
             res.send(user);
         });    
@@ -16,13 +15,13 @@ module.exports = function(config) {
 
 	api.create = function(req, res) {
 
-        var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
-        
+        if(!req.userID) res.send('error');
+         
         var data = req.body;
         data.fbID = id;
-        var game = new GameData(data);
+        var gameData = new GameData(data);
 
-        game.save(function(err, game){
+        gameData.save(function(err, game){
             res.send(game);
         });
 	}

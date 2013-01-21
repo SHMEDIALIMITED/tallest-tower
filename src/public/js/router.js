@@ -1,11 +1,11 @@
 define(['backbone'], function(Backbone) {
 	return Backbone.Router.extend({
 		routes : {
-			'' : 'index',
-		},
-
-		index : function() {
-			console.log('home');
+			'' : 'init',
+			'create': 'create',
+			'preview' : 'preview',
+			'lobby' : 'lobby',
 		}
+
 	});
 })

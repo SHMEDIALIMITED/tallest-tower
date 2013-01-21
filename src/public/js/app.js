@@ -7,9 +7,14 @@ define([
 	'jquery',
 	'state-machine',
 	'view/lobby',
-	'model/game-list',
-	'view/game-list',
-	'view/create'
+	'model/GameCollection',
+	'view/GameListView',
+	'view/CreateView',
+	'model/FeatureCollection',
+	'view/FeatureListView',
+	'model/Game',
+	'view/CashView',
+	'model/GameData'
 	], function(Router, 
 				Backbone, 
 				GameEngine, 
@@ -18,157 +23,104 @@ define([
 				$, 
 				StateMachine, 
 				Lobby, 
-				GameList,
+				GameCollection,
 				GameListView,
-				CreateView) {
+				CreateView,
+				FeatureCollection,
+				FeatureListView,
+				Game,
+				CashView,
+				GameData) {
 
-	var router;
-	var engine;
-	var fsm;
 
-	return {
-		init: function() {
+	return Backbone.View.extend({
+		
+		el : '#app',
 
-			fsm = StateMachine.create({
-				events : [ 
-					{ name: 'Init', from: 'none', to:'lobby' },
-					{ name: 'Home', from: ['game', 'browse'], to:'lobby' },
-					{ name: 'LoadGame', from: ['lobby', 'browse', 'play', 'create'], to:'game' },
-					{ name: 'PlayGame', from: 'game', to:'play' },
-					{ name: 'CreateGame', from: 'game', to:'create' },
-				],
-				callbacks: {
+		events : {
+			'click #create-btn' : 'create',
+			'click #lobby-btn'	: 'lobby',
+			'click #login-facebook-btn'	: 'login',
+		},
 
-				    onInit: function() { 
-				    	
-				    	$('#lobby').show(); 
-				    },
-				    onHome: function() {
-				    	$('#game-engine').hide(); 
-				    	$('#lobby').show(); 
-				    },
-				    onLoadGame: function() { 
-				    	$('#game').show(); 
-				    },
-				    onPlayGame: function() { 
-				    	$('#engine').show(); 
-				    },
-				    onCreateGame: function() {
-				    	$('#create').show();
-				    }
 
-  				}
-			});
+		//
+		// TODO : MOVE NAV CODE TO MENUVIEW :)
+		//  
+		//    
+		create : function(e) { 
+			e.preventDefault();
+			console.log('HERE', router);
+			router.navigate('create', true); 
 
-			$('#game-engine').hide();
+		},
+		lobby : function() { this.e },
+		login: function() { console.log('HERE'); FB.login(function(response) {
+			this.model.save(null, {success:function(err, user) {
 				
-			var create = new CreateView();
-			create.render();
-			$('.container-fluid').append(create.el);
-
-			var gamelist = new GameList();
-			var gameLististView = new GameListView({collection:gamelist})
-
-			//gamelist.fetch(); 
-
-			var lobby = new Lobby();
-			lobby.render();
-			//$('.container-fluid').append(lobby.el)
-			
-			$(window).resize(function() {
-				$('.container-fluid').height( window.innerHeight - 50 )
-			})
+			}})
+		})},
 
 
+		initialize: function() {
+			_.bindAll(this);
 
-			FB.init({
-		      appId      : '490996157610487', // App ID
-		      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
-		      status     : true, // check login status
-		      cookie     : true, // enable cookies to allow the server to access the session
-		    });
+			// Routing
+			this.router = new Router();
+			this.router.on('route:init', this.enterInit);
+			this.router.on('route:lobby', this.enterLobby);
+			this.router.on('route:create', this.enterCreate);
+			this.router.on('route:preview', this.enterPreview);
+			////////////////////////////////////////////////////
+		
+			$(window).resize(this.resize);
+			this.resize();	
 
-		     /* All the events registered */
-            FB.Event.subscribe('auth.login', function (response) {
-                // do something with response
-                alert("login success");
-            });
-            FB.Event.subscribe('auth.logout', function (response) {
-                // do something with response
-                alert("logout success");
-            });
-
-            FB.getLoginStatus(function (response) {
-
-            	if(response.status == 'connected') {
-            		// USER HAS DATA
-            		//createNewUser();
-            	}else if(response.status == 'not_authorized') {
-            		// USER LOGGED IN BUT NO DATA
-            	}else {
-            		// USER NOT LOGGED IN
-            	} 
-			
-            });
-
-			$('#loginButton').click(function() {
-				FB.login(function(response) {
-               		console.log('LOGIN: ', response);
-				   if (response.authResponse) {
-				     console.log('Welcome!  Fetching your information.... ');
-				     FB.api('/me', function(response) {
-				       console.log('Good to see you, ' + response.name + '.');
-				     });
-				   } else {
-				     console.log('User cancelled login or did not fully authorize.');
-				   }
-			    });
-			});
-
-			$('#logoutButton').click(function() {
-				FB.logout();
-			});
-
-			$('#createButton').click(function() {
-				createNewUser();
-			});
-
-			$('#readButton').click(function() {
-				user.fetch({success: function(model, response, options) {
-
-
-
-					console.log('USER READ', model);
-
-					engine.render();
-				}});
-			});
-
-
-
-			function createNewUser() {
-				
-				user.save(null, {success: function(user) {
-					console.log('USER CREATED', user);
-				}});
-			}
-
-
-			router = new Router();
 			Backbone.history.start();
+		},
 
-			var user = new User();
-				engine = new GameEngine({model:user});
-				engine.render();
+		resize : function() {
+			$('.container-fluid').height( window.innerHeight - 50 )
+		},
 
-			
-			//fsm.Init();
+		enterCreate : function() {
+			var newGame = new Game();
+	    	var features = new FeatureCollection();
+			var createPageModel = new Backbone.Model({
+				features : features,
+				game : newGame,
+				user : self.model
+			});
+			features.fetch();
+	    	this.currentView = new Lobby({model:lobbyPageModel});
+			this.currentView.render();
+			this.$el.find('#main').empty().append(this.currentView.el);
+		},
 
-			
-			
-			
+		enterLobby : function() {
+	    	var games = new GameCollection();
+	    	var lobbyPageModel = new Backbone.Model({
+	    		games : games
+	    	});
+	    	games.fetch(); 
+			this.currentView = new Lobby({model:lobbyPageModel});
+			this.currentView.render();
+			this.$el.find('#main').empty().append(this.currentView.el);
+		},
 
-			
+		enterPreview: function() {
+			var gameData = new GameData({
+	    		url : '/api/data/'
+	    	});
+			gameData.fetch();	
+	    	this.currentView = new GameEngine({model:gameData});
+			this.currentView.render();
+			this.$el.find('#main').empty();
+			this.$el.append(this.currentView.el);;
+		},
+
+		enterInit : function() {
+			this.router.navigate('lobby', true);
 		}
-	}
+	});
 })

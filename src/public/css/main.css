@@ -1282,8 +1282,8 @@ legend + .control-group {
 .btn[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
+  opacity: 0.3;
+  filter: alpha(opacity=30);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none; }
@@ -2694,6 +2694,11 @@ canvas {
 .nav {
   font-size: 3em; }
 
+#cash {
+  float: right;
+  font-size: 6em;
+  color: #e2b227; }
+
 #lobby {
   top: 0px;
   left: 0px;
@@ -2721,16 +2726,60 @@ canvas {
 #create .btn-group {
   margin-bottom: 25px; }
 
+#total {
+  color: #e2b227;
+  font-size: 6em;
+  float: right; }
+
 .feature-list-item {
   margin: 10px;
   float: left; }
 
+.feature-list-item label {
+  position: relative;
+  width: 80px;
+  height: 90px;
+  text-align: left; }
+
+.feature-list-item label span.type {
+  position: absolute;
+  top: 80px;
+  font-size: 1.3em; }
+
+.feature-list-item label span.price {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.4em;
+  color: #e2b227; }
+
+.feature-list-item label span.factor {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  text-align: right;
+  width: 100%;
+  font-size: 2em;
+  color: #00aa00; }
+
+.feature-list-item label img {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 23px;
+  left: 20px; }
+
 .feature-list-item input[type="checkbox"] {
   display: none; }
 
-.feature-list-item input[type="checkbox"] + label {
-  display: inline-block;
-  cursor: pointer; }
+.feature-list-item span:last-child {
+  background: none;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 106px;
+  height: 100px;
+  z-index: 10; }
 
-.feature-list-item input[type="checkbox"]:checked + label {
-  background: #777; }
+.btn.active {
+  background: #333; }

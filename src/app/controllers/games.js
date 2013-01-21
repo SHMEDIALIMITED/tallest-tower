@@ -4,26 +4,86 @@ var base64url = require('b64url');
 module.exports = function(config) {
 
     var Game = Models.Game;
+    var Feature = Models.Feature;
+    var User = Models.User;
+    var GameData = Models.GameData;
 
 	var api = {};
 
 	api.read = function(req,res) {
-		var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
-	    Game.find({fbID: id}, function(err, user) {
-            res.send(user);
-        });    
+        if(req.userID) {
+            User.findOne({fbID: req.userID}, function(err, user) {
+               Game.find({'_id' : { $in: user.games }}, function(err, games) {
+
+
+                    games.forEach(function(game) {
+                        game.users = [];
+                        GameData.find({'_id' : { $in: game.data}}, function(err, gameDatas) {
+                            
+                            gameDatas.forEach(function(gameData) {
+                                game.users.push(gameData.fbID);
+                            });
+                            console.log('GAME', game );
+                        });
+                        
+                    });
+                    res.send(games);    
+               });
+            });
+        }else {
+            Game.findOne( 'first', function(err, game) {
+                console.log(game)
+                res.send(game);
+            })
+        }  
     }
 
 	api.create = function(req, res) {
-
-        var id = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret).user_id;
-        
         var data = req.body;
-        data.fbID = id;
-        var game = new Game(data);
+        console.log('GAME::CREATE:Body', data);
 
-        game.save(function(err, game){
-            res.send(game);
+        Feature.find( {'_id': { $in: data.features} }, function(err, features) {
+            
+            console.log('FEAUTES', features);
+
+
+            var gameData = new GameData(data.data[0]);
+
+            delete data.data;
+
+            var game = new Game(data);
+
+            var total = 0;
+            var feature,
+            i = features.length;
+
+            while(--i > -1) {
+                feature = features[i];
+                total += feature.price;
+            }
+
+            game.value = total;
+        
+            User.findOne({fbID: req.userID}, function(err, user) {                         
+                if(user.cash >= total) {
+                    user.games.push(game._id);
+                    
+                    gameData.fbID = req.userID;
+                    gameData.save(function(err, gameData) {
+                      
+                        game.data.push(gameData._id );
+                        game.save(function(err, model){
+                            user.save(function(err, user) {
+                              res.send(game);     
+                            });
+                        });
+                    });
+                    
+                }else {
+                    console.log('HAck');
+                    // SOME ONE is trying to hack
+                }
+            }); 
         });
 	}
 

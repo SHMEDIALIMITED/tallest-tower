@@ -6,6 +6,7 @@ module.exports = function (app, config) {
 	var users = require('../app/controllers/users')(config);
 	var games = require('../app/controllers/games')(config);
 	var features = require('../app/controllers/features')(config);
+	var gameData = require('../app/controllers/gamedata')(config);
 
 	// Backbone App
 	app.get('/', pages.index);
@@ -28,7 +29,9 @@ module.exports = function (app, config) {
 	app.delete('/api/users', users.del);
 	app.delete('/api/users/:id', users.del);
 
-
+	// game data {
+	
+	app.get('/api/data/', gameData.read);
 
 	// /features
 	app.get('/api/features', features.read)

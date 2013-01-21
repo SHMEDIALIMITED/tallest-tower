@@ -4,10 +4,12 @@ define(['backbone',
 		], function(Backbone, E, _) {
 	return Backbone.Model.extend({
 
-		url: '/games',
+		url: '/api/games',
 
-		initialize : function() {
-			 
-		},
+
+
+		parse : function(response) {
+			return response;
+		}
 	});
 });

@@ -18,10 +18,8 @@ var Stick = new Schema({
 
 var User = new Schema({ 
 	fbID: {type: Number},
-    time : {type: Number, default: 0},
-    height : {type:Number, default: 0},
-    points: [Point],  
-    sticks : [Stick],
+	cash: { type:Number },
+	games: [Schema.Types.ObjectId],
     modified: { type: Date, default: Date.now }
 });
 
@@ -30,19 +28,7 @@ var GameData = new Schema({
     points: [Point],  
     sticks : [Stick],
     height: { type : Number},
-    modified: { type: Date, default: Date.now }
-});
-
-var Game = new Schema({
-	wind : {type: Number},
-	points: [Point],
-	sticks: [Stick],
-    data : [GameData],
-    modified: { type: Date, default: Date.now }
-});
-
-var GameObject = new Schema({
-
+    modified: { type: Date,  default: Date.now }
 });
 
 var Feature = new Schema({
@@ -52,8 +38,17 @@ var Feature = new Schema({
 	factor : {type: Number}
 });
 
+var Game = new Schema({
+	value : {type: Number},
+	data: [Schema.Types.ObjectId],
+	features: [Schema.Types.ObjectId],
+	users : [Number],
+    modified: { type: Date, default: Date.now }
+});
+
 module.exports = { 
 	User : mongoose.model('User', User),
 	Game : mongoose.model('Game', Game),
-	Feature : mongoose.model('Feature', Feature)
+	Feature : mongoose.model('Feature', Feature),
+	GameData : mongoose.model('GameData', GameData)
 }

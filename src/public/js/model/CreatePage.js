@@ -1,4 +1,4 @@
-define('CreatePage',
+define(
 	
 		['backbone'],
 
@@ -8,9 +8,7 @@ function(Backbone) {
 
 		url: '/pages/create',
 
-		defaults {
-			features : new Backbone.Collection({model:Backbone.Model});
-		},
+		
 		
 		
 
