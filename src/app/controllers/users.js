@@ -55,22 +55,6 @@ module.exports = function(config) {
 
 
 
-function getTokenForCode(code, AppID, AppSecret, callback){
-    var https = require('https');
-    var authURL = 'https://graph.facebook.com/oauth/access_token?';
-    authURL += 'client_id=' + AppID;
-    authURL += '&redirect_uri=';
-    authURL += '&client_secret=' + AppSecret;
-    authURL += '&code=' + code.replace('\'', '');
-    https.get(authURL, function (response) {
-      var buffer = '';
-      response.on('data', function(chunk) {
-        buffer += chunk
-      });
-      response.on('end', function() {
-        callback(buffer);   
-      });
-    }); 
-}
+
 
     

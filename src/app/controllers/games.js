@@ -1,5 +1,7 @@
 var Models = require('../models');
 var base64url = require('b64url');
+var querystring = require('querystring');
+var https = require('https');
 
 module.exports = function(config) {
 
@@ -12,11 +14,47 @@ module.exports = function(config) {
 
 	api.read = function(req,res) {
         if(req.userID) {
-            User.findOne({fbID: req.userID}, function(err, user) {
-               Game.find({'_id' : { $in: user.games }}, function(err, games) {
-                    res.send(games);    
-               });
-            });
+            if(req.query.find == 'true') {
+                console.log('FINDING GAMES');
+                getTokenForCode(req.code, config.facebook.clientID, config.facebook.clientSecret, function(token) {
+                    
+                    var authURL = 'https://graph.facebook.com/me/friends';
+                    authURL += '?method=GET';
+                    authURL += '&format=json';
+                    authURL += '&access_token=' + token.access_token;
+                   
+                    https.get(authURL, function (response) {
+                      var buffer = '';
+                      response.on('data', function(chunk) {
+                        buffer += chunk
+                      });
+                      response.on('end', function() {
+                        var friends = JSON.parse(buffer).data;
+                        var friendsIDs = [];
+                        friends.forEach(function(friend) {
+                            friendsIDs.push(friend.id);
+                        });
+                        User.find({'fbID': { $in: friendsIDs }}, function(err, users) {
+                            users.forEach(function(user) {
+                                Game.find({'_id': {$in: user.games}}, function(err,games){
+                                    console.log('RETURNING:',games);
+                                    res.send(games); 
+                                }); 
+                            });
+                        });
+
+                      });
+                    }); 
+                });
+
+            } else {
+                User.findOne({fbID: req.userID}, function(err, user) {
+                   Game.find({'_id' : { $in: user.games }}, function(err, games) {
+                        res.send(games);    
+                   });
+                });
+            }
+            
         }else {
             Game.findOne( 'first', function(err, game) {
                 console.log(game)
@@ -82,7 +120,7 @@ module.exports = function(config) {
 
 
 function getTokenForCode(code, AppID, AppSecret, callback){
-    var https = require('https');
+    
     var authURL = 'https://graph.facebook.com/oauth/access_token?';
     authURL += 'client_id=' + AppID;
     authURL += '&redirect_uri=';
@@ -94,7 +132,7 @@ function getTokenForCode(code, AppID, AppSecret, callback){
         buffer += chunk
       });
       response.on('end', function() {
-        callback(buffer);   
+        callback(querystring.parse(buffer));   
       });
     }); 
 }

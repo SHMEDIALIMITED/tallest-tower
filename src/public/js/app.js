@@ -1,32 +1,34 @@
 define([ 
 	'router',
 	'backbone',
-	'view/GameEngine',
+	'view/GamePageView',
 	'facebook',
 	'jquery',
 	'view/lobbyPage',
 	'model/GameCollection',
-	'view/CreatePage',
+	'view/CreatePageView',
 	'model/FeatureCollection',
 	'model/Game',
 	'view/CashView',
 	'model/GameData',
 	'view/MenuView',
-	'view/AbstractView'
+	'view/AbstractView',
+	'model/FindGameCollection'
 	], function(Router, 
 				Backbone, 
-				GameEngine, 
+				GamePageView, 
 				FB, 
 				$, 
 				Lobby, 
 				GameCollection,
-				CreateView,
+				CreatePageView,
 				FeatureCollection,
 				Game,
 				CashView,
 				GameData,
 				MenuView,
-				AbstractView) {
+				AbstractView,
+				FindGameCollection) {
 
 
 	return Backbone.View.extend({
@@ -63,7 +65,8 @@ define([
 			// Models
 				// Lobby
 				this.lobbyPage = new Backbone.Model({
-		    		games : new GameCollection()
+		    		games : new GameCollection(),
+		    		finds : new FindGameCollection()
 		    	});
 		    	// Create
 				this.createPage = new Backbone.Model({
@@ -96,36 +99,34 @@ define([
 
 		enterLobby : function() {
 	    	this.lobbyPage.get('games').fetch(); 
-	    	if(this.currentView) this.currentView.release();
-			this.currentView = new Lobby({model:this.lobbyPage});
-			this.currentView.render();
-			this.$el.find('#main').empty().append(this.currentView.el);
+	    	this.lobbyPage.get('finds').fetch(); 
+			this.render(new Lobby({model:this.lobbyPage}));
 		},
 
 		enterCreate : function() {
 			this.createPage.get('features').fetch();
 			this.createPage.set({game: new Game()})
-			if(this.currentView) this.currentView.release();
-	    	this.currentView = new CreateView({model:this.createPage});
-			this.currentView.render();
-			this.$el.find('#main').empty().append(this.currentView.el);
+			this.render(new CreatePageView({model:this.createPage}));
 		},
-
-		
 
 		enterPreview: function() {
 			var gameData = new GameData({
 	    		url : '/api/data/'
 	    	});
 			gameData.fetch();	
-	    	this.currentView = new GameEngine({model:gameData});
-			this.currentView.render();
-			this.$el.find('#main').empty();
-			this.$el.append(this.currentView.el);;
+	    	this.render(new GameEngine({model:gameData}));
 		},
 
 		enterInit : function() {
 			setTimeout(_.bind(this.router.navigate), 1000, 'lobby', true);
+		},
+
+		render: function(view) {
+			if(this.currentView) this.currentView.release();
+	    	this.currentView = view;
+			this.currentView.render();
+			this.$el.find('#main').empty().append(this.currentView.el);
+			return this;
 		}
 	});
 })

@@ -62,7 +62,10 @@ module.exports = function (app, config) {
        
         var sr = parseSignedRequest(req.cookies['fbsr_' + config.facebook.clientID], config.facebook.clientSecret);
         
-        if(sr) req.userID = sr.user_id;
+        if(sr) {
+          req.userID = sr.user_id;
+          req.code = sr.code;
+        }
 
         next();
         
