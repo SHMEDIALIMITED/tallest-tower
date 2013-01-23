@@ -8,7 +8,7 @@ define(['backbone',
 
 		tagName: 'ul',
 
-		id: 'game-list',
+		//id: 'game-list',
 
 		className: 'game-list',
 
