@@ -15,7 +15,6 @@ function(Backbone, FeatureListItemView) {
 
 		initialize : function(options) {
 			this.user = options.user; 
-			console.log('LIST ', this.collection);
 			this.childern = [];
 			this.listenTo(this.collection, "reset", this.render);
 			this.listenTo(this.user, "change:cash", this.processList);
@@ -24,7 +23,6 @@ function(Backbone, FeatureListItemView) {
 
 
 		render: function() {
-			console.log('feature-list:: render')
 			this.$el.empty();
 			var child = this.childern.pop();
 			while(child) {
@@ -36,7 +34,7 @@ function(Backbone, FeatureListItemView) {
 			var itemView;
 			
 			this.collection.each(function(item){
-				console.log(item)
+			
 				itemView = new FeatureListItemView({model:item});
 				if(item.get('price') > this.cash) {
 					itemView.disable();
@@ -52,7 +50,7 @@ function(Backbone, FeatureListItemView) {
 		},
 
 		processList : function(model) {
-			console.log('------- Process List --------');
+			
 
 
 

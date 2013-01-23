@@ -1,15 +1,16 @@
 				
 					<h3 class="span4"><%=height%></h3>
 					<ol class="span6">
+						
+					<% _.each(data, function(gameData){ %>
 						<li>
-							<img src="img/default.user.gif" />
+							<img src="http://graph.facebook.com/<%=gameData.fbID%>/picture?type=small" />
 						</li>
-						<li>
-							<img src="img/default.user.gif" />
-						</li>
-						<li>
-							<img src="img/default.user.gif" />
-						</li>
+					<% }); %>
+						
+						 
+						
+						
 					</ol>
 					<div class="span2">
 						

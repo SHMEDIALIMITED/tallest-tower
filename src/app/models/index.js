@@ -40,8 +40,8 @@ var Feature = new Schema({
 
 var Game = new Schema({
 	value : {type: Number},
-	data: [Schema.Types.ObjectId],
-	features: [Schema.Types.ObjectId],
+	data: [GameData],
+	features: [Feature],
 	users : [Number],
     modified: { type: Date, default: Date.now }
 });

@@ -14,7 +14,8 @@ define([
 	'view/FeatureListView',
 	'model/Game',
 	'view/CashView',
-	'model/GameData'
+	'model/GameData',
+	'view/MenuView'
 	], function(Router, 
 				Backbone, 
 				GameEngine, 
@@ -30,7 +31,8 @@ define([
 				FeatureListView,
 				Game,
 				CashView,
-				GameData) {
+				GameData,
+				MenuView) {
 
 
 	return Backbone.View.extend({
@@ -38,28 +40,19 @@ define([
 		el : '#app',
 
 		events : {
-			'click #create-btn' : 'create',
-			'click #lobby-btn'	: 'lobby',
-			'click #login-facebook-btn'	: 'login',
+			'click #facebook-btn'	: 'login'
 		},
-
-
-		//
-		// TODO : MOVE NAV CODE TO MENUVIEW :)
-		//  
-		//    
-		create : function(e) { 
+		
+		login: function(e) { 
 			e.preventDefault();
-			console.log('HERE', router);
-			router.navigate('create', true); 
-
+			FB.login(this.loginResponse)
 		},
-		lobby : function() { this.e },
-		login: function() { console.log('HERE'); FB.login(function(response) {
+
+		loginResponse: function(response) {	
 			this.model.save(null, {success:function(err, user) {
-				
-			}})
-		})},
+				console.log('LOGIN: SAVED USER'); 	
+			}});
+		},
 
 
 		initialize: function() {
@@ -72,7 +65,16 @@ define([
 			this.router.on('route:create', this.enterCreate);
 			this.router.on('route:preview', this.enterPreview);
 			////////////////////////////////////////////////////
-		
+			
+			// Models
+			this.lobbyPage = new Backbone.Model({
+	    		games : new GameCollection()
+	    	});
+
+			// Permanent Views
+			this.menu = new MenuView({model:this.router});
+
+
 			$(window).resize(this.resize);
 			this.resize();	
 
@@ -89,21 +91,18 @@ define([
 			var createPageModel = new Backbone.Model({
 				features : features,
 				game : newGame,
-				user : self.model
+				user : this.model
 			});
 			features.fetch();
-	    	this.currentView = new Lobby({model:lobbyPageModel});
+	    	this.currentView = new CreateView({model:createPageModel});
 			this.currentView.render();
 			this.$el.find('#main').empty().append(this.currentView.el);
 		},
 
 		enterLobby : function() {
-	    	var games = new GameCollection();
-	    	var lobbyPageModel = new Backbone.Model({
-	    		games : games
-	    	});
-	    	games.fetch(); 
-			this.currentView = new Lobby({model:lobbyPageModel});
+	    	this.lobbyPage.get('games').fetch(); 
+	    	if(this.currentView) this.currentView.release();
+			this.currentView = new Lobby({model:this.lobbyPage});
 			this.currentView.render();
 			this.$el.find('#main').empty().append(this.currentView.el);
 		},
@@ -120,7 +119,7 @@ define([
 		},
 
 		enterInit : function() {
-			this.router.navigate('lobby', true);
+			setTimeout(_.bind(this.router.navigate), 1000, 'lobby', true);
 		}
 	});
 })

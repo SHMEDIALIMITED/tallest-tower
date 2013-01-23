@@ -29,6 +29,7 @@ define(['backbone',
 		render : function() {
 			var data = this.model.toJSON();
 			data.height = 1
+			console.log(data)
 			var t = _.template(template, data);
 			this.$el.empty().append(t);
 			return this;

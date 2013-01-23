@@ -14,19 +14,6 @@ module.exports = function(config) {
         if(req.userID) {
             User.findOne({fbID: req.userID}, function(err, user) {
                Game.find({'_id' : { $in: user.games }}, function(err, games) {
-
-
-                    games.forEach(function(game) {
-                        game.users = [];
-                        GameData.find({'_id' : { $in: game.data}}, function(err, gameDatas) {
-                            
-                            gameDatas.forEach(function(gameData) {
-                                game.users.push(gameData.fbID);
-                            });
-                            console.log('GAME', game );
-                        });
-                        
-                    });
                     res.send(games);    
                });
             });
@@ -40,17 +27,11 @@ module.exports = function(config) {
 
 	api.create = function(req, res) {
         var data = req.body;
-        console.log('GAME::CREATE:Body', data);
 
         Feature.find( {'_id': { $in: data.features} }, function(err, features) {
             
-            console.log('FEAUTES', features);
-
-
-            var gameData = new GameData(data.data[0]);
-
-            delete data.data;
-
+           
+            data.features = features;
             var game = new Game(data);
 
             var total = 0;
@@ -68,16 +49,13 @@ module.exports = function(config) {
                 if(user.cash >= total) {
                     user.games.push(game._id);
                     
-                    gameData.fbID = req.userID;
-                    gameData.save(function(err, gameData) {
-                      
-                        game.data.push(gameData._id );
+                    game.data[0].fbID = req.userID;
                         game.save(function(err, model){
                             user.save(function(err, user) {
                               res.send(game);     
                             });
                         });
-                    });
+                    
                     
                 }else {
                     console.log('HAck');

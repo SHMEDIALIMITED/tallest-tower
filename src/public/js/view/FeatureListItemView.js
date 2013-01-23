@@ -48,14 +48,15 @@ define(
 
 		enable : function() {
 			//console.log('disable', this.$el.find('label'))
-			console.log('enable')
+			
 			this.delegateEvents();
 			this.$el.find('label').removeClass('disabled');
 			this.$el.find('input').prop('disabled', false);
 		},
 
 		disable: function() {
-			console.log('disable');
+			
+		
 			if(this.getSelected()) return;
 			this.$el.find('label').addClass('disabled');
 			this.undelegateEvents();

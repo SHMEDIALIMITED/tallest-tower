@@ -1,30 +1,36 @@
 define(
 	
-	['backbone',  
-	'underscore',
-	'view/FeatureListView'], 
+	['backbone'], 
 
-	function(Backbone, _, template, FeatureListView) {
+	function(Backbone) {
 	
 	return Backbone.View.extend({
 
-		id: 'create',
+		el: '#menu',
 
-		
-
-		initialize : function(options) {
-			this.featureList = options.featureList;
+		events : { 
+			'click #lobby-btn' : 'navigate',
+			'click #create-btn' : 'navigate',
 		},
 
-		render : function() {
+		navigate : function(e) {
+			e.preventDefault();
+			var id = e.currentTarget.id;
+			id = id.substr(0,id.indexOf('-'));
+			this.model.navigate(id, true); 
+		},
 
-			this.game = new Game();
+		initialize : function() {
+			this.model.bind('all', this.render, this);
+		},
 
-			var t = _.template(template);
-			this.$el.append(t);
-
-			console.log(this.featureList.el);
-			this.$el.append(this.featureList.el)
+		render : function(route) {	
+			console.log('MenuView::render', route);
+			route = route.replace('route:', '');
+			var el = $('#' + route + '-btn');
+			this.$el.find('li.active').removeClass('active');
+			el.addClass('active');
+			return this;
 		}
 	});
 });
