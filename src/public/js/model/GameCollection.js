@@ -1,15 +1,10 @@
-define(['backbone', 
-		'easel', 
-		'underscore',
-		'model/game-list-item'], function(Backbone, E, _, GameData) {
+define(
+
+	['backbone'], 
+
+	function(Backbone) {
+	
 	return Backbone.Collection.extend({
-
 		url: '/api/games',
-
-		model : GameData, 
-
-		initialize : function() {
-			 
-		},
 	});
 });

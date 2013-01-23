@@ -9,9 +9,6 @@ function(Backbone) {
 
 		url: '/api/features',
 
-		model: Backbone.Model	
-	
-		
 	});
 
 });

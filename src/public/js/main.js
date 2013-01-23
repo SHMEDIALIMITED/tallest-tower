@@ -30,10 +30,10 @@ require.config({
 });
  
 require([
-	'app', 
+	'App', 
 	'jquery',	
 	'facebook',
-	'model/user'
+	'model/User'
 ], function(App, $, FB, User) {
 
 	$(function(){

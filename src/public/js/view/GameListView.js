@@ -1,5 +1,5 @@
 define(['backbone',
-		'view/game_list_item'], 
+		'view/GameListItemView'], 
 
 		function(	Backbone,
 					GameListItemView) {
@@ -23,11 +23,9 @@ define(['backbone',
 
 		render : function() {
 
-			var child = this.children.pop();
-			while(child) {
-				//child.release();
-				child = this.childern.pop();	
-			}
+			_.each(this.childern, function(child) {
+				child.release();
+			});
 			
 			var itemView;
 			
@@ -39,6 +37,16 @@ define(['backbone',
 				this.$el.append(itemView.render().el);
 			}, this); 
 			return this;
+		},
+
+		release : function() {
+			this.collection.unbind("reset", this.render);
+			this.collection = null;
+			_.each(this.childern, function(child) {
+				child.release();
+			});
+			this.children.length = 0;
+			this.children = null;
 		}
 	});
 });

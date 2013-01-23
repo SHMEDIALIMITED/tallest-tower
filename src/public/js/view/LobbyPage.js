@@ -19,6 +19,12 @@ define(['backbone',
 			this.$el.empty().append(t);
 			this.$el.find('.span7').append(this.gameListView.el);
 
+		},
+
+		release: function() {
+			this.gameListView.release();
+			this.gameListView = null;
+			this.model = null;
 		}
 	});
 });

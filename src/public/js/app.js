@@ -1,38 +1,32 @@
 define([ 
 	'router',
 	'backbone',
-	'game-engine',
-	'model/user',
+	'view/GameEngine',
 	'facebook',
 	'jquery',
-	'state-machine',
-	'view/lobby',
+	'view/lobbyPage',
 	'model/GameCollection',
-	'view/GameListView',
-	'view/CreateView',
+	'view/CreatePage',
 	'model/FeatureCollection',
-	'view/FeatureListView',
 	'model/Game',
 	'view/CashView',
 	'model/GameData',
-	'view/MenuView'
+	'view/MenuView',
+	'view/AbstractView'
 	], function(Router, 
 				Backbone, 
 				GameEngine, 
-				User, 
 				FB, 
 				$, 
-				StateMachine, 
 				Lobby, 
 				GameCollection,
-				GameListView,
 				CreateView,
 				FeatureCollection,
-				FeatureListView,
 				Game,
 				CashView,
 				GameData,
-				MenuView) {
+				MenuView,
+				AbstractView) {
 
 
 	return Backbone.View.extend({
@@ -67,12 +61,27 @@ define([
 			////////////////////////////////////////////////////
 			
 			// Models
-			this.lobbyPage = new Backbone.Model({
-	    		games : new GameCollection()
-	    	});
+				// Lobby
+				this.lobbyPage = new Backbone.Model({
+		    		games : new GameCollection()
+		    	});
+		    	// Create
+				this.createPage = new Backbone.Model({
+					features : new FeatureCollection(),
+					game : new Game(),
+					user : this.model
+				});
 
 			// Permanent Views
 			this.menu = new MenuView({model:this.router});
+			this.cashView = new CashView({model:this.model});
+
+			var view1 = new AbstractView();
+			view1.children.push('HEllo');
+
+			var view2 = new AbstractView();
+
+			console.log(view1, view2);
 
 
 			$(window).resize(this.resize);
@@ -85,20 +94,6 @@ define([
 			$('.container-fluid').height( window.innerHeight - 50 )
 		},
 
-		enterCreate : function() {
-			var newGame = new Game();
-	    	var features = new FeatureCollection();
-			var createPageModel = new Backbone.Model({
-				features : features,
-				game : newGame,
-				user : this.model
-			});
-			features.fetch();
-	    	this.currentView = new CreateView({model:createPageModel});
-			this.currentView.render();
-			this.$el.find('#main').empty().append(this.currentView.el);
-		},
-
 		enterLobby : function() {
 	    	this.lobbyPage.get('games').fetch(); 
 	    	if(this.currentView) this.currentView.release();
@@ -106,6 +101,17 @@ define([
 			this.currentView.render();
 			this.$el.find('#main').empty().append(this.currentView.el);
 		},
+
+		enterCreate : function() {
+			this.createPage.get('features').fetch();
+			this.createPage.set({game: new Game()})
+			if(this.currentView) this.currentView.release();
+	    	this.currentView = new CreateView({model:this.createPage});
+			this.currentView.render();
+			this.$el.find('#main').empty().append(this.currentView.el);
+		},
+
+		
 
 		enterPreview: function() {
 			var gameData = new GameData({
