@@ -10,7 +10,7 @@ define(['backbone',
 	function(Backbone, $, E, Bolt, Stick, _, Point, Bolt, Rod) {
 
 	return Backbone.View.extend({
-		el: '#game-engine',
+		tagName: 'canvas',
 		stage : null,
 		scaffold : null,
 		bg : null,
@@ -61,7 +61,7 @@ define(['backbone',
 			E.Ticker.useRAF = true;
 			E.Ticker.setFPS(30);
 
-			
+			this.stage.width =  1000;	
 				
 
 
@@ -76,8 +76,14 @@ define(['backbone',
 		},
 
 		resize : function() {
+
+			if(window.innerWidth > 500) {
+				this.scaffold.scaleX = this.scaffold.scaleY = 1;
+			}else {
+				this.scaffold.scaleX = this.scaffold.scaleY = 0.5;
+			}
 			this.stage.canvas.width = window.innerWidth;
-       		this.stage.canvas.height = window.innerHeight-40;      
+       		this.stage.canvas.height = window.innerHeight-72;      
 
 			this.scaffold.x = window.innerWidth * .5;
 			this.scaffold.y = window.innerHeight - window.innerHeight / 100 * 28;
@@ -151,7 +157,7 @@ define(['backbone',
 
 
 		addPoint : function(e) {
-			point = new Point({x: e.stageX - this.scaffold.x, y: e.stageY - this.scaffold.y});
+			point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
 			this.model.get('points').add(point);
 			return point
 		},

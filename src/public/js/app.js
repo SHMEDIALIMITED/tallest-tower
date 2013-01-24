@@ -103,7 +103,7 @@ define([
 		},
 
 		resize : function() {
-			$('.container-fluid').height( window.innerHeight - 50 )
+			$('.container-fluid').height( window.innerHeight - 72 )
 		},
 
 		enterLobby : function() {
@@ -127,6 +127,7 @@ define([
 		},
 
 		enterGame: function() {	
+			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
 			console.log('Current Game: ', this.currentGame.get('data'))
 	    	this.render(new GamePageView({model:this.currentGame.get('data').first()}));
 		},

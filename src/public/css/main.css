@@ -2685,12 +2685,6 @@ footer {
   bottom: 0px;
   z-index: 3; }
 
-canvas {
-  position: absolute;
-  top: 40px;
-  left: 0px;
-  z-index: 0; }
-
 .nav {
   font-size: 3em; }
 
