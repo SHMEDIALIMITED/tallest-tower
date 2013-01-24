@@ -14,6 +14,13 @@ function(Backbone, Points, Point, Sticks) {
 			cash : 5
 		},
 
+		save : function(attrs, options) {
+	        options || (options = {});
+	        options.data = JSON.stringify(attrs);
+	        delete options.data.token;
+	        Backbone.Model.prototype.save.call(this, attrs, options);
+	    },
+
 		parse : function(response) {
 
 			//console.log(response)

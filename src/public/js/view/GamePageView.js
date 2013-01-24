@@ -21,7 +21,7 @@ define(['backbone',
 
 
 			
-
+			console.log('ENGINE', this.model)
 			this.model.get('points').models;
 			this.model.get('sticks').models;
 				

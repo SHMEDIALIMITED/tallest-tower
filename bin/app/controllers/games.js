@@ -30,9 +30,6 @@ module.exports = function(config) {
                       });
                       response.on('end', function() {
                         var friends = JSON.parse(buffer).data;
-                        if(!friends) {
-                            return res.send([]);
-                        }
                         var friendsIDs = [];
                         friends.forEach(function(friend) {
                             friendsIDs.push(friend.id);

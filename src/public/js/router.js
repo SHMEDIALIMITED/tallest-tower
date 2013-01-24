@@ -5,6 +5,7 @@ define(['backbone'], function(Backbone) {
 			'create': 'create',
 			'preview' : 'preview',
 			'lobby' : 'lobby',
+			'play' : 'play'
 		}
 
 	});

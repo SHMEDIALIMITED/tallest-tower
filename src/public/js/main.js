@@ -2,11 +2,11 @@ require.config({
 	urlArgs: 'cb=' + Math.random(),
 	'paths': {
 		'jquery': 'libs/jquery-1.8.3.min',
-		'backbone': 'libs/backbone-min',
+		'backbone': 'libs/backbone-0.9.10',
 		'underscore': 'libs/underscore-min',
 		'easel' : 'libs/easeljs-0.5.0.min',
 		'facebook' : '//connect.facebook.net/en_US/all',
-		'state-machine' : 'libs/state-machine.min'
+		'signal' : 'libs/signals.min'
 	},
  
 	shim: {
@@ -23,8 +23,8 @@ require.config({
         'facebook' : {
             exports: 'FB'
         },
-        'state-machine' : {
-        	exports : 'StateMachine'
+        'signal' : {
+        	exports : 'Signal'
         } 
 	}
 });
@@ -50,7 +50,7 @@ require([
 	   
 		
 	    FB.getLoginStatus(function (response) {
-	    	console.log('STATUS', response.status)
+	    	
 	    	if(response.status == 'connected') {
 	    		// USER AUTHORIZED
 	    		

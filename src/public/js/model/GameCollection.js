@@ -1,10 +1,14 @@
 define(
 
-	['backbone'], 
+	['backbone',
+	'model/Game'], 
 
-	function(Backbone) {
+	function(Backbone,
+			Game) {
 	
 	return Backbone.Collection.extend({
 		url: '/api/games',
+
+		model : Game,
 	});
 });

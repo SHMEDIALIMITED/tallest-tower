@@ -1,7 +1,10 @@
-define(['backbone', 
-		'easel', 
-		'underscore',
-		'text!templates/game-list-item.html'], function(Backbone, E, _, template) {
+define(
+	   ['backbone', 
+		'SignalMap',
+		'text!templates/game-list-item.html'], 
+
+		function(Backbone, SignalMap, template) {
+
 	return Backbone.View.extend({
 
 		tagName: 'li',
@@ -14,7 +17,8 @@ define(['backbone',
 		},
 
 		onClick: function() {
-			this.trigger('clicked', this.model);
+			console.log('CLICK', this.model)
+			SignalMap.gameSelected.dispatch(this.model);
 		},
 
 		initialize : function() {

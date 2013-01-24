@@ -2696,7 +2696,7 @@ canvas {
 
 #cash {
   float: right;
-  font-size: 6em;
+  font-size: 3em;
   color: #e2b227; }
 
 #lobby {
@@ -2712,7 +2712,6 @@ canvas {
   float: left; }
 
 .game-list {
-  border: solid 1px #999;
   padding: 5px 0px; }
 
 .game-list h3 {
@@ -2724,6 +2723,7 @@ canvas {
   padding-left: 13px; }
 
 .game-list-item.btn {
+  height: 50px;
   padding: 0px; }
 
 #create .btn-group {

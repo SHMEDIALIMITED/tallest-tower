@@ -25,7 +25,6 @@ define(
 		},
 
 		render : function(route) {	
-			console.log('MenuView::render', route);
 			route = route.replace('route:', '');
 			var el = $('#' + route + '-btn');
 			this.$el.find('li.active').removeClass('active');

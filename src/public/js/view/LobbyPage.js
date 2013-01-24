@@ -1,4 +1,4 @@
-define(['backbone', 
+	define(['backbone', 
 		'text!templates/lobby.html',
 		'view/GameListView'], 
 

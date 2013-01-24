@@ -1,6 +1,6 @@
 {
   "name": "Tallest Tower",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Patrick Wolleb <patrick.wolleb@shmedia.co.uk",
   "description": "Tallest Tower JS/HTML5 game with Facebook integration",
   "scripts": {
@@ -12,7 +12,11 @@
   },
   "dependencies": {
     "express": "3.0.4",
-    "ejs": "0.8.3"
+    "ejs": "0.8.3",
+    "fb": "0.0.9",
+    "b64url": "~1.0.3",
+    "mongoose": "~3.5.4",
+    "mongo-connect": "0.0.6"
   },
   "bugs": {
     "url": "https://github.com/SHMEDIALIMITED/tallest-tower/issues"

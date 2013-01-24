@@ -106,7 +106,7 @@ canvas {
 
 #cash {
   float: right;
-  font-size: 6em;
+  font-size: 3em;
   color: $yellow;
 }
 
@@ -130,7 +130,6 @@ canvas {
 }
 
 .game-list {
-   border: solid 1px #999;
   padding: 5px 0px;
 }
 
@@ -144,6 +143,7 @@ canvas {
 }
 
 .game-list-item.btn {
+  height: 50px;
   padding: 0px;
 }
 

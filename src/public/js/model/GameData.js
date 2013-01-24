@@ -14,12 +14,15 @@ define(	['backbone',
 			defaults : {
 				points : new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]),
 				sticks : new Sticks([]),
-				height : 0
+				height : 100
 			},
 
 			parse : function(response) {
-		
-				response.points = this.get('points').reset(response.points)
+
+				console.log('GameData::parse', response);
+
+
+				response.points = new Points(response.points, {parse:true})
 					
 				_.each(response.sticks, function(stick) {
 					stick.a = getPointByPosition(stick.a.x, stick.a.y);
@@ -37,8 +40,9 @@ define(	['backbone',
 					}
 					
 				}
-				
-				response.sticks = this.get('sticks').reset(response.sticks); 
+				response.sticks = new Points(response.sticks, {parse:true});
+
+				return response;
 			},
 
 			toJSON: function() {

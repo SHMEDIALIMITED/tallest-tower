@@ -15,7 +15,7 @@ define(['backbone',
 
 		initialize : function() {
 			
-			console.log('GAMELIST:: init', this.el)
+		
 			 _.bindAll(this, "render"); 
 			this.collection.bind("reset", this.render);
 			this.children = [];
@@ -30,10 +30,9 @@ define(['backbone',
 			var itemView;
 			
 			this.collection.each(function(item){
+
+
 				itemView = new GameListItemView({model:item});
-				itemView.on('clicked', function(model) {
-					console.log(model)
-				});
 				this.$el.append(itemView.render().el);
 			}, this); 
 			return this;
