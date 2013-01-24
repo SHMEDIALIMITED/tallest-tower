@@ -54,8 +54,9 @@ require([
 	    	if(response.status == 'connected') {
 	    		// USER AUTHORIZED
 	    		
-	    		user.fetch({success: function(model, response, options) {
-	    			//console.log('USER fETCHED: ' , user);
+	    		user.fetch({success: function(model, res, options) {
+	    			console.log('USER fETCHED: ' , user);
+	    			user.set({facebook:response.authResponse});
 					app = new App({model:user});
 				}, error:function() {
 					console.log('error')

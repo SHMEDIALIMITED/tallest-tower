@@ -17,22 +17,8 @@ function(Backbone, Points, Point, Sticks) {
 		save : function(attrs, options) {
 	        options || (options = {});
 	        options.data = JSON.stringify(attrs);
-	        delete options.data.token;
+	        delete options.data.facebook;
 	        Backbone.Model.prototype.save.call(this, attrs, options);
-	    },
-
-		parse : function(response) {
-
-			//console.log(response)
-			//response.games = this.get('games').reset(response.games);
-			return response;
-		},
-
-		toJSON: function() {
-			var json = _.clone(this.attributes);
-			//json.games = this.get('games').toJSON();
-			
-			return json;
-		}
+	    }
 	});
 })

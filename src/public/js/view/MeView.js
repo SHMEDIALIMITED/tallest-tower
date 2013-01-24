@@ -20,12 +20,12 @@ define(
 
 		initialize : function(options) {
 			this.listenTo(this.model, "change", this.render);
+			this.render();
 		},
 
 		render : function() {
-			console.log('ME:', this.model.toJSON());
-			
 			this.$el.html(_.template(template, this.model.toJSON()));
+			return this;
 		}
 	});
 });
