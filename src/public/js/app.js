@@ -115,7 +115,7 @@ define([
 			$('.container-fluid').height( window.innerHeight - 72 )
 		},
 
-		enterLobby : function() {
+		enterLobby : function() {			
 			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
 	    	this.lobbyPage.get('games').fetch(); 
 	    	this.lobbyPage.get('finds').fetch(); 

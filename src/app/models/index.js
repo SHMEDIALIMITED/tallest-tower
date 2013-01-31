@@ -34,7 +34,14 @@ var GameData = new Schema({
 var Feature = new Schema({
 	price : { type: Number },
 	image : {type: String },
-	type : { type: String, enum: [ 'Fixed Bolt', 'Rod', 'Long Rod', 'Wind' ] },
+	type : { type: String, enum: [ 	'Fixed Bolt', 
+									'Short Bamboo Rod', 
+									'Long Bamboo Rod',
+									'Short Copper Rod',
+									'Long Copper Rod',
+									'Short Metal Rod',
+									'Long Metal Rod',
+									'Wind' ] },
 	factor : {type: Number}
 });
 

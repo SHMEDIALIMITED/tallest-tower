@@ -34,7 +34,7 @@ function(Backbone, FeatureListItemView) {
 			var itemView;
 			
 			this.collection.each(function(item){
-			
+				
 				itemView = new FeatureListItemView({model:item});
 				if(item.get('price') > this.cash) {
 					itemView.disable();
