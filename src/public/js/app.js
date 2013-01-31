@@ -25,7 +25,7 @@ define([
 				CreatePageView,
 				FeatureCollection,
 				Game,
-				CashView,
+				MeView,
 				GameData,
 				MenuView,
 				AbstractView,
@@ -42,11 +42,14 @@ define([
 		},
 		
 		login: function(e) { 
+			console.log('login');
 			e.preventDefault();
 			FB.login(this.loginResponse)
 		},
 
 		loginResponse: function(response) {	
+
+			console.log('login repsonse');
 			this.model.set({facebook:response.authResponse});
 			this.model.save(null, {success:function(err, user) {
 
@@ -86,10 +89,16 @@ define([
 					game : null,
 					user : this.model
 				});
+				// Game
+				this.gamePage = new Backbone.Model({
+					game : null,
+					gameData : null,
+					user : this.model
+				});
 
 			// Permanent Views
-			this.menu = new MenuView({model:this.router});
-			this.cashView = new CashView({model:this.model});
+			this.menuView = new MenuView({model:this.router});
+			this.meView = new MeView({model:this.model});
 
 			var view1 = new AbstractView();
 			view1.children.push('HEllo');
@@ -107,6 +116,7 @@ define([
 		},
 
 		enterLobby : function() {
+			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
 	    	this.lobbyPage.get('games').fetch(); 
 	    	this.lobbyPage.get('finds').fetch(); 
 			this.render(new Lobby({model:this.lobbyPage}));
@@ -128,8 +138,13 @@ define([
 
 		enterGame: function() {	
 			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
-			console.log('Current Game: ', this.currentGame.get('data'))
-	    	this.render(new GamePageView({model:this.currentGame.get('data').first()}));
+			var fbID = this.model.get('fbID');
+			var gameData = this.currentGame.get('data').find(function(data) {
+				return data.fbID = fbID;
+			})
+			this.$el.find('header').hide();
+			this.gamePage.set({game: this.currentGame, gameData: gameData})
+	    	this.render(new GamePageView({model:this.gamePage}));
 		},
 
 		enterInit : function() {

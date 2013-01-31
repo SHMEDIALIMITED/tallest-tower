@@ -48,6 +48,7 @@ require([
 		var app; 
 		var user = new User();
 	   
+	   	console.log('HERE')
 		
 	    FB.getLoginStatus(function (response) {
 	    	

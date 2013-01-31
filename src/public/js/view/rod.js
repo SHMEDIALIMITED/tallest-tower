@@ -21,8 +21,19 @@ define(['backbone', 'easel'], function(Backbone, E) {
 			g.endFill();
 					
 			
+			var i = Math.ceil(this.model.get('length') / 100);
+			var l = i;
+			this.bitmap = new E.Container();
+			var bitmap;
+			while( --i > -1 ) {
+				bitmap = new E.Bitmap('img/bamboo_rod.png');
+				bitmap.x = i * 100;
+				this.bitmap.addChild(bitmap);
+			}
 
-			this.bitmap = new E.Bitmap('img/stick.png');
+			this.bitmap.x = -l* 50;	
+			this.bitmap.y = -10;	
+
 			//this.container.addChild(this.shape);
 			this.container.addChild(this.bitmap);
 		},
@@ -30,12 +41,7 @@ define(['backbone', 'easel'], function(Backbone, E) {
 		render : function() {
 			this.container.x = this.model.get('x');
 			this.container.y = this.model.get('y');
-
-			this.bitmap.regX = .5;
-	       	this.bitmap.regY = 10;
-	       	this.bitmap.scaleX = this.model.get('length');
 	       	this.container.rotation = this.model.get('rotation')
-	       
 		}
 
 	});

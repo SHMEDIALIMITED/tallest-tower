@@ -42,8 +42,8 @@ define(
 			return this.$el.find('input[type=checkbox]').attr('checked') ? true : false;
 		},
 
-		seSelected : function() {
-			this.$el.find('input[type=checkbox]').attr('checked', false);
+		setSelected : function(val) {
+			this.$el.find('input[type=checkbox]').attr('checked', val);
 		},
 
 		enable : function() {

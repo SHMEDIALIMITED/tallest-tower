@@ -1,2 +1,8 @@
-<img src="http://graph.facebook.com/<%=facebook.userID%>/picture?width=30&height=30" />
-<span><%=cash%></span>
+<%	
+if(loggedIn) { %>
+	<span><%=cash%></span>
+	<img src="http://graph.facebook.com/<%=facebook.userID%>/picture?width=30&height=30" />
+	
+<% } else { %>
+	
+<% } %>

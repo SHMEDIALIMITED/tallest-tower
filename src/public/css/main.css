@@ -2675,7 +2675,8 @@ p {
   border-right: 1px solid #eee; }
 
 header {
-  position: relative;
+  position: fixed;
+  min-width: 100%;
   z-index: 2; }
 
 footer {
@@ -2685,13 +2686,28 @@ footer {
   bottom: 0px;
   z-index: 3; }
 
+canvas {
+  position: relative;
+  overflow-y: scroll; }
+
 .nav {
   font-size: 3em; }
 
-#cash {
+#me {
+  margin-top: 13px;
   float: right;
   font-size: 3em;
   color: #e2b227; }
+
+#game #features {
+  position: fixed;
+  width: 100px;
+  bottom: 0px; }
+
+#game #features .btn {
+  width: 80px;
+  height: 90px;
+  text-align: left; }
 
 #lobby {
   top: 0px;

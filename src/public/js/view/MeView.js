@@ -8,7 +8,7 @@ define(
 	
 	return Backbone.View.extend({
 
-		el: '#cash',
+		el: '#me',
 
 		events :{
 			'click' : 'onClick'
@@ -24,7 +24,9 @@ define(
 		},
 
 		render : function() {
-			this.$el.html(_.template(template, this.model.toJSON()));
+			var data = this.model.toJSON();
+			data.loggedIn = data.facebook ? true : false;
+			this.$el.html(_.template(template, data));
 			return this;
 		}
 	});
