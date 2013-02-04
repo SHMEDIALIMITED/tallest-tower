@@ -7,6 +7,7 @@ module.exports = function(config) {
 
     var Game = Models.Game;
     var Feature = Models.Feature;
+    var GameFeature = Models.GameFeature;
     var User = Models.User;
     var GameData = Models.GameData;
 
@@ -72,17 +73,81 @@ module.exports = function(config) {
         Feature.find( {'_id': { $in: data.features} }, function(err, features) {
             
            
-            data.features = features;
-            var game = new Game(data);
+           
 
             var total = 0;
             var feature,
             i = features.length;
-
+            var gameFeatures = {};
             while(--i > -1) {
                 feature = features[i];
+                switch( feature.type ) {
+                    case 0 :
+                        if(!gameFeatures._0) {
+                            gameFeatures._0 = new GameFeature();
+                            gameFeatures._0.type = 0;
+                            gameFeatures._0.image = feature.image;
+                        }
+                        gameFeatures._0.amount += feature.factor;
+                    break;
+                    case 1 :
+                        if(!gameFeatures._1) {
+                            gameFeatures._1 = new GameFeature();
+                            gameFeatures._1.type = 1;
+                            gameFeatures._1.image = feature.image;
+                        }
+                        gameFeatures._1.amount += feature.factor;
+                    break;
+                    case 2 :
+                        if(!gameFeatures._2) {
+                            gameFeatures._2 = new GameFeature();
+                            gameFeatures._2.type = 2;
+                            gameFeatures._2.image = feature.image;
+                        }
+                        gameFeatures._2.amount += feature.factor;
+                    break;
+                    case 3 :
+                        if(!gameFeatures._3) {
+                            gameFeatures._3 = new GameFeature();
+                            gameFeatures._3.type = 3;
+                            gameFeatures._3.image = feature.image;
+                        }
+                        gameFeatures._3.amount += feature.factor;
+                    break;
+                    case 4 :
+                        if(!gameFeatures._4) {
+                            gameFeatures._4 = new GameFeature();
+                            gameFeatures._4.type = 4;
+                            gameFeatures._4.image = feature.image;
+                        }
+                        gameFeatures._4.amount += feature.factor;
+                    break;
+                    case 5 :
+                        if(!gameFeatures._5) {
+                            gameFeatures._5 = new GameFeature();
+                            gameFeatures._5.type = 5;
+                            gameFeatures._5.image = feature.image;
+                        }
+                        gameFeatures._5.amount += feature.factor;
+                    break;
+                    case 6 :
+                        if(!gameFeatures._6) {
+                            gameFeatures._6 = new GameFeature();
+                            gameFeatures._6.type = 6;
+                            gameFeatures._6.image = feature.image;
+                        }
+                        gameFeatures._6.amount += feature.factor;
+
+                    break;
+
+                } 
                 total += feature.price;
             }
+            var gameFeaturesArray = [];
+            for(var key in gameFeatures) gameFeaturesArray.push(gameFeatures[key]);
+
+            data.features = gameFeaturesArray;
+            var game = new Game(data);
 
             game.value = total;
         

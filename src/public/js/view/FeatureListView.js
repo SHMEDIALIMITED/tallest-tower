@@ -93,6 +93,7 @@ function(Backbone, FeatureListItemView) {
 					data.push(item.model.get('_id'));
 				}
 			});
+			console.log(data)
 			return data;
 		}
 

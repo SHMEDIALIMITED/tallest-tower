@@ -38,7 +38,7 @@ define(
 			var game = this.model.get('game');
 			game.set({
 				features: this.featureList.getData(),
-				data: [new GameData()]
+				data: new Backbone.Collection([new GameData()])
 			});
 			console.log('onGAM', game)
 			game.save(null, {success: function(err, game) {

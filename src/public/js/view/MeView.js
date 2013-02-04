@@ -15,7 +15,7 @@ define(
 		},
 
 		onClick: function() {
-			this.model.set({cash:7});
+			this.model.set({cash:50});
 		},
 
 		initialize : function(options) {
