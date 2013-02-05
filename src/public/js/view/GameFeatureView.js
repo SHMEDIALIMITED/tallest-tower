@@ -9,7 +9,7 @@ define(
 
 		tagName : 'li',
 
-		className : 'btn feature-list-item',
+		className : 'btn game-feature',
 
 		events: {
 			'click' : 'onClick'
@@ -28,9 +28,29 @@ define(
 			else this.$el.removeClass('active');
 		},
 
+		getEnabled: function() {
+			return !this.$el.hasClass('disabled');
+		},
+
 		render: function() {
+			console.log(this.model.attributes);
 			this.$el.empty().append(_.template(template, this.model.attributes));
 			return this;
+		},
+
+		enable : function() {
+			//console.log('disable', this.$el.find('label'))
+			
+			this.delegateEvents();
+			this.$el.removeClass('disabled').removeClass('active');
+		},
+
+		disable: function() {
+			
+		
+			
+			this.$el.addClass('disabled');
+			this.undelegateEvents();
 		},
 
 		release : function() {

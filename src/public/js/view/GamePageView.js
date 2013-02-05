@@ -11,12 +11,44 @@ define(
 		
 		id : 'game',
 
+		events : {
+			'click #wipe-btn':  'render'
+		},
+
+		refresh : function() {
+			this.engine.render();
+		},
+
 		initialize: function() {
 			//this.listenTo(this.model.get('gameData').get('sticks'), 'add',this.processRemainingSticks, this);
-
 			this.engine = new GameEngine({model:this.model.get('gameData')});
-			
+			this.engine.on('feature_run_out', this.selectAvailableFeature, this);			
 			this.children = [];
+		},
+
+		selectAvailableFeature: function(feature) {
+			_.each(this.children, function(item) {
+				if(item.model == feature) {
+					item.setSelected(false);
+					item.disable();
+					console.log('HERE', item)
+					//return false;
+				}
+			}, this);
+
+			var i = 0;
+			_.every(this.children, function(item) {
+				console.log('HELLLO ', item.getEnabled())
+				if(item.model.get('amount') > 0 && item.getEnabled())  {
+					this.engine.setFeature(item.model);
+					item.setSelected(true);
+					console.log(++i)
+					return false;
+				}
+				return true
+			}, this);
+
+			
 		},
 
 		processRemainingSticks: function() {
@@ -25,7 +57,7 @@ define(
 		},
 
 		gameHasEnded : function() {
-			alert('ENDED');
+			//alert('ENDED');
 		},
 
 		render: function() {
@@ -34,60 +66,31 @@ define(
 			}, this);
 			this.children.length = 0;
 			this.$el.empty().append(this.engine.render().el);
-			this.$el.append('<ul id="features"></ul>')
-			this.totalFixed = 0;
-			this.totalRod = 0;
-			this.model.get('game').get('features').forEach(function(feature) {
+			this.$el.append('<button id="wipe-btn">Wipe</button><ul id="features" class="span1"></ul>')
+			
+			
+			
+			this.model.get('game').get('features').each(function(feature) {
 
-				switch(feature.get('type')) {
-					case 'Fixed Bolt' :
-						this.totalFixed += (feature.get('factor') * 1)
-					break;
-
-					case 'Rod' :
-						this.totalRod += (feature.get('factor') * 1)
-					break;
-				}
-
-				
+				var view = new GameFeatureView({model:feature});
+				view.on('clicked', this.itemClicked, this);
+				this.$el.find('#features').append(view.render().el);
+				this.children.push(view);
 			}, this);
-
-			if(this.totalFixed != 0) {
-				this.fixed = new Backbone.Model({
-					amount : this.totalFixed,
-					type : 'Fixed Bolt',
-					image : 'img/bolt.png'
-				})
-
-				var view = new GameFeatureView({model:this.fixed});
-				view.on('clicked', this.itemClicked, this);
-				this.$el.find('#features').append(view.render().el);
-				this.children.push(view);
-			} 
-
-			if(this.totalRod != 0) {
-				this.rods = new Backbone.Model({
-					amount : this.totalRod,
-					type: 'Rod',
-					image : 'img/rod_small.png'
-				});
-				var view = new GameFeatureView({model:this.rods});
-				view.on('clicked', this.itemClicked, this);
-				this.$el.find('#features').append(view.render().el);
-				this.children.push(view);
-			}
-
-
-			console.log('TOTOAL', this.totalFixed, this.totalRod)
+			
+			//this.children.reverse();
+			
 			return this;
 		},
 
 		itemClicked : function(model) {
 			_.each(this.children, function(item) {
-
-				console.log(item.model === model)
-				if(item.model === model) item.setSelected(true);
-				else item.setSelected(false);
+				if(item.model === model) {
+					this.engine.setFeature(model);
+					item.setSelected(true);
+				} else { 
+					item.setSelected(false);
+				}
 			}, this);
 		},
 

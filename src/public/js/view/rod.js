@@ -20,13 +20,45 @@ define(['backbone', 'easel'], function(Backbone, E) {
 			g.lineTo(50,0);
 			g.endFill();
 					
-			
+			var assetURL;
+			switch(this.model.get('type')) {
+				case  0 :
+					assetURL = 'img/bolt.png';
+				break;
+
+				case  1 :
+					assetURL = 'img/bamboo_rod';
+				break;
+
+				case  2 :
+					assetURL = 'img/bamboo_rod';
+				break;
+
+				case  3 :
+					assetURL = 'img/copper_rod';
+				break;
+
+				case  4 :
+					assetURL = 'img/copper_rod';
+				break;
+
+				case  5 :
+					assetURL = 'img/metal_rod';
+				break;
+
+				case  6 :
+					assetURL = 'img/metal_rod';
+				break;
+			} 
+			assetURL += '.png';
+
+
 			var i = Math.ceil(this.model.get('length') / 100);
 			var l = i;
 			this.bitmap = new E.Container();
 			var bitmap;
 			while( --i > -1 ) {
-				bitmap = new E.Bitmap('img/bamboo_rod.png');
+				bitmap = new E.Bitmap(assetURL);
 				bitmap.x = i * 100;
 				this.bitmap.addChild(bitmap);
 			}

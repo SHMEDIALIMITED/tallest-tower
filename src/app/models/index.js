@@ -18,7 +18,7 @@ var Stick = new Schema({
 
 var User = new Schema({ 
 	fbID: {type: Number},
-	cash: { type:Number },
+	cash: { type:Number, default:100 },
 	games: [Schema.Types.ObjectId],
     modified: { type: Date, default: Date.now }
 });

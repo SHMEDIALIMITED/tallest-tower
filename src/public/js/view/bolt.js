@@ -9,12 +9,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			_.bindAll(this, 'clicked');
 			_.bindAll(this, 'mouseOver');
 			_.bindAll(this, 'mouseOut');
-			this.bitmap = new E.Bitmap('img/bolt.png');
-			this.bitmap.regX = 25;
-			this.bitmap.regY = 25;		
-			this.bitmap.onPress = this.clicked;
-			this.bitmap.onMouseOver = this.mouseOver;
-			this.bitmap.onMouseOut = this.mouseOut;
+			
 
 			this.shape = new E.Shape();
 			var g = this.shape.graphics;
@@ -25,9 +20,32 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			this.container = new E.Container();
 
 			this.container.addChild(this.shape);
-			this.container.addChild(this.bitmap);
-
+			
+			console.log('model', this.model);
+			this.model.on('change:fixed', this.draw, this);
+			this.draw();
 		},
+
+		draw : function(){
+			console.log('BOLT DRAW');
+			var assetURL;
+			this.container.removeChild(this.bitmap);
+
+			if(this.model.get('fixed')) {
+				this.bitmap = new E.Bitmap('img/game/fixed_bolt.png');
+				this.bitmap.regX = 33;
+				this.bitmap.regY = 33;	
+			}else {
+				this.bitmap = new E.Bitmap('img/bolt.png');
+				this.bitmap.regX = 25;
+				this.bitmap.regY = 25;
+			}
+				
+			this.bitmap.onPress = this.clicked;
+			this.bitmap.onMouseOver = this.mouseOver;
+			this.bitmap.onMouseOut = this.mouseOut;
+			this.container.addChild(this.bitmap);
+		},	
 
 		setSelected :function(val) {
 			this.selected = val;

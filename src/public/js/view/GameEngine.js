@@ -6,8 +6,9 @@ define(['backbone',
 		'model/point', 
 		'view/bolt', 
 		'view/rod',
-		'view/World'], 
-	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World) {
+		'view/World',
+		'view/RodLengthIndicator'], 
+	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator) {
 
 	return Backbone.View.extend({
 		tagName: 'canvas',
@@ -22,6 +23,7 @@ define(['backbone',
 			this.model.get('sticks').models;
 				
 			_.bindAll(this, 'render');	
+			_.bindAll(this, 'onMouseMove');	
 			_.bindAll(this, 'addRod');	
 			_.bindAll(this, 'addBolt');	
 			_.bindAll(this, 'selectBolt');
@@ -46,17 +48,36 @@ define(['backbone',
 			this.scaffold.y = 300;
 			this.stage.addChild(this.scaffold);
 
+			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
+			
 			
 			E.Ticker.useRAF = true;
 			E.Ticker.setFPS(30);
 
+			
 			this.stage.width =  1000;
 			$(window).resize(this.resize);	
 		},
 
+		onMouseMove :function(e) {
+			console.log(this.indicator)
+			
+		},
+
+		addHud : function() {
+			this.indicator.model = this.selectedPoint;
+			this.scaffold.addChildAt(this.indicator.container, 1);
+			this.renderHud = true;
+		},
+
+		removeHud: function() {
+			this.renderHud = false;
+			this.scaffold.removeChild(this.indicator.container);
+		},
+
 		drawBG: function() {
 			this.bg.graphics.clear();
-			this.bg.graphics.beginFill('#999')
+			this.bg.graphics.beginFill('#00bfff')
 				.drawRect(0,0,this.el.width, this.el.height)
 				.beginFill(null);	
 		},
@@ -85,6 +106,32 @@ define(['backbone',
 
 		setFeature: function(feature) {
 			this.feature = feature;
+			console.log(this.feature)
+
+			switch(feature.get('type')){
+				case 0 : 
+					this.feature.set({maxLength:0});
+				break;
+				case 1 :
+					this.feature.set({maxLength:200});
+				break;
+				case 2 :
+					this.feature.set({maxLength:400});
+				break;
+				case 3 :
+					this.feature.set({maxLength:200});
+				break;
+				case 4 :
+					this.feature.set({maxLength:400});
+				break;
+				case 5 :
+					this.feature.set({maxLength:200});
+				break;
+				case 6 :
+					this.feature.set({maxLength:400});
+				break;
+			}
+			
 		},
 
 		render : function() {
@@ -117,18 +164,38 @@ define(['backbone',
 		},
 
 		selectBolt: function(bolt) {
+			
 			this.bg.onPress = this.addStick;
+			if(this.feature.get('type') == 0) {
+				bolt.model.set('fixed', true);
+				bolt.draw();
+				this.feature.set({amount: this.feature.get('amount')-1})
+				if(this.feature.get('amount') == 0) {
+					this.trigger('feature_run_out', this.feature);
+				}	
+				return;
+			}
+
 			if(this.selectedPoint && this.selectedPoint != bolt.model) {
 				this.addStick(bolt);
 				return;
 			}
 			this.selectedPoint = bolt.model;
 			bolt.setSelected(true);
+			this.addHud();
 		},
 
 
 		addPoint : function(e) {
 			point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
+			var dx = point.get('x') - this.selectedPoint.get('x');
+			var dy = point.get('y') - this.selectedPoint.get('y');
+			var d = Math.sqrt(dx*dx + dy*dy);
+
+			if(d > this.feature.get('maxLength')) {
+
+				return null
+			}
 			this.model.get('points').add(point);
 			return point
 		},
@@ -142,7 +209,25 @@ define(['backbone',
 				point = this.addPoint(e);		
 				//this.addBolt();
 			}
-			var s = new Stick({a:point, b:this.selectedPoint});
+			
+			if(point instanceof Point) {
+				var dx = point.get('x') - this.selectedPoint.get('x');
+				var dy = point.get('y') - this.selectedPoint.get('y');
+				var d = Math.sqrt(dx*dx + dy*dy);
+				if(d > this.feature.get('maxLength')) {
+
+					return null
+				}
+			}else {
+				return null;
+			} 
+
+
+			var s = new Stick({a:point, b:this.selectedPoint, type:this.feature.get('type')});
+
+
+
+			
 			this.model.get('sticks').add(s);
 			var points = this.model.get('points'); 
 			points.each(function(point) {				
@@ -151,6 +236,12 @@ define(['backbone',
 			this.selectedPoint = null;
 			delete this.bg.onPress;
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
+			this.removeHud();
+
+			this.feature.set({amount: this.feature.get('amount')-1})
+			if(this.feature.get('amount') == 0) {
+				this.trigger('feature_run_out', this.feature);
+			}	
 		},
 
 		tick: function() {
@@ -166,6 +257,40 @@ define(['backbone',
 			while( --i > -1 ) {
 				sticks[i].update();
 			}
+			i = sticks.length;
+			var stick;
+			while( --i > -1 ) {
+				stick = sticks[i];
+				switch(stick.get('type')) {
+					case 3 :
+						stick.update();
+					break;
+					case 4:
+						stick.update();
+					break;
+
+					case 5 :
+						stick.update();
+					break;
+					case 6:
+						stick.update();
+					break;
+				}
+			}
+
+			i = sticks.length;
+			while( --i > -1 ) {
+				stick = sticks[i];
+				switch(stick.get('type')) {
+
+					case 5 :
+						stick.update();
+					break;
+					case 6:
+						stick.update();
+					break;
+				}
+			}
 
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
@@ -179,6 +304,14 @@ define(['backbone',
 			while( --i > -1 ) {
 				gameObjects[i].render();
 			} 
+
+			if(this.renderHud) {
+				var mouse = this.scaffold.globalToLocal(this.stage.mouseX, this.stage.mouseY);
+				var dx = mouse.x - this.selectedPoint.get('x');
+				var dy = mouse.y - this.selectedPoint.get('y');
+				var d = Math.min(Math.sqrt(dx*dx + dy*dy), this.feature.get('maxLength'));
+				this.indicator.render(mouse, d);
+			}
 						
 			this.stage.update();
 		}

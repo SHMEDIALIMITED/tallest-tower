@@ -49,7 +49,7 @@ define([
 
 		loginResponse: function(response) {	
 
-			console.log('login repsonse');
+			console.log('login repsonse', this.model);
 			this.model.set({facebook:response.authResponse});
 			this.model.save(null, {success:function(err, user) {
 

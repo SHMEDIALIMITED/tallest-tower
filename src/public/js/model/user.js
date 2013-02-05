@@ -11,13 +11,10 @@ function(Backbone, Points, Point, Sticks) {
 
 		defaults : {
 			games : new Backbone.Collection(),
-			cash : 5
+			cash : 100
 		},
 
 		save : function(attrs, options) {
-	        options || (options = {});
-	        options.data = JSON.stringify(attrs);
-	        delete options.data.facebook;
 	        Backbone.Model.prototype.save.call(this, attrs, options);
 	    }
 	});

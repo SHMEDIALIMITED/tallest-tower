@@ -53,9 +53,14 @@ module.exports = function(config) {
 
             } else {
                 User.findOne({fbID: req.userID}, function(err, user) {
-                   Game.find({'_id' : { $in: user.games }}, function(err, games) {
-                        res.send(games);    
-                   });
+                    if(user)
+                       Game.find({'_id' : { $in: user.games }}, function(err, games) {
+                            res.send(games);    
+                       });
+                    else
+                        Game.findOne( 'first', function(err, game) {
+                            res.send(game);
+                        })
                 });
             }
             
@@ -158,6 +163,7 @@ module.exports = function(config) {
                     game.data[0].fbID = req.userID;
                         game.save(function(err, model){
                             user.save(function(err, user) {
+                                console.log(game)
                               res.send(game);     
                             });
                         });
