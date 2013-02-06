@@ -40,6 +40,7 @@ var Feature = new Schema({
 
 var GameFeature = new Schema({
 	image : {type: String },
+	name : {type: String},
 	type : { type: Number },
 	amount : {type: Number, default: 0}
 });

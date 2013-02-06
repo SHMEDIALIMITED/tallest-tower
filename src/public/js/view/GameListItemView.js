@@ -17,7 +17,7 @@ define(
 		},
 
 		onClick: function() {
-			console.log('CLICK', this.model)
+			
 			SignalMap.gameSelected.dispatch(this.model);
 		},
 
@@ -33,7 +33,7 @@ define(
 		render : function() {
 			var data = this.model.toJSON();
 			data.height = 1
-			console.log(data)
+			
 			var t = _.template(template, data);
 			this.$el.empty().append(t);
 			return this;

@@ -11,10 +11,12 @@ define(	['backbone',
 		return Backbone.Model.extend({
 
 
-			defaults : {
-				points : new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]),
-				sticks : new Sticks([]),
-				height : 100
+			defaults : function() {
+				return {
+					points : new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]),
+					sticks : new Sticks([]),
+					height : 0
+				}
 			},
 
 			parse : function(response) {

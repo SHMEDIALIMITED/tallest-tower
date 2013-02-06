@@ -19,7 +19,7 @@ define(['backbone',
 
 		toJSON : function() {
 			var json = _.clone(this.attributes);
-			console.log('Game::toJSON', this);
+			
 			json.data = this.get('data').toJSON();
 			if(!json.features instanceof Array) json.features = this.get('features').toJSON();
 			return json;

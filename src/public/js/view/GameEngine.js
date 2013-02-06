@@ -7,8 +7,9 @@ define(['backbone',
 		'view/bolt', 
 		'view/rod',
 		'view/World',
-		'view/RodLengthIndicator'], 
-	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator) {
+		'view/RodLengthIndicator',
+		'model/GameData'], 
+	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData) {
 
 	return Backbone.View.extend({
 		tagName: 'canvas',
@@ -30,7 +31,7 @@ define(['backbone',
 			_.bindAll(this, 'addStick');
 			_.bindAll(this, 'resize');
 
-			this.model.on('change', this.render);
+			
 			 
 			this.stage = new E.Stage(this.el);
 			this.stage.enableMouseOver(30);
@@ -60,7 +61,7 @@ define(['backbone',
 		},
 
 		onMouseMove :function(e) {
-			console.log(this.indicator)
+			
 			
 		},
 
@@ -89,7 +90,7 @@ define(['backbone',
 				this.scaffold.scaleX = this.scaffold.scaleY = 0.5;
 			}
 			this.stage.canvas.width = window.innerWidth;
-       		this.stage.canvas.height = window.innerHeight-12;      
+       		this.stage.canvas.height = window.innerHeight-32;      
 			this.scaffold.x = window.innerWidth * .5;
 			this.scaffold.y = window.innerHeight - window.innerHeight / 100 * 28;
 			this.drawBG();
@@ -106,7 +107,7 @@ define(['backbone',
 
 		setFeature: function(feature) {
 			this.feature = feature;
-			console.log(this.feature)
+			
 
 			switch(feature.get('type')){
 				case 0 : 
@@ -135,17 +136,32 @@ define(['backbone',
 		},
 
 		render : function() {
+
+			console.log('======= =GameEngine:render', this.model.get('points').length);
+
+			_.each(this.objects, function(obj){
+				obj.release();
+			})
+
+			this.objects.length = 0;
+				this.model.off('points').on('add', this.addBolt);
+				this.model.off('sticks').on('add', this.addRod);
+			this.model.set('height', 0.0);
+			this.selectedPoint = null;
+
 			this.stop();
 			var that = this;
-			this.model.get('points').on('add', this.addBolt);
-			this.model.get('sticks').on('add', this.addRod);
-			this.model.get('points').each(function(point){
-				this.addBolt(point);
-			}, this);
-			this.model.get('sticks').each(function(stick){
-				this.addRod(stick);
-			}, this);
-			this.model.once('change', this.render);
+			
+				this.second =  true;
+				this.model.get('points').on('add', this.addBolt);
+				this.model.get('sticks').on('add', this.addRod);
+				this.model.get('points').each(function(point){
+					this.addBolt(point);
+				}, this);
+				this.model.get('sticks').each(function(stick){
+					this.addRod(stick);
+				}, this);
+			
 			this.start();
 			return this;
 		},
@@ -169,8 +185,8 @@ define(['backbone',
 			if(this.feature.get('type') == 0) {
 				bolt.model.set('fixed', true);
 				bolt.draw();
-				this.feature.set({amount: this.feature.get('amount')-1})
-				if(this.feature.get('amount') == 0) {
+				this.feature.set({used: this.feature.get('used')+1})
+				if(this.feature.get('amount') == this.feature.get('used')) {
 					this.trigger('feature_run_out', this.feature);
 				}	
 				return;
@@ -233,14 +249,14 @@ define(['backbone',
 			points.each(function(point) {				
 				if(point.get('y') < this.scaffoldHeight) this.scaffoldHeight = point.get('y');
 			}, this);
-			this.model.set('height', this.scaffoldHeight);
+			this.model.set('height', Math.round(0.1*this.scaffoldHeight) / -10);
 			this.selectedPoint = null;
 			delete this.bg.onPress;
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			this.removeHud();
 
-			this.feature.set({amount: this.feature.get('amount')-1})
-			if(this.feature.get('amount') == 0) {
+			this.feature.set({used: this.feature.get('used')+1})
+			if(this.feature.get('amount') == this.feature.get('used')) {
 				this.trigger('feature_run_out', this.feature);
 			}	
 		},
@@ -249,9 +265,11 @@ define(['backbone',
 			//console.log('tick')	
 			var points = this.model.get('points').models;
 			i = points.length;
+			var point;
 			while( --i > -1 ) {
-				points[i].set({y: points[i].get('y') + 1});
-				points[i].update();
+				point = points[i];
+				point.set({y: point.get('y') + 1});
+				point.update();
 			}
 			var sticks = this.model.get('sticks').models;
 			i = sticks.length;

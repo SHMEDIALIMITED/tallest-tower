@@ -14,7 +14,7 @@ define(
 			},
 
 			render: function() {
-				this.$el.empty().append(this.model.get('height'));
+				this.$el.empty().append(this.model.get('height')+ 'm');
 				return this;
 			},
 

@@ -24,6 +24,16 @@ define(
 			this.model.bind('all', this.render, this);
 		},
 
+		show: function() {
+			this.$el.addClass('show-header');
+			this.$el.removeClass('hide-header');
+		},
+
+		hide: function() {
+			this.$el.addClass('hide-header');
+			this.$el.removeClass('show-header');
+		},
+
 		render : function(route) {	
 			route = route.replace('route:', '');
 			var el = $('#' + route + '-btn');

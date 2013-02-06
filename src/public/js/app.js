@@ -115,7 +115,9 @@ define([
 			$('.container-fluid').height( window.innerHeight - 72 )
 		},
 
-		enterLobby : function() {			
+		enterLobby : function() {		
+			this.$el.find('header').addClass('show-header');	
+			this.$el.find('header').removeClass('hide-header');
 			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
 	    	this.lobbyPage.get('games').fetch(); 
 	    	this.lobbyPage.get('finds').fetch(); 
@@ -142,13 +144,14 @@ define([
 			var gameData = this.currentGame.get('data').find(function(data) {
 				return data.fbID = fbID;
 			})
-			this.$el.find('header').hide();
+			this.$el.find('header').addClass('hide-header');
+			this.$el.find('header').removeClass('show-header');
 			this.gamePage.set({game: this.currentGame, gameData: gameData})
 	    	this.render(new GamePageView({model:this.gamePage}));
 		},
 
 		enterInit : function() {
-			setTimeout(_.bind(this.router.navigate), 1000, 'lobby', true);
+			setTimeout(_.bind(this.router.navigate), 500, 'lobby', true);
 		},
 
 		render: function(view) {

@@ -74,6 +74,17 @@ define(['backbone', 'easel'], function(Backbone, E) {
 			this.container.x = this.model.get('x');
 			this.container.y = this.model.get('y');
 	       	this.container.rotation = this.model.get('rotation')
+		},
+
+		release : function() {
+			console.log('Rod::release');
+			delete this.bitmap.onPress;
+			delete this.bitmap.onMouseOut;
+			delete this.bitmap.onMouseOver;
+			this.container.removeChild(this.bitmap);
+			this.container.parent.removeChild(this.container);
+			this.bitmap = null;
+			this.container = null;
 		}
 
 	});

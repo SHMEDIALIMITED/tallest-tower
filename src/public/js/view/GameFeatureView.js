@@ -9,7 +9,7 @@ define(
 
 		tagName : 'li',
 
-		className : 'btn game-feature',
+		className : 'btn game-feature row-fluid',
 
 		events: {
 			'click' : 'onClick'
@@ -20,7 +20,7 @@ define(
 		},
 
 		initialize : function() {
-			this.listenTo(this.model, 'change:amount', this.render, this)
+			this.listenTo(this.model, 'change:used', this.render, this)
 		},
 
 		setSelected: function(val) {
@@ -33,7 +33,8 @@ define(
 		},
 
 		render: function() {
-			console.log(this.model.attributes);
+			
+			this.model.attributes.remaining = this.model.attributes.amount - this.model.attributes.used; 
 			this.$el.empty().append(_.template(template, this.model.attributes));
 			return this;
 		},

@@ -16,7 +16,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			g.beginFill('#990000');
 			g.drawCircle(0,0,10);
 			g.endFill();
-			
+				
 			this.container = new E.Container();
 
 			this.container.addChild(this.shape);
@@ -27,7 +27,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		},
 
 		draw : function(){
-			console.log('BOLT DRAW');
+			
 			var assetURL;
 			this.container.removeChild(this.bitmap);
 
@@ -70,6 +70,17 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		render : function() {
 			this.container.x = this.model.get('x');
 			this.container.y = this.model.get('y');
+		},
+
+		release : function() {
+			console.log('Bolt:release')
+			delete this.bitmap.onPress;
+			delete this.bitmap.onMouseOut;
+			delete this.bitmap.onMouseOver;
+			this.container.removeChild(this.bitmap);
+			this.container.parent.removeChild(this.container);
+			this.bitmap = null;
+			this.container = null;
 		}
 	});
 });

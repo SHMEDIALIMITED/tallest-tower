@@ -13,8 +13,13 @@
 @import "navbar";
 
 
+@mixin outline($w, $color) {
+  -webkit-text-stroke-width: $w;
+  -webkit-text-stroke-color: $color;
+}
 
-$yellow : #E2B227;
+
+$yellow : #E2B230;
 $green : #00aa00;
 
 
@@ -83,6 +88,8 @@ header {
   position: fixed;
   min-width: 100%;
   z-index: 2;
+
+
 }
 
 footer {
@@ -110,17 +117,69 @@ canvas {
   color: $yellow;
 }
 
-#game #features {
+
+.game-score {
   position: fixed;
-  width: 100px;
-  bottom: 0px;
+  right: 25px;
+  top: 30px;
+  font-size: 6em;
+  color: $yellow;
+  padding:0px 0px;
+  text-align: right;
+
+  @include outline(4px, #000);
 }
 
-#game #features .btn {
-     width: 80px; 
-  height: 90px;
+#game {
+
+  position:relative;
+  top:21px;
+}
+
+#game #features {
+  position: fixed;
+  top: 110px;
+}
+
+#game .btn-group {
+  position:absolute;
+  top:20px;
+  left: 20px;
+}
+
+#game .btn-group button.btn {
+  height: 60px;
+  width:  85px;
+}
+
+
+.game-feature {
+  position: relative;
+  height: 50px;
   text-align: left;
 }
+
+.game-feature img {
+  position: absolute;
+  top:20px;
+  width: 30px;
+  height: 30px;
+}
+
+.game-feature span.amount {
+  box-sizing: inline-block;
+  position: absolute;
+  top:10px;
+  right: 10px;
+  font-size: 24px;
+  text-align: right;
+ 
+ 
+  color: $yellow;
+  
+  @include outline(1px, #000);
+}
+
 
 #lobby {
   top: 0px;
@@ -174,11 +233,10 @@ canvas {
 
   margin: 10px;
   float: left;
-}
-
-.game-feature {
 
 }
+
+
 
 .feature-list-item label { 
   position:relative;
@@ -239,13 +297,57 @@ canvas {
 }
 
 .btn.active { 
-  background: #333;
+  background: #BBB;
 }
 
 
-.game-score {
-  
+.show-header .navbar-inner {
+  height : 60px;
+  transition-property: width;
+transition-duration: 1s;
+transition-timing-function: linear;
+transition-delay: 2s;
+}
+
+.hide-header .navbar-inner{
+  min-height : 20px;
+  height: 15px;
+  font-size: 10px;
+  inherit:font-size;
+  padding: 0px;
+  padding-top:0px;
+}
+
+.hide-header {
+
+}
+
+.hide-header .navbar-inner ul {
+  margin:  0px;
 }
 
 
+.hide-header .navbar-inner a {
+  font-size: 12px;
+  padding: 3px 20px 3px;
+  margin-left: 20px;
+}
+.hide-header .navbar-inner ul li a {
+   font-size: 12px;
+  padding: 4px 20px 0px;
+}
+
+.hide-header #me {
+  margin-top: 0px;
+  float: right;
+  font-size: 19px;
+  color: $yellow;
+}
+
+.hide-header #me img {
+  margin-top: 3px;
+  margin-right: 3px;
+  width: 14px;
+  height: 14px;
+}
 
