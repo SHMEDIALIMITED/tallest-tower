@@ -1,11 +1,13 @@
 define(
 		['backbone', 
 		'view/GameEngine',
-		'view/GameFeatureView'], 
+		'view/GameFeatureView',
+		'view/GameScoreView'], 
 	
 	function(	Backbone ,
 				GameEngine,
-				GameFeatureView) {
+				GameFeatureView,
+				GameScoreView) {
 
 	return Backbone.View.extend({
 		
@@ -22,7 +24,8 @@ define(
 		initialize: function() {
 			//this.listenTo(this.model.get('gameData').get('sticks'), 'add',this.processRemainingSticks, this);
 			this.engine = new GameEngine({model:this.model.get('gameData')});
-			this.engine.on('feature_run_out', this.selectAvailableFeature, this);			
+			this.engine.on('feature_run_out', this.selectAvailableFeature, this);	
+			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')}); 		
 			this.children = [];
 		},
 
@@ -67,7 +70,7 @@ define(
 			this.children.length = 0;
 			this.$el.empty().append(this.engine.render().el);
 			this.$el.append('<button id="wipe-btn">Wipe</button><ul id="features" class="span1"></ul>')
-			
+			this.$el.append(this.gameScoreView.render().el);
 			
 			
 			this.model.get('game').get('features').each(function(feature) {

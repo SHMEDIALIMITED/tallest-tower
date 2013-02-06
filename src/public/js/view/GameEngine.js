@@ -233,6 +233,7 @@ define(['backbone',
 			points.each(function(point) {				
 				if(point.get('y') < this.scaffoldHeight) this.scaffoldHeight = point.get('y');
 			}, this);
+			this.model.set('height', this.scaffoldHeight);
 			this.selectedPoint = null;
 			delete this.bg.onPress;
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
