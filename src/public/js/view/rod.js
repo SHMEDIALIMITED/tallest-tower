@@ -55,6 +55,7 @@ define(['backbone', 'easel'], function(Backbone, E) {
 
 			var i = Math.ceil(this.model.get('length') / 100);
 			var l = i;
+			//console.log('AssetURL', this.model);
 			this.bitmap = new E.Container();
 			var bitmap;
 			while( --i > -1 ) {

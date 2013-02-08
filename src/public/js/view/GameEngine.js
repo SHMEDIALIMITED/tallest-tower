@@ -24,7 +24,6 @@ define(['backbone',
 			this.model.get('sticks').models;
 				
 			_.bindAll(this, 'render');	
-			_.bindAll(this, 'onMouseMove');	
 			_.bindAll(this, 'addRod');	
 			_.bindAll(this, 'addBolt');	
 			_.bindAll(this, 'selectBolt');
@@ -60,10 +59,7 @@ define(['backbone',
 			$(window).resize(this.resize);	
 		},
 
-		onMouseMove :function(e) {
-			
-			
-		},
+		
 
 		addHud : function() {
 			this.indicator.model = this.selectedPoint;
@@ -102,6 +98,7 @@ define(['backbone',
 		},
 
 		stop: function() {
+			this.removeHud();
 			E.Ticker.removeListener(this);	
 		},
 
@@ -137,7 +134,9 @@ define(['backbone',
 
 		render : function() {
 
-			console.log('======= =GameEngine:render', this.model.get('points').length);
+			//console.log('======= =GameEngine:render', this.model.get('sticks'));
+			this.stop();
+			this.scaffoldHeight = 0.0;
 
 			_.each(this.objects, function(obj){
 				obj.release();
@@ -149,16 +148,18 @@ define(['backbone',
 			this.model.set('height', 0.0);
 			this.selectedPoint = null;
 
-			this.stop();
+			
 			var that = this;
 			
 				this.second =  true;
 				this.model.get('points').on('add', this.addBolt);
 				this.model.get('sticks').on('add', this.addRod);
 				this.model.get('points').each(function(point){
+					//console.log('AddPoint', point)
 					this.addBolt(point);
 				}, this);
 				this.model.get('sticks').each(function(stick){
+					//console.log('Addstick', stick)
 					this.addRod(stick);
 				}, this);
 			
@@ -328,8 +329,8 @@ define(['backbone',
 				var mouse = this.scaffold.globalToLocal(this.stage.mouseX, this.stage.mouseY);
 				var dx = mouse.x - this.selectedPoint.get('x');
 				var dy = mouse.y - this.selectedPoint.get('y');
-				var d = Math.min(Math.sqrt(dx*dx + dy*dy), this.feature.get('maxLength'));
-				this.indicator.render(mouse, d);
+				var d = Math.sqrt(dx*dx + dy*dy);
+				this.indicator.render(mouse, Math.min(d, this.feature.get('maxLength') ));
 			}
 						
 			this.stage.update();

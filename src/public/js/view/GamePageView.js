@@ -17,11 +17,18 @@ define(
 
 		events : {
 			'click #wipe-btn':  'refresh',
-			'click #wipe-btn':  'refresh'
+			'click #save-btn':  'save'
+		},
+
+		save : function( ){
+		
+			this.model.get('game').save()
 		},
 
 		refresh : function() {
-			this.model.set('gameData', new GameData());
+			//this.model.set('gameData', new GameData());
+			
+			this.model.get('gameData').resetToDefaults();
 			this.engine.model = this.model.get('gameData');
 			this.gameScoreView.model = this.model.get('gameData');
 			this.render();
@@ -35,7 +42,7 @@ define(
 			this.children = [];
 		},
 
-		selectAvailableFeature: function(feature) {
+		selectAvailableFeature: function(feature, init) {
 			_.each(this.children, function(item) {
 				if(item.model == feature) {
 					item.setSelected(false);
@@ -57,7 +64,9 @@ define(
 				return true
 			}, this);
 
-			
+			if(!init && this.engine.feature == feature) {
+				alert('Game Finished');
+			}	
 		},
 
 		processRemainingSticks: function() {
@@ -70,6 +79,9 @@ define(
 		},
 
 		render: function() {
+
+			console.log('GamePage Render', this.model.get('gameData').get('features').toJSON() )
+
 			this.engine.stop();
 			_.each(this.children, function(item) {
 				item.remove();
@@ -80,33 +92,46 @@ define(
 			this.$el.append('<ol id="features" class="span1"></ol>');
 			this.$el.append('<div class="btn-group"><button id="wipe-btn" class="btn">Wipe</button><button id="save-btn" class="btn">Save</button></div>')
 			this.$el.append(this.gameScoreView.render().el);
-			
+			console.log('GamePage Render 2', this.model.get('gameData').get('features').toJSON() )
+			if(this.model.get('gameData').get('features').length == 0) {
+				
+				var features = [];
+				this.model.get('game').get('features').each(function(feature){
+					var gameFeature = new Backbone.Model(feature.toJSON());
+					features.push(gameFeature);
+				});
+
+
+				this.model.get('gameData').set('features', new Backbone.Collection(features));;
+			} else {
+				
+			}
+
+			console.log('GamePage Render 3', this.model.get('gameData').get('features').first().toJSON() )
 			
 			if(true) {
 
 				this.first = true;
-				this.model.get('game').get('features').each(function(feature) {
+				this.model.get('gameData').get('features').each(function(feature) {
 				//console.log('Feature:' , feature)
-				feature.set('used', 0);
-				feature.set('remaining', feature.get('amount') );
-				var view = new GameFeatureView({model:feature});
-				view.on('clicked', this.itemClicked, this);
-				this.$el.find('#features').append(view.render().el);
-				this.children.push(view);
-			}, this);
+					
+					feature.set('remaining', feature.get('amount') - feature.get('used') );
+					var view = new GameFeatureView({model:feature});
+					//console.log('GameFeature', feature.toJSON())
+					view.on('clicked', this.itemClicked, this);
+					this.$el.find('#features').append(view.render().el);
+					this.children.push(view);
+				}, this);
 			}
 			//this.children.reverse();
-			
+			console.log('GamePage Render 4', this.model.get('gameData').get('features').first().toJSON() )
 			_.each(this.children, function(item) {
-					
 					item.setSelected(false);
-					item.enable();
-
-	
-				
+					if(item.model.get('remaining') > 0) item.enable();
+					else item.disable();
 			}, this);
 
-			this.selectAvailableFeature();
+			this.selectAvailableFeature(null, true);
 			return this;
 		},
 

@@ -16,7 +16,8 @@
     "fb": "0.0.9",
     "b64url": "~1.0.3",
     "mongoose": "~3.5.4",
-    "mongo-connect": "0.0.6"
+    "mongo-connect": "0.0.6",
+    "underscore": "~1.4.4"
   },
   "bugs": {
     "url": "https://github.com/SHMEDIALIMITED/tallest-tower/issues"

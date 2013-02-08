@@ -14,7 +14,8 @@ define([
 	'view/MenuView',
 	'view/AbstractView',
 	'model/FindGameCollection',
-	'SignalMap'
+	'SignalMap',
+	'view/Popup'
 	], function(Router, 
 				Backbone, 
 				GamePageView, 
@@ -30,7 +31,8 @@ define([
 				MenuView,
 				AbstractView,
 				FindGameCollection,
-				SignalMap) {
+				SignalMap,
+				Popup) {
 
 
 	return Backbone.View.extend({
@@ -42,14 +44,14 @@ define([
 		},
 		
 		login: function(e) { 
-			console.log('login');
+			
 			e.preventDefault();
 			FB.login(this.loginResponse)
 		},
 
 		loginResponse: function(response) {	
 
-			console.log('login repsonse', this.model);
+			//console.log('login repsonse', this.model);
 			this.model.set({facebook:response.authResponse});
 			this.model.save(null, {success:function(err, user) {
 
@@ -71,8 +73,20 @@ define([
 			
 			// Signals
 			SignalMap.gameSelected.add(function(vo) {
+				console.log('Game Selected Command',vo.get('data').first().get('features').toJSON())
 				this.currentGame = vo;
 				this.router.navigate('/play', true);
+			}, this);
+
+
+			SignalMap.showPopup.add(function() {	
+				this.$el.append(this.popup.render().el);
+			}, this);
+
+
+			SignalMap.popupAction.add(function(e) {
+				this.popup.remove();
+				this.login(e);
 			}, this);
 			////////////////////////////////////////////////////
 
@@ -80,9 +94,12 @@ define([
 			// Models
 				// Lobby
 				this.lobbyPage = new Backbone.Model({
-		    		games : new GameCollection(null, {parse:true}),
+		    		games : new GameCollection(),
 		    		finds : new FindGameCollection()
 		    	});
+
+				//debugger;
+		    	
 		    	// Create
 				this.createPage = new Backbone.Model({
 					features : new FeatureCollection(),
@@ -99,6 +116,9 @@ define([
 			// Permanent Views
 			this.menuView = new MenuView({model:this.router});
 			this.meView = new MeView({model:this.model});
+			this.popup = new Popup({});
+			
+
 
 			var view1 = new AbstractView();
 			view1.children.push('HEllo');
@@ -115,13 +135,19 @@ define([
 			$('.container-fluid').height( window.innerHeight - 72 )
 		},
 
-		enterLobby : function() {		
+		enterLobby : function() {	
+
+			//SignalMap.showPopup.dispatch();
+			//return 	
 			this.$el.find('header').addClass('show-header');	
 			this.$el.find('header').removeClass('hide-header');
 			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
-	    	this.lobbyPage.get('games').fetch(); 
+	    	var lobby = new Lobby({model:this.lobbyPage});
+	    	this.lobbyPage.get('games').fetch({success: _.bind(function() {
+	    		this.render(lobby);
+	    	}, this)}); 
 	    	this.lobbyPage.get('finds').fetch(); 
-			this.render(new Lobby({model:this.lobbyPage}));
+			
 		},
 
 		enterCreate : function() {
@@ -144,6 +170,10 @@ define([
 			var gameData = this.currentGame.get('data').find(function(data) {
 				return data.fbID = fbID;
 			})
+
+
+			//console.log('enter Game',gameData.get('features').first().toJSON())
+			
 			this.$el.find('header').addClass('hide-header');
 			this.$el.find('header').removeClass('show-header');
 			this.gamePage.set({game: this.currentGame, gameData: gameData})

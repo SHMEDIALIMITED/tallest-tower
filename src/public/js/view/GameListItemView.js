@@ -18,10 +18,16 @@ define(
 
 		onClick: function() {
 			
+
 			SignalMap.gameSelected.dispatch(this.model);
 		},
 
 		initialize : function() {
+			//console.log('GameListItemView', this.model.get('data').first().get('features').first().toJSON())
+			var t = this;
+			setTimeout(function() {
+				
+			},1000);
 			 _.bindAll(this, "render");
 		},
 
@@ -33,7 +39,7 @@ define(
 		render : function() {
 			var data = this.model.toJSON();
 			data.height = 1
-			
+			//debugger;
 			var t = _.template(template, data);
 			this.$el.empty().append(t);
 			return this;

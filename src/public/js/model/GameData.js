@@ -11,19 +11,27 @@ define(	['backbone',
 		return Backbone.Model.extend({
 
 
+
 			defaults : function() {
 				return {
-					points : new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]),
-					sticks : new Sticks([]),
 					height : 0
 				}
 			},
 
+
 			parse : function(response) {
 
-				console.log('GameData::parse', response);
+				
+				//console.log('GameData::parse ', response)
+				if(!this.get('sticks')) {
+					
+					this.set('sticks', new Sticks());
+				}
 
-
+				if(!this.get('points')) {
+					
+					this.set('points', new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]));
+				}
 				response.points = new Points(response.points, {parse:true})
 					
 				_.each(response.sticks, function(stick) {
@@ -42,16 +50,43 @@ define(	['backbone',
 					}
 					
 				}
-				response.sticks = new Points(response.sticks, {parse:true});
+
+								
+
+				if(!this.get('features')) {
+					
+					this.set('features', new Backbone.Collection());
+				}
+				response.features = this.get('features').reset(response.features, {parse:true});
+				
+
+				
+				response.sticks = new Sticks(response.sticks, {parse:true});
+				
+				//console.log('GameData::parsed ', response)
 
 				return response;
 			},
 
 			toJSON: function() {
 				var json = _.clone(this.attributes);
+
+				if(!this.get('sticks')) {
+					
+					this.set('sticks', new Sticks());
+				}
+
+				if(!this.get('points')) {
+					
+					this.set('points', new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]));
+				}
 				json.sticks = this.get('sticks').toJSON(); 
 				json.points = this.get('points').toJSON(); 
 				return json;
+			}, 
+
+			resetToDefaults : function() {
+				this.attributes = this.defaults();
 			}
 
 		});

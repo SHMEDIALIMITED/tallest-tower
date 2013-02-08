@@ -10,8 +10,13 @@ define(['backbone',
 
 		url: '/api/games',
 
+		idAttribute: '_id',
+		
 
 		parse : function(response) {
+
+			//console.log('Game::parse ', response);
+
 			response.data = new GameDataCollection(response.data, {parse:true});
 			response.features = new Backbone.Collection(response.features, {parse:true});
 			return response;

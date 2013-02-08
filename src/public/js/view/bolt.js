@@ -21,7 +21,6 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 
 			this.container.addChild(this.shape);
 			
-			console.log('model', this.model);
 			this.model.on('change:fixed', this.draw, this);
 			this.draw();
 		},

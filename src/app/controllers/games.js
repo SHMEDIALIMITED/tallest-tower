@@ -2,6 +2,7 @@ var Models = require('../models');
 var base64url = require('b64url');
 var querystring = require('querystring');
 var https = require('https');
+var _ = require('underscore');
 
 module.exports = function(config) {
 
@@ -178,7 +179,39 @@ module.exports = function(config) {
 	}
 
 	api.update = function(req, res) {
+       
 
+        Game.findOne({_id: req.body._id}, function(err, p) {
+          if (!p)
+            return next(new Error('Could not load Document'));
+          else {
+            // do your updates here
+            p.modified = new Date();
+
+            p.data = req.body.data;
+
+            console.log(p);
+
+            _.each(p.data, function(d) {
+                console.log(d)
+            });
+
+            p.save(function(err) {
+                  if (err)
+                    console.log('error')
+                  else {
+                   
+                    res.send(p)
+                  }
+
+                   
+                }); 
+
+           
+
+           
+          }
+        });
 	}
 
 	api.del = function(req, res){

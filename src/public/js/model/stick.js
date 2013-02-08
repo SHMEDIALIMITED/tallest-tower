@@ -22,7 +22,7 @@ define(['backbone'], function(Backbone) {
       		var dy = this.get('a').get('y') - this.get('b').get('y');
 			this.set('length', Math.sqrt(dx * dx + dy * dy));
 
-			console.log(this.get('length'))
+			//console.log(this.get('length'))
 		},
 
 		update : function() {

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var Point = new Schema({
 	x : {type: Number},
 	y : {type: Number},
+	type : {type: Number},
 	fixed : {type: Boolean}
 });
 
@@ -12,6 +13,7 @@ var Stick = new Schema({
 	b : {type: Schema.Types.Mixed	},
 	rotation : { type:Number },
 	length : { type:Number },
+	type : {type: Number},
 	x : { type:Number },
 	y : { type:Number }
 });
@@ -27,6 +29,7 @@ var GameData = new Schema({
 	fbID: { type: Number }, 
     points: [Point],  
     sticks : [Stick],
+    features : [GameFeature],
     height: { type : Number},
     modified: { type: Date,  default: Date.now }
 });
@@ -42,7 +45,8 @@ var GameFeature = new Schema({
 	image : {type: String },
 	name : {type: String},
 	type : { type: Number },
-	amount : {type: Number, default: 0}
+	amount : {type: Number, default: 0},
+	used : {type:Number, default:0}
 });
 
 var Game = new Schema({

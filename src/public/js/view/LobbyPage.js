@@ -11,16 +11,20 @@
 		id: 'lobby',
 
 		initialize : function() {
+
+
 			this.gameListView = new GameListView({collection: this.model.get('games')});
 			this.findGameListView = new GameListView({collection: this.model.get('finds')});
 		},
 		
 		render : function() {
+			
+
 			var t = _.template(template);
 			this.$el.empty().append(t);
 			this.$el.find('.span7').append(this.gameListView.el);
 			this.$el.find('.span5').append(this.findGameListView.el);
-
+			return this;
 		},
 
 		release: function() {

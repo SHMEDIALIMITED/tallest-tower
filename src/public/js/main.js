@@ -48,7 +48,7 @@ require([
 		var app; 
 		var user = new User();
 	   
-	   	console.log('HERE')
+	   
 		
 	    FB.getLoginStatus(function (response) {
 	    	
@@ -56,11 +56,11 @@ require([
 	    		// USER AUTHORIZED
 	    		
 	    		user.fetch({success: function(model, res, options) {
-	    			console.log('USER fETCHED: ' , user);
+	    			//console.log('USER fETCHED: ' , user);
 	    			user.set({facebook:response.authResponse});
 					app = new App({model:user});
 				}, error:function() {
-					console.log('error')
+					//console.log('error')
 				}});
 	    		
 	    	} else {

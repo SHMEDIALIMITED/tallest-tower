@@ -31,7 +31,7 @@ define(['backbone',
 			
 			this.collection.each(function(item){
 
-
+				
 				itemView = new GameListItemView({model:item});
 				this.$el.append(itemView.render().el);
 			}, this); 
