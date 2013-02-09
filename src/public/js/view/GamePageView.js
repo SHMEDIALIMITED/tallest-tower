@@ -3,13 +3,15 @@ define(
 		'view/GameEngine',
 		'view/GameFeatureView',
 		'view/GameScoreView',
-		'model/GameData'], 
+		'model/GameData',
+		'SignalMap'], 
 	
 	function(	Backbone ,
 				GameEngine,
 				GameFeatureView,
 				GameScoreView,
-				GameData) {
+				GameData,
+				SignalMap) {
 
 	return Backbone.View.extend({
 		
@@ -21,8 +23,8 @@ define(
 		},
 
 		save : function( ){
-		
-			this.model.get('game').save()
+			console.log('SAVE: ', this.model.get('game').get('data'));
+			SignalMap.saveGame.dispatch(this.model.get('game'))
 		},
 
 		refresh : function() {
@@ -80,7 +82,7 @@ define(
 
 		render: function() {
 
-			console.log('GamePage Render', this.model.get('gameData').get('features').toJSON() )
+			//console.log('GamePage Render', this.model.get('gameData').get('features').toJSON() )
 
 			this.engine.stop();
 			_.each(this.children, function(item) {
@@ -92,7 +94,9 @@ define(
 			this.$el.append('<ol id="features" class="span1"></ol>');
 			this.$el.append('<div class="btn-group"><button id="wipe-btn" class="btn">Wipe</button><button id="save-btn" class="btn">Save</button></div>')
 			this.$el.append(this.gameScoreView.render().el);
-			console.log('GamePage Render 2', this.model.get('gameData').get('features').toJSON() )
+			console.log('GamePage Render 2', this.model.get('game').toJSON())
+			this.$el.append('<div style="position:absolute; z-index:100; top:0px;"><img src="http://graph.facebook.com/' + this.model.get('game').get('fbID') + '/picture?width=30&height=30" /></div>');
+			
 			if(this.model.get('gameData').get('features').length == 0) {
 				
 				var features = [];
@@ -107,7 +111,7 @@ define(
 				
 			}
 
-			console.log('GamePage Render 3', this.model.get('gameData').get('features').first().toJSON() )
+			console.log('GamePage Render 3', this.model.get('gameData').get('features').toJSON() )
 			
 			if(true) {
 
@@ -124,7 +128,7 @@ define(
 				}, this);
 			}
 			//this.children.reverse();
-			console.log('GamePage Render 4', this.model.get('gameData').get('features').first().toJSON() )
+			//console.log('GamePage Render 4', this.model.get('gameData').get('features').first().toJSON() )
 			_.each(this.children, function(item) {
 					item.setSelected(false);
 					if(item.model.get('remaining') > 0) item.enable();

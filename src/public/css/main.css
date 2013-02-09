@@ -2895,3 +2895,16 @@ canvas {
 
 .popup h2 {
   margin-top: 0px; }
+
+header .login-btn {
+  position: relative;
+  top: -3px; }
+
+i.icon-facebook {
+  background: url("../img/f_logo.png");
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  right: 5px; }

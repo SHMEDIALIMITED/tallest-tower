@@ -31,6 +31,9 @@ module.exports = function(config) {
                         buffer += chunk
                       });
                       response.on('end', function() {
+
+
+
                         var friends = JSON.parse(buffer).data;
                         if(!friends) {
                             return res.send([]);
@@ -40,12 +43,22 @@ module.exports = function(config) {
                             friendsIDs.push(friend.id);
                         });
                         User.find({'fbID': { $in: friendsIDs }}, function(err, users) {
-                            users.forEach(function(user) {
-                                Game.find({'_id': {$in: user.games}}, function(err,games){
-                                    console.log('RETURNING:',games);
-                                    res.send(games); 
+                            if(users.length == 0) {
+                                var q = Game.find();
+                                q.limit(7);
+                               // q.where('_id').ne('4ecf92f31993a52c58e07f6a')
+                                q.exec(function(err, games) {
+                                    res.send(games)
+                                });
+                            }else {
+                                users.forEach(function(user) {
+                                    Game.find({'_id': {$in: user.games}}, function(err,games){
+                                        console.log('RETURNING:',games);
+                                        res.send(games); 
+                                    }); 
                                 }); 
-                            });
+                            }
+                            
                         });
 
                       });
@@ -66,17 +79,30 @@ module.exports = function(config) {
             }
             
         }else {
-            Game.findOne( 'first', function(err, game) {
-                console.log(game)
-                res.send(game);
-            })
+            if(req.query.find == 'true') {
+               Game.find(function(err, games) {
+                    res.send(games);
+               });
+            }else {
+                Game.findOne( 'first', function(err, game) {
+                    res.send(game);
+                });
+            }
+           
         }  
     }
 
 	api.create = function(req, res) {
         var data = req.body;
+        console.log(req.userID);
+      
+        User.findOne({fbID: req.userID}, function(err, user) {
 
-        Feature.find( {'_id': { $in: data.features} }, function(err, features) {
+            console.log('here', err, user);
+
+            if(!user) return res.send('auth_error');
+            user =null;
+             Feature.find( {'_id': { $in: data.features} }, function(err, features) {
             
            
            
@@ -161,7 +187,7 @@ module.exports = function(config) {
                 if(user.cash >= total) {
                     user.games.push(game._id);
                     
-                    game.data[0].fbID = req.userID;
+                    game.fbID = game.data[0].fbID = req.userID;
                         game.save(function(err, model){
                             user.save(function(err, user) {
                                 console.log(game)
@@ -176,10 +202,16 @@ module.exports = function(config) {
                 }
             }); 
         });
+        })
+
+       
 	}
 
 	api.update = function(req, res) {
        
+       if(!req.userID) {
+        return res.send('auth_error');
+       }
 
         Game.findOne({_id: req.body._id}, function(err, p) {
           if (!p)

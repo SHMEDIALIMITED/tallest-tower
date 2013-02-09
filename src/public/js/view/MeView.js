@@ -10,12 +10,10 @@ define(
 
 		el: '#me',
 
-		events :{
-			'click' : 'onClick'
-		},
+		
 
 		onClick: function() {
-			this.model.set({cash:50});
+			//this.model.set({cash:50});
 		},
 
 		initialize : function(options) {

@@ -14,7 +14,8 @@ define(	['backbone',
 
 			defaults : function() {
 				return {
-					height : 0
+					height : 0,
+					features : new Backbone.Collection()
 				}
 			},
 

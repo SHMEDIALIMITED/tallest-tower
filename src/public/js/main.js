@@ -40,30 +40,32 @@ require([
 
 		FB.init({
 	      appId      : '490996157610487', // App ID
-	      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+	      channelUrl : 'http://localhost:3000/channel.html', // Channel File
 	      status     : true, // check login status
 	      cookie     : true, // enable cookies to allow the server to access the session
 	    });
 
 		var app; 
 		var user = new User();
-	   
+	   	
+
 	   
 		
 	    FB.getLoginStatus(function (response) {
-	    	
+	    	console.log(response.status)
 	    	if(response.status == 'connected') {
-	    		// USER AUTHORIZED
+	    		console.log('USER AUTHORIZED');
 	    		
 	    		user.fetch({success: function(model, res, options) {
-	    			//console.log('USER fETCHED: ' , user);
-	    			user.set({facebook:response.authResponse});
-					app = new App({model:user});
+	    			FB.api('/me', function(me) {
+	    				user.set({facebook:me});
+	    				app = new App({model:user});
+	    			});
 				}, error:function() {
 					//console.log('error')
 				}});
 	    		
-	    	} else {
+	    	} else  {
 	    		// USER NOT LOGGED IN
 	    		app = new App({model:user});
 	    	} 

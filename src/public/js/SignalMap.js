@@ -6,7 +6,8 @@ define(
 			return {
 				gameSelected : new Signal(),
 				showPopup : new Signal(),
-				popupAction : new Signal()
+				popupAction : new Signal(),
+				saveGame: new Signal()
 			} 
 	
 });

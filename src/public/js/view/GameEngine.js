@@ -134,7 +134,7 @@ define(['backbone',
 
 		render : function() {
 
-			//console.log('======= =GameEngine:render', this.model.get('sticks'));
+			console.log('======= =GameEngine:render', this.model.toJSON());
 			this.stop();
 			this.scaffoldHeight = 0.0;
 

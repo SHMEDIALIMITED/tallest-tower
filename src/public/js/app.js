@@ -40,22 +40,33 @@ define([
 		el : '#app',
 
 		events : {
-			'click #facebook-btn'	: 'login'
+			'click .login-btn'	: 'login',
+			'click #logout-btn'	: 'logout'
 		},
 		
 		login: function(e) { 
-			
+			console.log('doLogin')
 			e.preventDefault();
 			FB.login(this.loginResponse)
 		},
 
+		logout: function(e){
+			console.log('logout');
+			FB.logout();
+		},
+
 		loginResponse: function(response) {	
+			console.log(response)
+			var that = this;
+			FB.api('/me', function(me) {
+				console.log('Me', me);
+				that.model.set({facebook:me});
 
-			//console.log('login repsonse', this.model);
-			this.model.set({facebook:response.authResponse});
-			this.model.save(null, {success:function(err, user) {
-
-			}});
+				that.model.save({success:function(err, user) {
+					console.log('User saved', user);
+					
+				}});
+			});
 		},
 
 
@@ -86,8 +97,16 @@ define([
 
 			SignalMap.popupAction.add(function(e) {
 				this.popup.remove();
-				this.login(e);
+				FB.login(this.loginResponse)
 			}, this);
+
+			SignalMap.saveGame.add(function(game) {
+				game.save({}, {success: function(err, game) {
+					console.log('GAME SAVED: ', game);
+				}, error: function(model, xhr, options){
+					SignalMap.showPopup.dispatch();
+				}});
+			});
 			////////////////////////////////////////////////////
 
 
@@ -167,12 +186,21 @@ define([
 		enterGame: function() {	
 			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
 			var fbID = this.model.get('fbID');
+			console.log(this.currentGame.get('data'));
+			console.log(fbID);
 			var gameData = this.currentGame.get('data').find(function(data) {
-				return data.fbID = fbID;
+				console.log('Data', data)
+				return data.get('fbID') == fbID;
 			})
 
+			if(!gameData) {
+				gameData = new GameData({fbID: fbID});
+				this.currentGame.get('data').add(gameData);
+				this.model.get('games').add(fbID);
+			}
+			console.log('enter Game',gameData.toJSON())
 
-			//console.log('enter Game',gameData.get('features').first().toJSON())
+
 			
 			this.$el.find('header').addClass('hide-header');
 			this.$el.find('header').removeClass('show-header');

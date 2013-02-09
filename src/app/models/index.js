@@ -50,6 +50,7 @@ var GameFeature = new Schema({
 });
 
 var Game = new Schema({
+	fbID : { type:Number },
 	value : {type: Number},
 	data: [GameData],
 	features: [GameFeature],

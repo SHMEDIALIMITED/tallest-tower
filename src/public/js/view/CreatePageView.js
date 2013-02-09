@@ -3,12 +3,14 @@ define(
 	['backbone',  
 	'text!templates/create.html',
 	'view/FeatureListView',
-	'model/GameData'], 
+	'model/GameData',
+	'SignalMap'], 
 
 	function(Backbone,
 			 template, 
 			 FeatureListView, 
-			 GameData) {
+			 GameData,
+			 SignalMap) {
 	
 	return Backbone.View.extend({
 
@@ -40,10 +42,8 @@ define(
 				features: this.featureList.getData(),
 				data: new Backbone.Collection([new GameData()])
 			});
-			console.log('onGAM', game)
-			game.save(null, {success: function(err, game) {
-				console.log('GAME SAVED: ', game);
-			}});
+			
+			SignalMap.saveGame.dispatch(game);
 		},
 
 		release : function() {
