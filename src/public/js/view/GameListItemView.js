@@ -38,8 +38,15 @@ define(
 
 		render : function() {
 			var data = this.model.toJSON();
-			data.height = 1
-			//debugger;
+			
+			data.highest = 	this.model.get('data').max( function(d){ 
+				return d.get('height'); 
+			});
+			data.highest = data.highest.get('height')
+			console.log(data)
+			data.user = this.model.get('fbID');
+			data.features = data.features.toJSON()
+
 			var t = _.template(template, data);
 			this.$el.empty().append(t);
 			return this;

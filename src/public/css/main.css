@@ -2768,13 +2768,63 @@ canvas {
   margin: 0px;
   margin-left: 20px;
   position: relative;
-  text-align: center;
+  text-align: left;
   padding-top: 12px;
-  padding-left: 13px; }
+  padding-left: 13px;
+  font-size: 1.6em;
+  top: -5px;
+  text-transform: uppercase; }
+
+.game-list-item {
+  margin-bottom: 15px; }
+
+.game-list .features li {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  margin-right: 5px;
+  float: left;
+  border: 1px dotted #777;
+  border-radius: 3px;
+  top: 1px; }
+
+.game-list .features li img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 3px;
+  top: 2px; }
+
+.game-list .features li span {
+  position: absolute;
+  width: 25px;
+  left: 5px;
+  top: 15px;
+  text-align: right; }
+
+.game-list-item div.owner img {
+  margin-top: 5px;
+  margin-left: 6px;
+  width: 30px;
+  height: 30px; }
 
 .game-list-item.btn {
-  height: 50px;
+  height: 40px;
   padding: 0px; }
+
+.game-list-item ol.players li span {
+  position: absolute;
+  top: 30px;
+  width: 40px;
+  left: 0px;
+  background: #222;
+  color: #fff;
+  font-size: .7em;
+  font-family: Arial; }
+
+.game-list-item ol.players li {
+  position: relative;
+  margin-right: 5px; }
 
 #create .btn-group {
   margin-bottom: 25px; }

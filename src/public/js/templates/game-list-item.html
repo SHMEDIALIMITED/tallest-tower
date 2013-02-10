@@ -1,11 +1,17 @@
-				
-					<h3 class="span4"><%=height%></h3>
-					<p><%=_id%></p>
-					<ol class="span6">
+					
+					<div class="span1 owner">
+						<img src="http://graph.facebook.com/<%=fbID%>/picture?width=30&height=30" />
+					</div>
+					
+					<h3 class="span4"><%=name%></h3>
+					
+					<ol class="span3 players">
 						
 					<% _.each(data, function(gameData){ %>
 						<li>
-							<img src="http://graph.facebook.com/<%=gameData.fbID%>/picture?width=30&height=30" />
+							
+							<img src="http://graph.facebook.com/<%=gameData.fbID%>/picture?width=35&height=35" />
+							<span><%=gameData.height%>m</span>
 						</li>
 					<% }); %>
 						
@@ -13,7 +19,17 @@
 						
 						
 					</ol>
-					<div class="span2">
+
+					<ul class="span4 features">
+						<% _.each(features, function(feature){ %>
+							<li>
+								
+								<img src="<%=feature.image%>" />
+								<span><%=feature.amount%></span>
+							</li>
+						<% }); %>
 						
-					<div>
+
+					</ul>
+					
 				

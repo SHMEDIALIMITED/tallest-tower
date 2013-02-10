@@ -1,4 +1,5 @@
-define([ 
+	
+	define([ 
 	'router',
 	'backbone',
 	'view/GamePageView',
@@ -69,6 +70,7 @@ define([
 			});
 		},
 
+		
 
 		initialize: function() {
 			_.bindAll(this);
@@ -101,12 +103,15 @@ define([
 			}, this);
 
 			SignalMap.saveGame.add(function(game) {
+				this.model.save();
 				game.save({}, {success: function(err, game) {
-					console.log('GAME SAVED: ', game);
-				}, error: function(model, xhr, options){
-					SignalMap.showPopup.dispatch();
-				}});
-			});
+							console.log('GAME SAVED: ', game);
+						}, error: function(model, xhr, options){
+							SignalMap.showPopup.dispatch();
+						}});
+				
+			
+			}, this);
 			////////////////////////////////////////////////////
 
 
@@ -162,11 +167,10 @@ define([
 			this.$el.find('header').removeClass('hide-header');
 			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
 	    	var lobby = new Lobby({model:this.lobbyPage});
-	    	this.lobbyPage.get('games').fetch({success: _.bind(function() {
-	    		this.render(lobby);
-	    	}, this)}); 
-	    	this.lobbyPage.get('finds').fetch(); 
-			
+	    	this.lobbyPage.get('games').fetch();
+	    	this.lobbyPage.get('finds').fetch();
+	    	this.render(lobby);
+	    	
 		},
 
 		enterCreate : function() {
@@ -196,7 +200,8 @@ define([
 			if(!gameData) {
 				gameData = new GameData({fbID: fbID});
 				this.currentGame.get('data').add(gameData);
-				this.model.get('games').add(fbID);
+				console.log(this.model)
+				this.model.get('games').push(fbID);
 			}
 			console.log('enter Game',gameData.toJSON())
 

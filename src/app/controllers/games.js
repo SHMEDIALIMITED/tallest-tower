@@ -2,6 +2,7 @@ var Models = require('../models');
 var base64url = require('b64url');
 var querystring = require('querystring');
 var https = require('https');
+var http = require('http');
 var _ = require('underscore');
 
 module.exports = function(config) {
@@ -35,37 +36,67 @@ module.exports = function(config) {
 
 
                         var friends = JSON.parse(buffer).data;
-                        if(!friends) {
-                            return res.send([]);
-                        }
-                        var friendsIDs = [];
-                        friends.forEach(function(friend) {
-                            friendsIDs.push(friend.id);
-                        });
-                        User.find({'fbID': { $in: friendsIDs }}, function(err, users) {
-                            if(users.length == 0) {
-                                var q = Game.find();
-                                q.limit(7);
-                               // q.where('_id').ne('4ecf92f31993a52c58e07f6a')
-                                q.exec(function(err, games) {
-                                    res.send(games)
+
+    
+                        
+                        var nonRelatedGames = [];
+                        var related; 
+                        var sent = false;   
+                        if(!friends ||
+                         friends.length == 0) {
+
+                              Game.find(function(err, games) {
+                                games.forEach(function(game) {
+                                    related = false;
+                                    game.data.forEach(function(data) {
+                                        if(data.fbID == req.userID) related = true; 
+                                    })
+                                    if(!related) nonRelatedGames.push(game);
+                                    console.log('loop');
                                 });
-                            }else {
-                                users.forEach(function(user) {
-                                    Game.find({'_id': {$in: user.games}}, function(err,games){
-                                        console.log('RETURNING:',games);
-                                        res.send(games); 
-                                    }); 
-                                }); 
-                            }
+                                console.log('res1');
+                                res.send(nonRelatedGames);
+                              });   
                             
-                        });
+                        }else {
+                            var friendsIDs = [];
+                            _.each(friends, function(friend) {
+                                friendsIDs.push(friend.id);
+                            });
+                            User.find({'fbID': { $in: friendsIDs }}, function(err, users) {
+
+                                if(users.length == 0) {
+                                    Game.find(function(err, games) {
+                                        games.forEach(function(game) {
+                                            related = false;
+                                            game.data.forEach(function(data) {
+                                                if(data.fbID == req.userID) related = true;
+                                                console.log('loop2'); 
+                                            })
+                                            if(!related) nonRelatedGames.push(game);
+                                        });
+                                        console.log('res2');
+                                        res.send(games);
+                                    }); 
+                                }else {
+                                    users.forEach(function(user) {
+                                        Game.find({'_id': {$in: user.games}}, function(err,games){
+                                            console.log('RETURNING:',games);
+                                            res.send(games); 
+                                        }); 
+                                    }); 
+                                }
+                                
+                            });
+                        }
+                        
 
                       });
                     }); 
                 });
 
             } else {
+                console.log('My Games');
                 User.findOne({fbID: req.userID}, function(err, user) {
                     if(user)
                        Game.find({'_id' : { $in: user.games }}, function(err, games) {
@@ -182,22 +213,45 @@ module.exports = function(config) {
             var game = new Game(data);
 
             game.value = total;
-        
+            
             User.findOne({fbID: req.userID}, function(err, user) {                         
                 if(user.cash >= total) {
                     user.games.push(game._id);
                     
-                    game.fbID = game.data[0].fbID = req.userID;
-                        game.save(function(err, model){
-                            user.save(function(err, user) {
-                                console.log(game)
-                              res.send(game);     
-                            });
-                        });
+                    var authURL = 'http://api.wordnik.com//v4/words.json/randomWord';
+                    authURL += '?hasDictionaryDef=true';
+                    authURL += '&minLength=3';
+                    authURL += '&maxLength=7';
+                    authURL += '&includePartOfSpeech=noun';
+                    authURL += '&api_key=b2d9add059b15b5b8800c01235f0597462ca01800619b5db6';
                     
+                   
+                    http.get(authURL, function (response) {
+                        var buffer = '';
+                          response.on('data', function(chunk) {
+                            buffer += chunk
+                          });
+                          response.on('end', function() {
+
+                        
+                            var word = JSON.parse(buffer);
+                            console.log(word);
+                             game.fbID = game.data[0].fbID = req.userID;
+                             game.name = word.word;
+                            game.save(function(err, model){
+                                user.save(function(err, user) {
+                                    console.log(game)
+                                  res.send(game);     
+                                });
+                            });
+                        })
+
+                       
+                    });
                     
                 }else {
                     console.log('HAck');
+                    res.send('hack_error');
                     // SOME ONE is trying to hack
                 }
             }); 
