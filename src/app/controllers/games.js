@@ -221,7 +221,7 @@ module.exports = function(config) {
                     var authURL = 'http://api.wordnik.com//v4/words.json/randomWord';
                     authURL += '?hasDictionaryDef=true';
                     authURL += '&minLength=3';
-                    authURL += '&maxLength=7';
+                    authURL += '&maxLength=8';
                     authURL += '&includePartOfSpeech=noun';
                     authURL += '&api_key=b2d9add059b15b5b8800c01235f0597462ca01800619b5db6';
                     

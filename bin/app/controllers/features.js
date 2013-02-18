@@ -23,7 +23,7 @@ module.exports = function(config) {
         
         var feature = new Feature({
             price: req.query.price,
-            image : 'img/rod_long.png',
+            image : req.query.url,
             type : req.query.type,
             factor : req.query.factor 
         });

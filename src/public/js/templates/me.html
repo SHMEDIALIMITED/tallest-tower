@@ -1,8 +1,11 @@
 <%	
 if(loggedIn) { %>
-	<span><%=facebook.first_name%></span>
-	<span><sub>$</sub><%=cash%></span>
-	<img src="http://graph.facebook.com/<%=facebook.id%>/picture?width=30&height=30" />
+	<img src="http://graph.facebook.com/<%=facebook.id%>/picture?width=40&height=40" />
+	<div>
+		<span class="user-name"><a id="logout-btn" >logout, </a> <%=facebook.first_name%></span>
+		<span class="price"><%=cash%></span>
+	</div>
+
 
 	
 <% } else { %>

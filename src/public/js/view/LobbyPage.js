@@ -22,8 +22,8 @@
 
 			var t = _.template(template);
 			this.$el.empty().append(t);
-			this.$el.find('.span7').append(this.gameListView.el);
-			this.$el.find('.span5').append(this.findGameListView.el);
+			this.$el.find('.my').append(this.gameListView.el);
+			this.$el.find('.find').append(this.findGameListView.el);
 			return this;
 		},
 

@@ -52,8 +52,14 @@
 		},
 
 		logout: function(e){
-			console.log('logout');
-			FB.logout();
+		
+			FB.logout(function(response) {
+				this.model.unset('facebook')
+				$.cookie('fbsr_490996157610487', null);	
+				this.enterLobby();
+			});
+			
+			//this.router.navigate('/lobby', true);
 		},
 
 		loginResponse: function(response) {	

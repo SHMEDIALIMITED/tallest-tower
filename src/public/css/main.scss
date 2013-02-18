@@ -33,7 +33,7 @@ body {
   font-family: "Wendy One", Helvetica, Arial, sans-serif;
   font-size: 62.5%;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #2F2F4F;
 }
 
 .navbar .brand {
@@ -54,6 +54,7 @@ h1 {
 
 h2 {
 	font-size: 4.3em;
+  color: #fff;
   margin: .5em 0;
 }
 
@@ -110,11 +111,56 @@ canvas {
   font-size: 3em;
 }
 
+.navbar-inner {
+  padding-left:10px; padding-right:10px;
+}
+
+#menu {
+  @media screen and (max-width: 500px) {
+    display: block;
+    width: 100%;
+    font-size: 2em;
+
+  }
+}
+
+
+
+
+.price {
+  padding-left: 24px;
+  background : url('../img/money.png') no-repeat 0px 7px;
+}
+
 #me {
-  margin-top:13px;
-  float: right;
+  position: fixed;
+  right:10px;
+  top: 10px;
   font-size: 3em;
   color: $yellow;
+}
+
+#me span.price {
+  text-align: right;
+  float: right;
+  margin-right: 5px;
+}
+
+#me div span.user-name {
+  display: block;
+  font-size: 0.5em;
+  text-align: right;
+  margin-right: 5px;
+}
+
+
+
+#me div {
+  float: right;
+} 
+
+#me img {
+  float: right;
 }
 
 
@@ -129,6 +175,9 @@ canvas {
 
   @include outline(4px, #000);
 }
+
+
+
 
 #game {
 
@@ -182,10 +231,17 @@ canvas {
 
 
 #lobby {
-  top: 0px;
-  left: 0px;
+  
+  margin-top: 60px;
+
   min-width: 100%;
   min-height: 100%;
+
+   @media screen and (max-width: 500px) {
+    
+     margin-top: 100px;
+  }
+
 }
 
 .navbar-bottom {
@@ -200,64 +256,102 @@ canvas {
  
 }
 
+#lobby div.span6 {
+  @media screen and (max-width: 500px) {
+     width: 100%;
+  }
+}
+
 .game-list {
   padding: 5px 0px;
 }
 
-.game-list h3 {
-    margin:  0px;
-  margin-left: 20px;
-  position:relative;
-  text-align: left;
-  padding-top:12px;
-  padding-left:13px;
-  font-size: 1.6em;
-  top:-5px;
-  text-transform:uppercase;
-}
+
 .game-list-item {
   margin-bottom: 15px;
+  
+}
+.game-list-item.btn {
+  padding: 0px;
+  padding-bottom: 7px;
 }
 
-.game-list .features li {
-  width: 35px;
-  height: 35px;
-  position: relative;
-  margin-right: 5px;
+
+.game-list-item div.owner {
+  width: 50px;
+  height: 50px;
   float: left;
-  border: 1px dotted #777;
-  border-radius: 3px;
-  top:1px;
-}
+  margin-left:10px; 
+  display: none; 
+  @media screen and (min-width: 1200px) {
+     display: block;
+  }
 
-.game-list .features li img {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 3px;
-  top:  2px;
-}
-.game-list .features li span {
-  
-  
-  position: absolute;
-  
-  width: 25px;
-  left: 5px;
-  top:  15px;
-  text-align: right;
 }
 
 .game-list-item div.owner img {
-  margin-top: 5px;
-  margin-left: 6px;
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
 }
-.game-list-item.btn {
-  height: 40px;
-  padding: 0px;
+
+.game-list-item h3 {
+    
+    text-align: left;
+    font-size: 2em;
+    text-transform:uppercase;
+    margin: 0px;
 }
+
+.game-list-item div.info {
+  float: left;
+  margin-left: 10px;
+}
+
+
+.game-list-item div.span7 {
+  margin-top: 10px;
+}
+
+.game-list .features {
+  float: left;
+  margin-top: 6px;
+}
+
+.game-list .features li {
+  width: 23px;
+  height: 23px;
+  position: relative;
+  float: left;
+  border: 1px dotted #777;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.game-list .features li img {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 0px;
+  top:  0px;
+}
+.game-list .features li span {
+  
+  position: absolute;
+  font-size: 0.5em;
+  left: 0px;
+  width: 18px;
+  top:  0px;
+
+  text-align: right;
+}
+
+
+
+.game-list-item ol.players {
+  background:#fff;
+  margin: 10px;
+}
+
 
 .game-list-item ol.players li span {
     position: absolute;
@@ -270,9 +364,13 @@ canvas {
     font-family: Arial;
 }
 
-.game-list-item ol.players li {
+#lobby .game-list-item ol.players li {
   position: relative;
-  margin-right: 5px
+  float: right;
+  margin-left: 5px;
+  margin-bottom: 3px;
+  width: 40px;
+  height: 50px;
 }
 
 #create .btn-group {
@@ -359,7 +457,7 @@ canvas {
 
 
 .show-header .navbar-inner {
-  height : 60px;
+  
   transition-property: width;
 transition-duration: 1s;
 transition-timing-function: linear;
@@ -445,3 +543,6 @@ i.icon-facebook {
   top:3px;
   right: 5px;
 }
+
+
+ 

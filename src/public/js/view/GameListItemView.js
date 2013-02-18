@@ -10,7 +10,7 @@ define(
 		tagName: 'li',
 
 
-		className: 'game-list-item row-fluid btn',
+		className: 'game-list-item row-fluid btn clearfix',
 
 		events : {
 			'click' : 'onClick'

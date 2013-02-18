@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: SignalBinding</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Class: SignalBinding</h1>
+    
+    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    SignalBinding
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+<dt>
+    <h4 class="name" id="SignalBinding"><span class="type-signature"></span>new SignalBinding<span class="signature">(signal, listener, isOnce, <span class="optional">listenerContext</span>, <span class="optional">priority</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Object that represents a binding between a Signal and a listener function.
+<br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
+<br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>signal</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Signal.html">Signal</a></span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Reference to Signal object that listener is currently bound to.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>listener</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Function</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Handler function bound to the signal.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>isOnce</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">If binding should be executed just once.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>listenerContext</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Context on which listener will be executed (object that should represent the `this` variable inside listener function).</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">The priority level of the event listener. (default = 0).</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	<dt class="tag-author">Author:</dt>
+	<dd class="tag-author">
+        <ul>
+            <li>Miller Medeiros</li>
+        </ul>
+	</dd>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>signals.js, line 16</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="context"><span class="type-signature"></span>context<span class="type-signature"> :Object|undefined|null</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>signals.js, line 46</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Signal.html">Signal</a></li><li><a href="SignalBinding.html">SignalBinding</a></li></ul><h3>Namespaces</h3><ul><li><a href="signals.html">signals</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3</a> on Sun Feb 10 2013 16:08:36 GMT-0000 (GMT)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

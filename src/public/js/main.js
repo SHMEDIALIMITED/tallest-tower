@@ -37,7 +37,7 @@ require([
 ], function(App, $, FB, User) {
 
 	$(function(){
-
+		
 		FB.init({
 	      appId      : '490996157610487', // App ID
 	      channelUrl : 'http://localhost:3000/channel.html', // Channel File
