@@ -6,7 +6,8 @@ require.config({
 		'underscore': 'libs/underscore-min',
 		'easel' : 'libs/easeljs-0.5.0.min',
 		'facebook' : '//connect.facebook.net/en_US/all',
-		'signal' : 'libs/signals.min'
+		'signal' : 'libs/signals.min',
+		'preload' : 'http://code.createjs.com/preloadjs-0.3.0.min'
 	},
  
 	shim: {
@@ -25,7 +26,12 @@ require.config({
         },
         'signal' : {
         	exports : 'Signal'
-        } 
+        },
+
+        'preload': {
+            exports: 'createjs.PreloadJS',
+            deps : ['easel']
+        }
 	}
 });
  
@@ -33,8 +39,46 @@ require([
 	'App', 
 	'jquery',	
 	'facebook',
-	'model/User'
-], function(App, $, FB, User) {
+	'model/User',
+	'view/Popup',
+	'SignalMap'
+], function(App, $, FB, User, Preloader, SignalMap) {
+
+	var user = new User();
+	FB.loginResponse = function(response) {	
+		if(!response.authResponse) {
+			SignalMap.popupAction.dispatch();
+			return;
+		}
+		var that = this;
+
+		
+
+		FB.api('/me', function(me) {
+			
+
+			user.set({facebook:me});
+			
+			user.fetch({success:function(err, model) {
+				if(!model) {
+					user.save({},{success:function(err, model) {
+						console.log('User saved', user);
+						SignalMap.popupAction.dispatch();
+					}, error : function() {
+						console.log('USER SAVE ERROR')
+					}});
+					return;
+				}
+				SignalMap.popupAction.dispatch();
+			}, error : function() {
+				console.log('USER SAVE ERROR')
+			}});
+
+
+			// console.log('HERE------', that.model)
+			
+		});
+	}
 
 	$(function(){
 		
@@ -46,10 +90,9 @@ require([
 	    });
 
 		var app; 
-		var user = new User();
+		
 	   	
 
-	   
 		
 	    FB.getLoginStatus(function (response) {
 	    	console.log(response.status)

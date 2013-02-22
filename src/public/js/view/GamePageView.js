@@ -18,13 +18,13 @@ define(
 		id : 'game',
 
 		events : {
-			'click #wipe-btn':  'refresh',
+			'click #refresh-btn':  'refresh',
 			'click #save-btn':  'save'
 		},
 
 		save : function( ){
 			console.log('SAVE: ', this.model.get('game').get('data'));
-			SignalMap.saveGame.dispatch(this.model.get('game'))
+			SignalMap.saveGameData.dispatch(this.model)
 		},
 
 		refresh : function() {
@@ -90,12 +90,12 @@ define(
 				item.release();
 			}, this);
 			this.children.length = 0;
-						this.$el.empty().append(this.engine.render().el);
+						this.$el.empty().append(this.engine.el);
 			this.$el.append('<ol id="features" class="span1"></ol>');
-			this.$el.append('<div class="btn-group"><button id="wipe-btn" class="btn">Wipe</button><button id="save-btn" class="btn">Save</button></div>')
+			this.$el.append('<div class="btn-group"><button id="back-btn" class="btn"><i class="back-btn"></i>Back</button><button id="refresh-btn" class="btn"><i class="refresh-btn"></i>Refresh</button><button id="save-btn" class="btn"><i class="save-btn"></i>Save</button></div>')
 			this.$el.append(this.gameScoreView.render().el);
-			console.log('GamePage Render 2', this.model.get('game').toJSON())
-			this.$el.append('<div style="position:absolute; z-index:100; top:0px;"><img src="http://graph.facebook.com/' + this.model.get('game').get('fbID') + '/picture?width=30&height=30" /></div>');
+			
+			//this.$el.append('<div style="position:absolute; z-index:100; top:0px;"><img src="http://graph.facebook.com/' + this.model.get('game').get('fbID') + '/picture?width=15&height=15" /></div>');
 			
 			if(this.model.get('gameData').get('features').length == 0) {
 				
@@ -111,7 +111,7 @@ define(
 				
 			}
 
-			console.log('GamePage Render 3', this.model.get('gameData').get('features').toJSON() )
+			
 			
 			if(true) {
 

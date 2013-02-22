@@ -43,7 +43,7 @@ define(
 				return d.get('height'); 
 			});
 			data.highest = data.highest.get('height')
-			console.log(data)
+			
 			data.user = this.model.get('fbID');
 			data.features = data.features.toJSON()
 

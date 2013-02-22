@@ -16,7 +16,8 @@
 	'view/AbstractView',
 	'model/FindGameCollection',
 	'SignalMap',
-	'view/Popup'
+	'view/Popup',
+
 	], function(Router, 
 				Backbone, 
 				GamePageView, 
@@ -36,51 +37,40 @@
 				Popup) {
 
 
+
+
 	return Backbone.View.extend({
 		
 		el : '#app',
 
-		events : {
-			'click .login-btn'	: 'login',
-			'click #logout-btn'	: 'logout'
-		},
 		
-		login: function(e) { 
-			console.log('doLogin')
-			e.preventDefault();
-			FB.login(this.loginResponse)
-		},
+		
+		
 
-		logout: function(e){
 		
-			FB.logout(function(response) {
-				this.model.unset('facebook')
-				$.cookie('fbsr_490996157610487', null);	
-				this.enterLobby();
-			});
-			
-			//this.router.navigate('/lobby', true);
-		},
 
 		loginResponse: function(response) {	
-			console.log(response)
+			if(!response.authResponse) {
+				SignalMap.popupAction.dispatch();
+				return;
+			}
 			var that = this;
 			FB.api('/me', function(me) {
-				console.log('Me', me);
+				
 				that.model.set({facebook:me});
 
 				that.model.save({success:function(err, user) {
 					console.log('User saved', user);
-					
+					SignalMap.popupAction.dispatch();
 				}});
 			});
 		},
 
 		
 
-		initialize: function() {
+		initialize: function(options) {
 			_.bindAll(this);
-			
+			var that = this;
 			// Routing
 			this.router = new Router();
 			this.router.on('route:init', this.enterInit);
@@ -92,32 +82,75 @@
 			
 			// Signals
 			SignalMap.gameSelected.add(function(vo) {
-				console.log('Game Selected Command',vo.get('data').first().get('features').toJSON())
 				this.currentGame = vo;
 				this.router.navigate('/play', true);
 			}, this);
 
 
-			SignalMap.showPopup.add(function() {	
-				this.$el.append(this.popup.render().el);
+			SignalMap.showPopup.add(function(type, catious) {
+				this.$el.on("touchmove", false);	
+				this.$el.append(this.popup.render(type).show(catious).el);
 			}, this);
 
 
 			SignalMap.popupAction.add(function(e) {
-				this.popup.remove();
-				FB.login(this.loginResponse)
+
+				switch(e) {
+					case 'lobby' : this.router.navigate('lobby', true); break;
+					case '' : break;
+					case '' : break;
+				}
+
+				this.popup.hide();
+				this.$el.off("touchmove", false);	
+				//FB.login(this.loginResponse)
 			}, this);
 
 			SignalMap.saveGame.add(function(game) {
+				SignalMap.showPopup.dispatch('loading');
 				this.model.save();
-				game.save({}, {success: function(err, game) {
+				game.save({}, {success: function(err, model) {
 							console.log('GAME SAVED: ', game);
+
+							model = game.toJSON();
+							model.features = model.features.toJSON();
+
+
+							that.popup.render('gameSuccess', model)
+							//SignalMap.showPopup.dispatch('gameDataSuccess');
 						}, error: function(model, xhr, options){
-							SignalMap.showPopup.dispatch();
+							console.log('GAME SAVED EROR: ', xhr);
+							if(xhr.status == 403) {
+								SignalMap.showPopup.dispatch('login', false);
+							}
 						}});
 				
 			
 			}, this);
+
+			SignalMap.saveGameData.add(function(gamePage) {
+				SignalMap.showPopup.dispatch('loading');
+				this.model.save();
+				gamePage.get('game').save({}, {success: function(err, model) {
+							console.log('GAME SAVED: ', game);
+
+							model = gamePage.toJSON();
+							model.game = model.game.toJSON();
+							model.gameData = gamePage.get('gameData').toJSON();
+							that.popup.render('gameDataSuccess', model)
+							//SignalMap.showPopup.dispatch('gameDataSuccess');
+						}, error: function(model, xhr, options){
+							console.log('GAME SAVED EROR: ', xhr);
+							if(xhr.status == 403) {
+								SignalMap.showPopup.dispatch('login', false);
+							}
+						}});
+				
+			
+			}, this);
+
+
+
 			////////////////////////////////////////////////////
 
 
@@ -146,19 +179,21 @@
 			// Permanent Views
 			this.menuView = new MenuView({model:this.router});
 			this.meView = new MeView({model:this.model});
-			this.popup = new Popup({});
+			this.popup = new Popup({model:this.model});
 			
-
-
-			var view1 = new AbstractView();
-			view1.children.push('HEllo');
-
-			var view2 = new AbstractView();
 
 			$(window).resize(this.resize);
 			this.resize();	
 
-			Backbone.history.start();
+			
+			var that = this;
+			this.$el.find('#preloader').fadeOut('fast', function() {
+				setTimeout(function() {
+					Backbone.history.start()
+				}, 500);
+			});
+			
+
 		},
 
 		resize : function() {
@@ -167,22 +202,31 @@
 
 		enterLobby : function() {	
 
-			//SignalMap.showPopup.dispatch();
+			SignalMap.showPopup.dispatch('loading', true);
 			//return 	
 			this.$el.find('header').addClass('show-header');	
 			this.$el.find('header').removeClass('hide-header');
 			this.$el.find('#main').css({'padding-left': '40px', 'padding-right': '40px'});
 	    	var lobby = new Lobby({model:this.lobbyPage});
-	    	this.lobbyPage.get('games').fetch();
+	    	this.lobbyPage.get('games').fetch({success: function() {
+	    		SignalMap.popupAction.dispatch();
+	    	}});
 	    	this.lobbyPage.get('finds').fetch();
 	    	this.render(lobby);
 	    	
 		},
 
 		enterCreate : function() {
-			this.createPage.get('features').fetch();
+
+			SignalMap.showPopup.dispatch('loading', true);
 			this.createPage.set({game: new Game()})
 			this.render(new CreatePageView({model:this.createPage}));
+			this.createPage.get('features').fetch({success:_.bind(function() {
+				SignalMap.popupAction.dispatch();
+			}, this), error:function(model, xhr) {
+				console.log('Feature fetch error', xhr);
+			}});
+			
 		},
 
 		enterPreview: function() {
@@ -194,6 +238,8 @@
 		},
 
 		enterGame: function() {	
+
+
 			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
 			var fbID = this.model.get('fbID');
 			console.log(this.currentGame.get('data'));
@@ -217,10 +263,14 @@
 			this.$el.find('header').removeClass('show-header');
 			this.gamePage.set({game: this.currentGame, gameData: gameData})
 	    	this.render(new GamePageView({model:this.gamePage}));
+
+	    	SignalMap.engineReady.addOnce(function(engine) {
+	    		engine.start();
+	    	}, this);
 		},
 
 		enterInit : function() {
-			setTimeout(_.bind(this.router.navigate), 500, 'lobby', true);
+			this.router.navigate('lobby', true);
 		},
 
 		render: function(view) {

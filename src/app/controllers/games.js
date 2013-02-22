@@ -131,7 +131,7 @@ module.exports = function(config) {
 
             console.log('here', err, user);
 
-            if(!user) return res.send('auth_error');
+            if(!user) return res.send(403, {error: 'auth_error'});
             user =null;
              Feature.find( {'_id': { $in: data.features} }, function(err, features) {
             
@@ -264,7 +264,7 @@ module.exports = function(config) {
 	api.update = function(req, res) {
        
        if(!req.userID) {
-        return res.send('auth_error');
+        return res.send(403, {error: 'auth_error'});
        }
 
         Game.findOne({_id: req.body._id}, function(err, p) {

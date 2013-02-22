@@ -5,7 +5,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		shape : null,
 		bitmap : null,
 
-		initialize : function() {
+		initialize : function(options) {
 			_.bindAll(this, 'clicked');
 			_.bindAll(this, 'mouseOver');
 			_.bindAll(this, 'mouseOut');
@@ -22,20 +22,19 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			this.container.addChild(this.shape);
 			
 			this.model.on('change:fixed', this.draw, this);
-			this.draw();
+			this.draw(options.assets);
 		},
 
-		draw : function(){
+		draw : function(assets){
 			
 			var assetURL;
 			this.container.removeChild(this.bitmap);
-
 			if(this.model.get('fixed')) {
-				this.bitmap = new E.Bitmap('img/game/fixed_bolt.png');
+				this.bitmap = assets.get('img/game/fixed_bolt.png');
 				this.bitmap.regX = 33;
 				this.bitmap.regY = 33;	
 			}else {
-				this.bitmap = new E.Bitmap('img/bolt.png');
+				this.bitmap = assets.get('img/bolt.png');
 				this.bitmap.regX = 25;
 				this.bitmap.regY = 25;
 			}

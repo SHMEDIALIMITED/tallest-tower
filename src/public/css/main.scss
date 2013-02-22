@@ -37,7 +37,11 @@ body {
 }
 
 .navbar .brand {
-  font-size: 3.8em;
+  font-size: 4.0em;
+  @media screen and (max-width: 500px) {
+    
+     padding-top:20px;
+  }
 }
 
 h1, h2, h3 {
@@ -53,9 +57,15 @@ h1 {
 }
 
 h2 {
-	font-size: 4.3em;
+	font-size: 3em;
   color: #fff;
   margin: .5em 0;
+  border-bottom : dotted 1px #fff;
+  padding-bottom:3px;
+   @media screen and (max-width: 600px) {
+    
+    font-size: 3em;
+  }
 }
 
 h3 {
@@ -112,15 +122,15 @@ canvas {
 }
 
 .navbar-inner {
-  padding-left:10px; padding-right:10px;
+  padding-left:40px; padding-right:40px;
 }
 
 #menu {
   @media screen and (max-width: 500px) {
     display: block;
     width: 100%;
-    font-size: 2em;
-
+    font-size: 2.8em;
+    margin-top:15px;
   }
 }
 
@@ -129,15 +139,20 @@ canvas {
 
 .price {
   padding-left: 24px;
+  color: $yellow;
   background : url('../img/money.png') no-repeat 0px 7px;
 }
 
 #me {
   position: fixed;
-  right:10px;
+  right:40px;
   top: 10px;
   font-size: 3em;
   color: $yellow;
+  @media screen and (max-width: 500px) {
+    
+     margin-top: 15px;
+  }
 }
 
 #me span.price {
@@ -151,6 +166,14 @@ canvas {
   font-size: 0.5em;
   text-align: right;
   margin-right: 5px;
+  
+}
+
+#me #logout-btn {
+  background: none;
+  padding:0px;
+  border:none;
+  margin:0px;
 }
 
 
@@ -165,52 +188,115 @@ canvas {
 
 
 .game-score {
+  display: block;
+  background: #f5f5f5;
   position: fixed;
-  right: 25px;
-  top: 30px;
-  font-size: 6em;
+  
+  top: 20px;
+  left: 20px;
+  border-radius: 4px;
+  width: 130px;
+  height: 38px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   color: $yellow;
-  padding:0px 0px;
-  text-align: right;
 
-  @include outline(4px, #000);
+
 }
 
+.game-score span.label {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  color: $yellow;
+   @include outline(0.5px, #000);
+   font-size: 1.5em;
+   width: 100%;
+}
+
+.game-score span.value {
+  display: block;
+  position: absolute;
+  top:5px;
+  text-align: right;
+  padding: 0px 10px;
+  width: 110px;
+  
+  margin: 0px;
+  color: $yellow;
+   @include outline(0.5px, #000);
+   font-size: 3em;
+}
 
 
 
 #game {
 
   position:relative;
-  top:21px;
+  top:0px;
 }
 
 #game #features {
   position: fixed;
-  top: 110px;
+  min-height: 100%;
+  top: 120px;
 }
 
 #game .btn-group {
   position:absolute;
-  top:20px;
+  top:70px;
   left: 20px;
 }
 
 #game .btn-group button.btn {
-  height: 60px;
-  width:  85px;
+  padding: 0px;
+}
+
+
+
+.refresh-btn {
+  display: block;
+  background: url('../img/icon/refresh_40x40.png');  
+  width: 40px;
+  height: 40px;
+}
+
+.save-btn {
+  display: block;
+  background: url('../img/icon/save_40x40.png');  
+  width: 40px;
+  height: 40px;
+}
+
+.back-btn {
+  display: block;
+  background: url('../img/icon/back_40x40.png');  
+  width: 40px;
+  height: 40px;
+}
+
+
+
+
+#game button.btn {
+  height: 40px;
+  width:  40px;
+  margin-right: 5px;
 }
 
 
 .game-feature {
   position: relative;
-  height: 50px;
+  height: 40px;
+  width: 40px;
+  padding:0px;
   text-align: left;
+  margin-bottom: 5px;
 }
 
 .game-feature img {
   position: absolute;
-  top:20px;
+  top:2px;
+  left: 2px;
   width: 30px;
   height: 30px;
 }
@@ -218,9 +304,9 @@ canvas {
 .game-feature span.amount {
   box-sizing: inline-block;
   position: absolute;
-  top:10px;
-  right: 10px;
-  font-size: 24px;
+  top:18px;
+  right: 4px;
+  font-size: 18px;
   text-align: right;
  
  
@@ -239,7 +325,7 @@ canvas {
 
    @media screen and (max-width: 500px) {
     
-     margin-top: 100px;
+     margin-top: 140px;
   }
 
 }
@@ -294,12 +380,15 @@ canvas {
   height: 100%;
 }
 
-.game-list-item h3 {
+.game-list-item div.info h3 {
     
     text-align: left;
     font-size: 2em;
     text-transform:uppercase;
     margin: 0px;
+    @media screen and (min-width: 600px) {
+       font-size: 1.4em;
+    }
 }
 
 .game-list-item div.info {
@@ -328,19 +417,20 @@ canvas {
 }
 
 .game-list .features li img {
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   position: absolute;
-  left: 0px;
-  top:  0px;
+  left: 2px;
+  top:  2px;
 }
 .game-list .features li span {
   
   position: absolute;
-  font-size: 0.5em;
+  font-size: 1em;
   left: 0px;
-  width: 18px;
-  top:  0px;
+  width: 20px;
+  line-height: 1em;
+  top:  10px;
 
   text-align: right;
 }
@@ -350,8 +440,15 @@ canvas {
 .game-list-item ol.players {
   background:#fff;
   margin: 10px;
+  
 }
 
+.game-list-item ol.players img {
+   @media screen and (max-width: 700px) {
+      width: 20px;
+      height: 20px;
+  }
+}
 
 .game-list-item ol.players li span {
     position: absolute;
@@ -360,8 +457,12 @@ canvas {
     left: 0px;
     background: #222;
     color: #fff;
-    font-size: .7em;
-    font-family: Arial;
+     @media screen and (max-width: 700px) {
+      font-size: 0.5em;
+      line-height: 1.1em;
+      top:18px;
+      width: 20px;
+  }
 }
 
 #lobby .game-list-item ol.players li {
@@ -371,10 +472,23 @@ canvas {
   margin-bottom: 3px;
   width: 40px;
   height: 50px;
+  @media screen and (max-width: 700px) {
+      width: 20px;
+    height: 25px;
+  }
+  
 }
 
 #create .btn-group {
   margin-bottom: 25px;
+}
+
+#create {
+  margin-top: 70px;
+   @media screen and (max-width: 500px) {
+    
+     margin-top: 140px;
+  }
 }
 
 #total {
@@ -388,6 +502,10 @@ canvas {
 
   margin: 10px;
   float: left;
+
+  @media screen and (max-width: 700px) {
+     margin-left: 0px;
+  }
 
 }
 
@@ -457,24 +575,15 @@ canvas {
 
 
 .show-header .navbar-inner {
-  
-  transition-property: width;
-transition-duration: 1s;
-transition-timing-function: linear;
-transition-delay: 2s;
+  display: block;
 }
 
 .hide-header .navbar-inner{
-  min-height : 20px;
-  height: 15px;
-  font-size: 10px;
-  inherit:font-size;
-  padding: 0px;
-  padding-top:0px;
+  
 }
 
 .hide-header {
-
+  display: none;
 }
 
 .hide-header .navbar-inner ul {
@@ -507,26 +616,192 @@ transition-delay: 2s;
 }
 
 #popup {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   height: 100%; 
   min-height: 100%;
   width: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.9);
+  padding:5%;
   z-index: 10;
+  @media screen and (max-width: 700px) {
+      
+  }
 }
 
 .popup {
-  margin: 150px auto;
-  width: 400px;
-  height: 300px;
-  background: #eee;
-  padding: 20px;
+  
+  
+    
+    background: #eee;
+    border-radius: 4px;
+    width: 300px;
+   height: 244px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin-top:-122px; /* negative half the size of height */
+    margin-left:-150px; /* negative half the size of width */
+   @media screen and (max-width: 700px) {
+      
+  }
+  
+
 }
 
 .popup h2 {
-  margin-top: 0px;
+  margin: 0px;
+  font-size: 3.4em;
+  text-align: left;
+  padding-top:20px;
+  padding-left: 23px;
+  color: #333;
+}
+
+.popup img.loader {
+  display: block;
+  padding-top:35px;
+  width: 48px; height: 48px;
+  margin: 0px auto;
+}
+
+.popup p {
+  text-align: center;
+  padding-top: 40px;
+  font-size: 2em;
+
+}
+
+
+#login.popup h2 {
+  margin-bottom: 20px;
+}
+#login.popup p {
+  padding: 0px 23px;
+  font-size: 1.4em;
+  text-align: left;
+}
+
+#login-btn {
+  font-size: 0.7em;
+  font-family: "Wendy One";
+}
+
+#login.popup button#login-btn {
+  margin-left: 23px;
+  margin-top:25px;
+  font-size: 2em;
+}
+
+.popup button#close-btn {
+  position: absolute;
+  right: 5px;
+  top:5px;
+}
+
+
+#success table {
+  font-size: 2em;
+  margin-left:23px;
+  margin-right:23px;
+  margin-top: 20px;
+}
+
+#success table tr {
+  min-height: 40px;
+}
+
+#success table tr td:nth-child(2) {
+  font-size: 1.4em;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+#success table tr td:nth-child(1) {
+  text-align: right;
+}
+
+#success table tr:nth-child(3) td:nth-child(2) {
+  font-size: 0.06em;
+}
+
+#success table tr:nth-child(1) td:nth-child(2) {
+  text-transform: uppercase;
+}
+#success table tr:nth-child(2) td:nth-child(2) {
+  padding-left: 35px;
+  background-position: 10px 4px;
+}
+#success table tr:nth-child(3) td:nth-child(1) {
+  vertical-align: top;
+}
+
+#success table tr td ul li {
+  width: 23px;
+  height: 23px;
+  position: relative;
+  float: left;
+  border: 1px dotted #777;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+
+
+#success table tr td ul li img {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 2px;
+  top:  2px;
+}
+#popup div#success table tr td ul li span {
+    
+  position: absolute;
+  font-size: 12em;
+  left: 0px;
+  width: 20px;
+  line-height: 1em;
+  top:  10px;
+
+  text-align: right;
+}
+
+
+#preloader {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    background: #eee;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+} 
+
+#preloader h2 {
+  color: #333;
+  text-align: center; 
+  margin-top: 100px;
+  margin-bottom: 70px; 
+}
+
+#preloader img.loader {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+}
+
+#preloader img.shmedia {
+  display: block;
+  width: 143px;
+  height: 59px;
+  margin: 0 auto;
+  margin-top: 50px;
 }
 
 header .login-btn {
@@ -540,6 +815,7 @@ i.icon-facebook {
   height: 20px;
   display: inline-block;
   position: relative;
+  line-height: 1em;
   top:3px;
   right: 5px;
 }

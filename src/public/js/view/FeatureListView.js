@@ -16,8 +16,9 @@ function(Backbone, FeatureListItemView) {
 		initialize : function(options) {
 			this.user = options.user; 
 			this.childern = [];
-			this.listenTo(this.collection, "reset", this.render);
+			
 			this.listenTo(this.user, "change:cash", this.processList);
+			this.collection.bind('reset', this.render, this);
 		},	
 
 
@@ -47,6 +48,7 @@ function(Backbone, FeatureListItemView) {
 			}, this); 
 
 			this.processList();
+			return this;
 		},
 
 		processList : function(model) {

@@ -17,8 +17,7 @@ define(
 		id: 'create',
 
 		events : {
-			'click #save-btn' : 'onSave',
-			'click #preview-btn' : 'onPreview'
+			'click #save-btn' : 'onSave'
 		},
 		
 
@@ -30,10 +29,7 @@ define(
 
 			this.listenTo(this.model.get('game'), 'change:value', this.renderTotal);
 			
-		},
-
-		onPreview: function() {
-			this.trigger('preview', this.model.get('game'));
+			
 		},
 
 		onSave: function() {
@@ -53,20 +49,22 @@ define(
 
 		renderTotal : function() {
 			
-			
-			this.$el.find('.row-fluid #total').html('$ ' + this.model.get('game').get('value'));
+			console.log('renderTotal', this.model)
+			//this.$el.find('.row-fluid #total').html('$ ' + this.model.get('game').get('value'));
 		},
 
 		render : function() {
 
 
+			console.log('Create Page Render');
+			
 			var t = _.template(template);
 			this.$el.append(t);
 
 			this.renderTotal();
 
 			
-			this.$el.find('form').append(this.featureList.el)
+			this.$el.find('form').empty().append(this.featureList.el)
 			return this;
 		}
 	});

@@ -21,12 +21,12 @@ define(
 		},
 
 		initialize : function() {
-			this.model.bind('all', this.render, this);
+			this.model.on('route', this.render, this);
 		},
 
 		show: function() {
-			this.$el.addClass('show-header');
-			this.$el.removeClass('hide-header');
+			//this.$el.addClass('show-header');
+			//this.$el.removeClass('hide-header');
 		},
 
 		hide: function() {
@@ -35,10 +35,13 @@ define(
 		},
 
 		render : function(route) {	
+			
 			route = route.replace('route:', '');
-			var el = $('#' + route + '-btn');
+			var JQel = $('#' + route + '-btn');
+			
+			console.log('RENDER:::::' , JQel);
 			this.$el.find('li.active').removeClass('active');
-			el.addClass('active');
+			JQel.addClass('active');
 			return this;
 		}
 	});

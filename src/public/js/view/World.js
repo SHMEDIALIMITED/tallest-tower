@@ -13,7 +13,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			this.container = new E.Container();
 
 			this.container.addChild(this.shape);
-			this.container.addChild(this.bitmap);
+			//this.container.addChild(this.bitmap);
 			this.container.mouseEnabled = false;
 		},
 

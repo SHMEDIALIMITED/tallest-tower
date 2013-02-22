@@ -1,9 +1,10 @@
 define(
 	[	'backbone',
 		'easel',
-		'view/Bolt'	],
+		'view/Bolt'	,
+		'text!templates/game-score.html',],
 
-	function(Backbone, E, Bolt) {
+	function(Backbone, E, Bolt, template) {
 
 		return Backbone.View.extend({
 
@@ -14,7 +15,7 @@ define(
 			},
 
 			render: function() {
-				this.$el.empty().append(this.model.get('height')+ 'm');
+				this.$el.empty().append(_.template(template, this.model.toJSON()));
 				return this;
 			},
 

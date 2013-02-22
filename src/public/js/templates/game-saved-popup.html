@@ -1,0 +1,27 @@
+<div id="success" class="popup">
+	<h2>Game saved.</h2>
+	<button id="close-btn" class="btn">&times;</button>
+	<table>
+		<tr>
+			<td>name:</td>
+			<td><%=name%></td>
+		</tr>
+		<tr>
+			<td>value:</td>
+			<td class="price"><%=value%></td>
+		</tr>
+		<tr>
+			<td>features:</td>
+			<td>
+				<ul>
+				<% _.each(features, function(feature){ %>
+					<li>
+						<img src="<%=feature.image%>" />
+						<span ><%=feature.amount%></span>
+					</li>
+				<% }); %>
+				<ul>
+			</td>
+		</tr>
+	</table>
+</div>

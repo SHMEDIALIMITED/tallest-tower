@@ -15,7 +15,7 @@ module.exports = function(config) {
 
 	api.create = function(req, res) {
 
-        if(!req.userID) res.send('error');
+        if(!req.userID) res.send(403, {error: 'auth_error'});
          
         var data = req.body;
         data.fbID = id;
@@ -27,7 +27,7 @@ module.exports = function(config) {
 	}
 
 	api.update = function(req, res) {
-
+        
 	}
 
 	api.del = function(req, res){
