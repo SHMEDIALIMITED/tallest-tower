@@ -30,11 +30,11 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			var assetURL;
 			this.container.removeChild(this.bitmap);
 			if(this.model.get('fixed')) {
-				this.bitmap = assets.get('img/game/fixed_bolt.png');
+				this.bitmap = new E.Bitmap(assets.get('img/game/fixed_bolt.png'));
 				this.bitmap.regX = 33;
 				this.bitmap.regY = 33;	
 			}else {
-				this.bitmap = assets.get('img/bolt.png');
+				this.bitmap = new E.Bitmap(assets.get('img/bolt.png'));
 				this.bitmap.regX = 25;
 				this.bitmap.regY = 25;
 			}

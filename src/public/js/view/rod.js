@@ -59,7 +59,7 @@ define(['backbone', 'easel'], function(Backbone, E) {
 			this.bitmap = new E.Container();
 			var bitmap;
 			while( --i > -1 ) {
-				bitmap = options.assets.get(assetURL)
+				bitmap = new E.Bitmap(options.assets.get(assetURL));
 				bitmap.x = i * 100;
 				this.bitmap.addChild(bitmap);
 			}

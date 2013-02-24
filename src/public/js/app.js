@@ -17,6 +17,7 @@
 	'model/FindGameCollection',
 	'SignalMap',
 	'view/Popup',
+	'view/GameEngine'
 
 	], function(Router, 
 				Backbone, 
@@ -34,7 +35,8 @@
 				AbstractView,
 				FindGameCollection,
 				SignalMap,
-				Popup) {
+				Popup,
+				GameEngine) {
 
 
 
@@ -71,6 +73,9 @@
 		initialize: function(options) {
 			_.bindAll(this);
 			var that = this;
+
+
+
 			// Routing
 			this.router = new Router();
 			this.router.on('route:init', this.enterInit);
@@ -81,13 +86,26 @@
 			////////////////////////////////////////////////////
 			
 			// Signals
+			// 
+			
+			SignalMap.engineReady.add(function(engine) {
+
+				console.log('Engine start')
+	    		engine.start();
+	    	}, this);
+
+			SignalMap.navigate.add(function(route)  {
+				this.router.navigate(route, true);
+			}, this);
+
 			SignalMap.gameSelected.add(function(vo) {
 				this.currentGame = vo;
 				this.router.navigate('/play', true);
 			}, this);
 
 
-			SignalMap.showPopup.add(function(type, catious) {
+			SignalMap.showPopup.add(function(type, catious, action) {
+				SignalMap.popupAction.action = action;
 				this.$el.on("touchmove", false);	
 				this.$el.append(this.popup.render(type).show(catious).el);
 			}, this);
@@ -97,8 +115,8 @@
 
 				switch(e) {
 					case 'lobby' : this.router.navigate('lobby', true); break;
-					case '' : break;
-					case '' : break;
+					case 'confirm' : SignalMap.popupAction.action.refresh(); break;
+					case 'close' : this.router.navigate('lobby', true); break;
 				}
 
 				this.popup.hide();
@@ -128,16 +146,27 @@
 			
 			}, this);
 
-			SignalMap.saveGameData.add(function(gamePage) {
+			SignalMap.saveGameData.add(function(gamePage, auto) {
 				SignalMap.showPopup.dispatch('loading');
 				this.model.save();
-				gamePage.get('game').save({}, {success: function(err, model) {
-							console.log('GAME SAVED: ', game);
 
-							model = gamePage.toJSON();
-							model.game = model.game.toJSON();
-							model.gameData = gamePage.get('gameData').toJSON();
-							that.popup.render('gameDataSuccess', model)
+
+				console.log('GAME SAVING: ', gamePage.get('game'));
+				
+				gamePage.get('game').save(null,  {success: function(err, model) {
+							
+
+							if(auto) {
+								that.popup.render('loading');
+								that.enterLobby();
+							}else {
+								model = gamePage.toJSON();
+								model.game = model.game.toJSON();
+								model.gameData = gamePage.get('gameData').toJSON();
+								that.popup.render('gameDataSuccess', model)
+							}
+
+							
 							//SignalMap.showPopup.dispatch('gameDataSuccess');
 						}, error: function(model, xhr, options){
 							console.log('GAME SAVED EROR: ', xhr);
@@ -180,7 +209,9 @@
 			this.menuView = new MenuView({model:this.router});
 			this.meView = new MeView({model:this.model});
 			this.popup = new Popup({model:this.model});
-			
+
+			// Engine
+			 
 
 			$(window).resize(this.resize);
 			this.resize();	
@@ -189,6 +220,8 @@
 			var that = this;
 			this.$el.find('#preloader').fadeOut('fast', function() {
 				setTimeout(function() {
+
+					console.log('HISTORY start')
 					Backbone.history.start()
 				}, 500);
 			});
@@ -202,7 +235,18 @@
 
 		enterLobby : function() {	
 
-			SignalMap.showPopup.dispatch('loading', true);
+			//this.gamePage.set({game: this.currentGame, gameData: gameData})
+			console.log('ENTERN LOBBY',this.gamePage.get('gameData') ? this.gamePage.get('gameData').toJSON(): false)
+			if(this.gamePage.get('gameData') && this.gamePage.get('gameData').dirty) {
+
+
+				SignalMap.saveGameData.dispatch(this.gamePage, true);
+				this.gamePage.get('gameData').dirty = false;
+				return;
+			}else {
+				SignalMap.showPopup.dispatch('loading', true);
+			}
+
 			//return 	
 			this.$el.find('header').addClass('show-header');	
 			this.$el.find('header').removeClass('hide-header');
@@ -242,8 +286,7 @@
 
 			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
 			var fbID = this.model.get('fbID');
-			console.log(this.currentGame.get('data'));
-			console.log(fbID);
+			
 			var gameData = this.currentGame.get('data').find(function(data) {
 				console.log('Data', data)
 				return data.get('fbID') == fbID;
@@ -252,21 +295,25 @@
 			if(!gameData) {
 				gameData = new GameData({fbID: fbID});
 				this.currentGame.get('data').add(gameData);
-				console.log(this.model)
+				console.log('GAMEDATA --- ', gameData)
 				this.model.get('games').push(fbID);
+			}else {
+				console.log('GAMEDATA OLD --- ', gameData)
 			}
-			console.log('enter Game',gameData.toJSON())
+			
 
 
 			
 			this.$el.find('header').addClass('hide-header');
 			this.$el.find('header').removeClass('show-header');
+			
 			this.gamePage.set({game: this.currentGame, gameData: gameData})
+			
+
+
 	    	this.render(new GamePageView({model:this.gamePage}));
 
-	    	SignalMap.engineReady.addOnce(function(engine) {
-	    		engine.start();
-	    	}, this);
+	    	
 		},
 
 		enterInit : function() {

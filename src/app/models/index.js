@@ -53,6 +53,7 @@ var Game = new Schema({
 	name : {type:String},
 	fbID : { type:Number },
 	value : {type: Number},
+	days : {type: Number},
 	data: [GameData],
 	features: [GameFeature],
 	users : [Number],

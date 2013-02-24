@@ -1179,7 +1179,7 @@
       if (!History.started) return false;
       if (!options || options === true) options = {trigger: options};
       fragment = this.getFragment(fragment || '');
-      if (this.fragment === fragment) return;
+      //if (this.fragment === fragment) return;
       this.fragment = fragment;
       var url = this.root + fragment;
 

@@ -4,43 +4,59 @@ define(
 		'view/GameFeatureView',
 		'view/GameScoreView',
 		'model/GameData',
-		'SignalMap'], 
+		'SignalMap',
+		'view/CountDownView'], 
 	
 	function(	Backbone ,
 				GameEngine,
 				GameFeatureView,
 				GameScoreView,
 				GameData,
-				SignalMap) {
+				SignalMap,
+				CountDownView) {
 
 	return Backbone.View.extend({
 		
 		id : 'game',
 
 		events : {
-			'click #refresh-btn':  'refresh',
-			'click #save-btn':  'save'
+			'click #refresh-btn':  'onRefresh',
+			'click #save-btn':  'save',
+			'click #back-btn':  'onBack'
 		},
 
 		save : function( ){
 			console.log('SAVE: ', this.model.get('game').get('data'));
-			SignalMap.saveGameData.dispatch(this.model)
+			//SignalMap.saveGameData.dispatch(this.model)
+		},
+
+		onRefresh : function() {
+			//this.model.set('gameData', new GameData());
+			this.model.get('gameData').dirty = true;
+			SignalMap.showPopup.dispatch('confirm', false, this);
+			
+		},
+
+		onBack : function() {
+			SignalMap.navigate.dispatch('lobby');
 		},
 
 		refresh : function() {
-			//this.model.set('gameData', new GameData());
-			
 			this.model.get('gameData').resetToDefaults();
 			this.engine.model = this.model.get('gameData');
 			this.gameScoreView.model = this.model.get('gameData');
 			this.render();
+			this.engine.start();
 		},
 
-		initialize: function() {
+		initialize: function(options) {
+
+			console.log('Game Page ::::: init');
 			//this.listenTo(this.model.get('gameData').get('sticks'), 'add',this.processRemainingSticks, this);
-			this.engine = new GameEngine({model:this.model.get('gameData')});
+			this.engine = new GameEngine({model: this.model.get('gameData')});
 			this.engine.on('feature_run_out', this.selectAvailableFeature, this);	
-			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')}); 		
+			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')}); 
+			this.countdown = new CountDownView({});		
 			this.children = [];
 		},
 
@@ -90,10 +106,11 @@ define(
 				item.release();
 			}, this);
 			this.children.length = 0;
-						this.$el.empty().append(this.engine.el);
+						this.$el.empty().append(this.engine.render().el);
 			this.$el.append('<ol id="features" class="span1"></ol>');
-			this.$el.append('<div class="btn-group"><button id="back-btn" class="btn"><i class="back-btn"></i>Back</button><button id="refresh-btn" class="btn"><i class="refresh-btn"></i>Refresh</button><button id="save-btn" class="btn"><i class="save-btn"></i>Save</button></div>')
+			this.$el.append('<div class="btn-group"><button id="back-btn" class="btn"><i class="back-btn"></i>Back</button><button id="refresh-btn" class="btn"><i class="refresh-btn"></i>Refresh</button></div>')
 			this.$el.append(this.gameScoreView.render().el);
+			this.$el.append(this.countdown.render().el);
 			
 			//this.$el.append('<div style="position:absolute; z-index:100; top:0px;"><img src="http://graph.facebook.com/' + this.model.get('game').get('fbID') + '/picture?width=15&height=15" /></div>');
 			
@@ -136,6 +153,10 @@ define(
 			}, this);
 
 			this.selectAvailableFeature(null, true);
+			$('body').keydown(_.bind(function (e) {
+				if(e.keyCode == 87) this.engine.up();
+				else if(e.keyCode == 83) this.engine.down();
+			}, this));
 			return this;
 		},
 
@@ -151,7 +172,23 @@ define(
 		},
 
 		release : function() {
+			console.log('Game Page ::::: release');
 			this.model = null;
+			this.engine.off('feature_run_out');	
+			this.gameScoreView.release();
+			this.engine.stop();
+
+			this.engine = null;
+			this.gameScoreView = null;
+
+			
+			_.each(this.children, function(item) {
+				item.remove();
+				item.release();
+			}, this);
+			this.children.length = 0;
+			this.children = null;
+
 		}
 	});
 });

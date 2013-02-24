@@ -5,11 +5,12 @@ define(
 	'text!templates/login-popup.html',
 	'text!templates/loading-popup.html',
 	'text!templates/game-saved-popup.html',
-	'text!templates/game-data-saved-popup.html'], 
+	'text!templates/game-data-saved-popup.html',
+	'text!templates/confirm-popup.html'], 
 
 	function(Backbone, SignalMap, FB,
 
-			login, loading,gameSuccess, gameDataSuccess) {
+			login, loading,gameSuccess, gameDataSuccess, confirm) {
 
 			
 			var _timeout = 0;
@@ -23,7 +24,9 @@ define(
 			events : {
 				'click #confirm-btn': 'onClick',
 				'click #login-btn': 'onLoginClick',
-				'click #close-btn': 'onCloseClick'
+				'click #close-btn': 'onCloseClick',
+				'click #no-btn': 'onNoClick',
+				'click #yes-btn': 'onYesClick'
 			},
 
 			onClick: function(e) {
@@ -31,13 +34,22 @@ define(
 			},
 
 			onCloseClick: function(e) {
-				SignalMap.popupAction.dispatch('lobby');
+				SignalMap.popupAction.dispatch();
 			},
 
 
 			onLoginClick: function(e) {
 							
 				FB.login(_.bind(FB.loginResponse, this));
+			},
+
+
+			onYesClick: function(e) {
+				SignalMap.popupAction.dispatch('confirm');		
+			},
+
+			onNoClick: function(e) {
+				SignalMap.popupAction.dispatch(e);					
 			},
 
 			
@@ -48,15 +60,16 @@ define(
 
 			},
 
-			render : function(type, data) {
+			render : function(type, data, auto) {
 				var template;
 				switch(type) {
 					case 'loading' : template = loading; break;
 					case 'login' : template = login; break;
 					case 'gameSuccess' : template = gameSuccess; break;
 					case 'gameDataSuccess' : template = gameDataSuccess; break;
+					case 'confirm' : template = confirm; break;
 				}
-
+				this.type  = type;
 				console.log(data);
 
 				this.$el.empty().append(_.template(template, data));

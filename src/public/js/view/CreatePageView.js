@@ -36,7 +36,7 @@ define(
 			var game = this.model.get('game');
 			game.set({
 				features: this.featureList.getData(),
-				data: new Backbone.Collection([new GameData()])
+				data: new Backbone.Collection([])
 			});
 			
 			SignalMap.saveGame.dispatch(game);

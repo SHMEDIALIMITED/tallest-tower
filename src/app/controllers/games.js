@@ -236,7 +236,7 @@ module.exports = function(config) {
                         
                             var word = JSON.parse(buffer);
                             console.log(word);
-                             game.fbID = game.data[0].fbID = req.userID;
+                             game.fbID = req.userID;
                              game.name = word.word;
                             game.save(function(err, model){
                                 user.save(function(err, user) {
@@ -276,11 +276,15 @@ module.exports = function(config) {
 
             p.data = req.body.data;
 
-            console.log(p);
+            console.log('HEREEEE __------- ',p);
+
+            
 
             _.each(p.data, function(d) {
                 console.log(d)
             });
+
+
 
             p.save(function(err) {
                   if (err)

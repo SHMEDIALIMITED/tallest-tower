@@ -6,7 +6,8 @@ define(['backbone'], function(Backbone) {
 			'preview' : 'preview',
 			'lobby' : 'lobby',
 			'play' : 'play'
-		}
+		},
 
+		
 	});
 })

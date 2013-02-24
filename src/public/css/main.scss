@@ -187,12 +187,46 @@ canvas {
 }
 
 
+#game .count-down {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  width: 130px;
+  height: 38px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: $yellow;
+}
+
+.count-down span {
+  display: block;
+  float: left;
+  width: 37px;
+  margin-top:10px;
+  font-size: 2.1em;
+}
+
+.count-down span.hrs {
+  margin-left: 9px;
+  text-align: right;
+}
+
+.count-down span.mins {
+  text-align: center; 
+}
+
+.count-down span.secs {
+  text-align: left;
+}
+
+
 .game-score {
   display: block;
   background: #f5f5f5;
   position: fixed;
   
-  top: 20px;
+  top: 120px;
   left: 20px;
   border-radius: 4px;
   width: 130px;
@@ -238,18 +272,19 @@ canvas {
 #game #features {
   position: fixed;
   min-height: 100%;
-  top: 120px;
+  top: 170px;
 }
 
 #game .btn-group {
   position:absolute;
-  top:70px;
+  top:20px;
   left: 20px;
 }
 
 #game .btn-group button.btn {
   padding: 0px;
 }
+
 
 
 

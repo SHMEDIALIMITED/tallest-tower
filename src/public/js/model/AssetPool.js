@@ -8,10 +8,20 @@ define(
 			var index;
 			return _.extend({
 
-				loaded : false,
+				loaded : function() {
+					if(items.length == 0) return false;
+					var i = items.length;
+					while( --i > -1 ){
+						if(!items[i].loaded) {
+							return false;
+						}
+					} 
+					return true;
+				},
 
 				add : function(item) {
-					items.push(item);
+					if(this.get(item)) return;
+					items.push({url: item});
 				},
 
 				load : function() {
@@ -20,29 +30,60 @@ define(
 				},	
 
 				loadItem: function() {
-					var image = new Image();
-					image.onload = _.bind(this.onItemLoaded, this);
-					image.src = image.url = items[index];
-					assets.push(new E.Bitmap(image));
-					index++;	
+					var item = items[index];
+					if(item.loaded) {
+						this.loadNext();
+						return;
+					}
+
+					item.type = item.url.substr(item.url.lastIndexOf('.')+1 );
+
+					
+					switch(item.type) {
+
+						case 'json' : 
+							$.ajax({'url': item.url,
+        							'dataType': 'json',
+        							'success': _.bind(this.onJSONLoaded, this)
+        							});
+						break;
+
+
+						default :
+							var image = new Image();
+							image.onload = _.bind(this.loadNext, this);
+							image.src = item.url;
+							item.asset = image;
+						break;
+					}
+					
 				},
 
-				onItemLoaded : function() {
+				onJSONLoaded : function(res) {
+					var item = items[index];
+					item.asset = res;
+					this.loadNext();
+				},
+
+				loadNext : function() {
+					items[index].loaded = true;
+					index++;
 					if(index < items.length) this.loadItem();
 					else {
-						this.loaded = true;
 						this.trigger('complete');
 					}
 				},
 
 				get:function(url) {
+					if(!url) return items;
 					var i = items.length;
 					while( --i > -1 ){
-						if(assets[i].image.url == url) {
-							return assets[i].clone();
+						if(items[i].url == url) {
+							return items[i].asset;
 						}
 					} 
-				}
+				},
+
 
 
 			}, Backbone.Events);	

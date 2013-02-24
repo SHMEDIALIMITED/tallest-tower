@@ -22,9 +22,11 @@ define(['backbone',
 		selectedPoint : null,
 		scaffoldHeight : 0.0,
 		objects: [],
+
+		lift :0,
+		delta: 0 ,
 		initialize: function() {
-			this.model.get('points').models;
-			this.model.get('sticks').models;
+			
 				
 			_.bindAll(this, 'render');	
 			_.bindAll(this, 'addRod');	
@@ -48,11 +50,12 @@ define(['backbone',
 			this.scaffold = new E.Container();	
 			this.scaffold.rods = new E.Container();
 			this.scaffold.bolts = new E.Container();
-			this.scaffold.addChild(this.world.container)
+			this.stage.addChild(this.world.container)
 			this.scaffold.addChild(this.scaffold.rods)
 			this.scaffold.addChild(this.scaffold.bolts);
-			this.scaffold.y = 300;
+			this.scaffold.y = 0;
 			this.stage.addChild(this.scaffold);
+
 
 			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
 			
@@ -64,24 +67,7 @@ define(['backbone',
 			this.stage.width =  1000;
 			$(window).resize(this.resize);
 
-			if(!AssetPool.loaded) {
-				AssetPool.add('img/bolt.png');
-				AssetPool.add('img/game/fixed_bolt.png');
-				AssetPool.add('img/metal_rod.png');
-				AssetPool.add('img/bamboo_rod.png');
-				AssetPool.add('img/copper_rod.png');
-				AssetPool.load();
-				AssetPool.on('complete', function() {
-
-					console.log('HERE LOADED', AssetPool.get('img/bolt.png'));
-					this.render();
-					SignalMap.engineReady.dispatch(this);
-				}, this);
-			} else {
-				console.log('There LOADED', AssetPool.get('img/bolt.png'));
-				this.render();
-				SignalMap.engineReady.dispatch(this);
-			}
+			//debugger;
 		},
 
 		
@@ -99,7 +85,7 @@ define(['backbone',
 
 		drawBG: function() {
 			this.bg.graphics.clear();
-			this.bg.graphics.beginFill('#00bfff')
+			this.bg.graphics.beginFill('#efefef')
 				.drawRect(0,0,this.el.width, this.el.height)
 				.beginFill(null);	
 		},
@@ -112,13 +98,53 @@ define(['backbone',
 			}
 			this.stage.canvas.width = window.innerWidth;
        		this.stage.canvas.height = window.innerHeight-32;      
-			this.scaffold.x = window.innerWidth * .5;
-			this.scaffold.y = window.innerHeight - window.innerHeight / 100 * 28;
+			this.scaffold.x = this.world.container.x = window.innerWidth * .5;
+			this.scaffold.y = window.innerHeight - 232;
+			this.delta = 0;
+
+			//this.world.container.x +=450;;
+			
 			this.drawBG();
+			this.world.resize();
+		},
+
+		up : function() {
+			if(this.lift <= 0) this.lift = 0;
+			this.lift += 6 + this.lift;
+			console.log(this.lift)
+		},
+
+		down : function() {
+			if(this.lift >= 0) this.lift = 0;
+			this.lift -= 6 - this.lift;
 		},
 
 		start:function() {
+			_.each(this.objects, function(obj){
+				obj.release();
+			})
+
+			this.objects.length = 0;
+				this.model.get('points').on('add', this.addBolt);
+				this.model.off('sticks').on('add', this.addRod);
+			this.selectedPoint = null;
+
+			
+			var that = this;
+			
+				this.second =  true;
+				this.model.get('points').on('add', this.addBolt);
+				this.model.get('sticks').on('add', this.addRod);
+				this.model.get('points').each(function(point){
+					//console.log('AddPoint', point)
+					this.addBolt(point);
+				}, this);
+				this.model.get('sticks').each(function(stick){
+					//console.log('Addstick', stick)
+					this.addRod(stick);
+				}, this);
 			this.resize();
+			
 			E.Ticker.addListener(this);
 		},
 
@@ -163,30 +189,29 @@ define(['backbone',
 			this.stop();
 			this.scaffoldHeight = 0.0;
 
-			_.each(this.objects, function(obj){
-				obj.release();
-			})
 
-			this.objects.length = 0;
-				this.model.off('points').on('add', this.addBolt);
-				this.model.off('sticks').on('add', this.addRod);
-			this.model.set('height', 0.0);
-			this.selectedPoint = null;
 
 			
-			var that = this;
+				if(!AssetPool.loaded()) {
+					AssetPool.add('img/bolt.png');
+					AssetPool.add('img/game/fixed_bolt.png');
+					AssetPool.add('img/metal_rod.png');
+					AssetPool.add('img/bamboo_rod.png');
+					AssetPool.add('img/copper_rod.png');
+					AssetPool.add('img/worlds/basic.png');
+					AssetPool.add('img/worlds/basic.json');
+				}
+
+				AssetPool.on('complete', function() {
+					this.world.model = this.model;
+					this.world.load(AssetPool.get('img/worlds/basic.json'), AssetPool.get('img/worlds/basic.png'));
+
+						SignalMap.engineReady.dispatch(this);
+				}, this);
+
+				AssetPool.load();
+
 			
-				this.second =  true;
-				this.model.get('points').on('add', this.addBolt);
-				this.model.get('sticks').on('add', this.addRod);
-				this.model.get('points').each(function(point){
-					//console.log('AddPoint', point)
-					this.addBolt(point);
-				}, this);
-				this.model.get('sticks').each(function(stick){
-					//console.log('Addstick', stick)
-					this.addRod(stick);
-				}, this);
 			
 			return this;
 		},
@@ -238,6 +263,7 @@ define(['backbone',
 
 				return null
 			}
+			this.model.dirty = true;
 			this.model.get('points').add(point);
 			return point
 		},
@@ -292,11 +318,15 @@ define(['backbone',
 			var points = this.model.get('points').models;
 			i = points.length;
 			var point;
+			this.scaffoldHeight = 0.0;
 			while( --i > -1 ) {
 				point = points[i];
 				point.set({y: point.get('y') + 1});
 				point.update();
+				if(point.get('y') < this.scaffoldHeight) this.scaffoldHeight = point.get('y');
+
 			}
+			this.model.set('height', Math.round(0.1*this.scaffoldHeight) / -10);
 			var sticks = this.model.get('sticks').models;
 			i = sticks.length;
 			while( --i > -1 ) {
@@ -336,11 +366,14 @@ define(['backbone',
 					break;
 				}
 			}
-
+				this.lift *= 0.88;
+				this.scaffold.y += 3 * this.lift;
+				this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
+				this.delta = this.scaffold.y;
+				this.world.render(this.scaffold.y);
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
-				this.el.height++;
-				this.scaffold.y++;
+				
 				//this.drawBG();
 			}
 
@@ -356,9 +389,11 @@ define(['backbone',
 				var dy = mouse.y - this.selectedPoint.get('y');
 				var d = Math.sqrt(dx*dx + dy*dy);
 				this.indicator.render(mouse, Math.min(d, this.feature.get('maxLength') ));
+
 			}
 						
 			this.stage.update();
-		}
+		},
+
 	});
 });

@@ -42,7 +42,7 @@ define(
 			data.highest = 	this.model.get('data').max( function(d){ 
 				return d.get('height'); 
 			});
-			data.highest = data.highest.get('height')
+			//data.highest = data.highest.get('height')
 			
 			data.user = this.model.get('fbID');
 			data.features = data.features.toJSON()

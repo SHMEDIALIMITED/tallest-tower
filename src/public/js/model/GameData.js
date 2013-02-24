@@ -22,6 +22,7 @@ define(	['backbone',
 
 			parse : function(response) {
 
+				this.dirty = false;
 				
 				//console.log('GameData::parse ', response)
 				if(!this.get('sticks')) {
@@ -32,6 +33,7 @@ define(	['backbone',
 				if(!this.get('points')) {
 					
 					this.set('points', new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})]));
+					
 				}
 				response.points = new Points(response.points, {parse:true})
 					
@@ -87,7 +89,9 @@ define(	['backbone',
 			}, 
 
 			resetToDefaults : function() {
-				this.attributes = this.defaults();
+				this.attributes.features = new Backbone.Collection();
+				this.attributes.sticks = new Sticks();
+				this.attributes.points = new Points([new Point({x: -100, y: 0, fixed:true}), new Point({x:100, y:0, fixed:true})])
 			}
 
 		});

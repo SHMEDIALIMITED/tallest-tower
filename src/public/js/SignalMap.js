@@ -9,7 +9,8 @@ define(
 				popupAction : new Signal(),
 				saveGame: new Signal(),
 				saveGameData: new Signal(),
-				engineReady : new Signal()
+				engineReady : new Signal(),
+				navigate : new Signal()
 			} 
 	
 });
