@@ -3267,3 +3267,20 @@ i.icon-facebook {
   line-height: 1em;
   top: 3px;
   right: 5px; }
+
+
+.game-object {
+    position: absolute;
+}
+
+.blue {
+    background: #002a80;
+}
+
+.green {
+    background: #006400;
+}
+
+.red {
+    background: red;
+}

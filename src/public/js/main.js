@@ -7,7 +7,8 @@ require.config({
 		'easel' : 'libs/easeljs-0.5.0.min',
 		'facebook' : '//connect.facebook.net/en_US/all',
 		'signal' : 'libs/signals.min',
-		'preload' : 'http://code.createjs.com/preloadjs-0.3.0.min'
+		'preload' : 'http://code.createjs.com/preloadjs-0.3.0.min',
+        'sugar' : 'https://raw.github.com/kitao/divsugar/master/build/divsugar'
 	},
  
 	shim: {
@@ -31,7 +32,12 @@ require.config({
         'preload': {
             exports: 'createjs.PreloadJS',
             deps : ['easel']
+        },
+
+        'sugar' : {
+            exports: 'sugar'
         }
+
 	}
 });
  

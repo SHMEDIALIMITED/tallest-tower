@@ -11,11 +11,12 @@ define(['backbone',
 		'model/GameData',
 		'preload',
 		'SignalMap',
-		'model/AssetPool'], 
-	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool) {
+		'model/AssetPool',
+        'text!templates/game-engine.html'],
+	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool, template) {
 
 	return Backbone.View.extend({
-		tagName: 'canvas',
+		tagName: 'div',
 		stage : null,
 		scaffold : null,
 		bg : null,
@@ -37,35 +38,39 @@ define(['backbone',
 
 			
 			
-			
-			 
-			 
-			this.stage = new E.Stage(this.el);
-			this.stage.enableMouseOver(30);
-
-			this.bg = new E.Shape();
-			this.stage.addChild(this.bg);
-
-			this.world = new World();
-			this.scaffold = new E.Container();	
-			this.scaffold.rods = new E.Container();
-			this.scaffold.bolts = new E.Container();
-			this.stage.addChild(this.world.container)
-			this.scaffold.addChild(this.scaffold.rods)
-			this.scaffold.addChild(this.scaffold.bolts);
-			this.scaffold.y = 0;
-			this.stage.addChild(this.scaffold);
+			console.log('-----------------------', this.$el);
 
 
-			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
-			
-			
-			E.Ticker.useRAF = true;
-			E.Ticker.setFPS(30);
 
-			
-			this.stage.width =  1000;
-			$(window).resize(this.resize);
+            this.$el.append(_.template(template));
+
+            console.log('-----------------------', this.$el);
+//			this.stage = new E.Stage(this.el);
+//			this.stage.enableMouseOver(30);
+//
+//			this.bg = new E.Shape();
+//			this.stage.addChild(this.bg);
+//
+//			this.world = new World();
+//			this.scaffold = new E.Container();
+//			this.scaffold.rods = new E.Container();
+//			this.scaffold.bolts = new E.Container();
+//			this.stage.addChild(this.world.container)
+//			this.scaffold.addChild(this.scaffold.rods)
+//			this.scaffold.addChild(this.scaffold.bolts);
+//			this.scaffold.y = 0;
+//			this.stage.addChild(this.scaffold);
+//
+//
+//			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
+//
+//
+//			E.Ticker.useRAF = true;
+//			E.Ticker.setFPS(30);
+//
+//
+//			this.stage.width =  1000;
+			//$(window).resize(this.resize);
 
 			//debugger;
 		},
@@ -80,7 +85,7 @@ define(['backbone',
 
 		removeHud: function() {
 			this.renderHud = false;
-			this.scaffold.removeChild(this.indicator.container);
+			//this.scaffold.removeChild(this.indicator.container);
 		},
 
 		drawBG: function() {
