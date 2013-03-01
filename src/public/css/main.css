@@ -3273,12 +3273,24 @@ i.icon-facebook {
     position: absolute;
 }
 
-.blue {
+#scaffold {
     background: #002a80;
+    width: 400px;
+    height: 600px;
+    left: 50%;
+    top:400px;
 }
 
-.green {
+#bolts {
     background: #006400;
+
+
+}
+
+.bolt {
+    -webkit-transform-origin:25px 25px;
+    width: 50px; height: 50px;
+    background-image:url('../img/bolt.png');
 }
 
 .red {
