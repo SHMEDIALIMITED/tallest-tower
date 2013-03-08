@@ -1,5 +1,5 @@
 {
-  "prepare": "echo executed prepare statement!",
-  "test": "echo executed deploy statement!",
-  "deploy": "echo deploy && git push heroku master --force"
+  "prepare": "grunt",
+  "test": "jasmine-node src/test/spec",
+  "deploy": "echo deploy"
 }
