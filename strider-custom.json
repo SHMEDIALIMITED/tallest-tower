@@ -1,5 +1,5 @@
 {
-  "prepare": "git subtree push --prefix bin heroku master",
+  "prepare": "grunt && git subtree push --prefix bin heroku master",
   "test": "jasmine-node src/test/spec",
   "deploy": "echo done"
 }
