@@ -2,7 +2,7 @@ define(
 	[	'backbone',
 		'easel',
 		'view/Bolt'	,
-		'text!templates/count-down.html',],
+		'text!templates/count-down.html'],
 
 	function(Backbone, E, Bolt, template) {
 

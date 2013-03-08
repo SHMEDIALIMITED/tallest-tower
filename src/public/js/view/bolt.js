@@ -5,6 +5,8 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		shape : null,
 		bitmap : null,
 
+        className: 'game-object bolt',
+
 		initialize : function(options) {
 			_.bindAll(this, 'clicked');
 			_.bindAll(this, 'mouseOver');
@@ -38,7 +40,12 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 				this.bitmap.regX = 25;
 				this.bitmap.regY = 25;
 			}
-				
+
+            //var image = assets.get('img/bolt.png').cloneNode(true);
+           // this.$el.append(image);
+
+            this.$el.click(this.clicked);
+
 			this.bitmap.onPress = this.clicked;
 			this.bitmap.onMouseOver = this.mouseOver;
 			this.bitmap.onMouseOut = this.mouseOut;
@@ -53,7 +60,8 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 				this.shape.graphics.clear();
 		},
 
-		clicked : function() {
+		clicked : function(e) {
+            e.stopPropagation();
 			this.trigger('selected', this);
 		},
 
@@ -66,8 +74,14 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		},
 
 		render : function() {
-			this.container.x = this.model.get('x');
-			this.container.y = this.model.get('y');
+
+            //console.log(this.el.style.transform)
+		//	this.el.style['-webkit-transform'] = 'translate(' + this.model.get('x') + 'px, ' + this.model.get('y') + 'px);';
+
+
+            this.el.style.WebkitTransform = 'translate(' + this.model.get('x') + 'px,' + this.model.get('y') + 'px)';
+
+          //  this.container.y = this.model.get('y');
 		},
 
 		release : function() {

@@ -11,11 +11,12 @@ define(['backbone',
 		'model/GameData',
 		'preload',
 		'SignalMap',
-		'model/AssetPool'], 
-	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool) {
+		'model/AssetPool',
+        'text!templates/game-engine.html'],
+	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool, template) {
 
 	return Backbone.View.extend({
-		tagName: 'canvas',
+		tagName: 'div',
 		stage : null,
 		scaffold : null,
 		bg : null,
@@ -37,35 +38,41 @@ define(['backbone',
 
 			
 			
-			
-			 
-			 
-			this.stage = new E.Stage(this.el);
-			this.stage.enableMouseOver(30);
-
-			this.bg = new E.Shape();
-			this.stage.addChild(this.bg);
-
-			this.world = new World();
-			this.scaffold = new E.Container();	
-			this.scaffold.rods = new E.Container();
-			this.scaffold.bolts = new E.Container();
-			this.stage.addChild(this.world.container)
-			this.scaffold.addChild(this.scaffold.rods)
-			this.scaffold.addChild(this.scaffold.bolts);
-			this.scaffold.y = 0;
-			this.stage.addChild(this.scaffold);
+			console.log('-----------------------', this.$el);
 
 
-			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
-			
-			
-			E.Ticker.useRAF = true;
-			E.Ticker.setFPS(30);
 
-			
-			this.stage.width =  1000;
-			$(window).resize(this.resize);
+            this.$el.append(_.template(template));
+
+            
+
+            console.log('-----------------------', this.$el);
+//			this.stage = new E.Stage(this.el);
+//			this.stage.enableMouseOver(30);
+//
+//			this.bg = new E.Shape();
+//			this.stage.addChild(this.bg);
+//
+//			this.world = new World();
+//			this.scaffold = new E.Container();
+//			this.scaffold.rods = new E.Container();
+//			this.scaffold.bolts = new E.Container();
+//			this.stage.addChild(this.world.container)
+//			this.scaffold.addChild(this.scaffold.rods)
+//			this.scaffold.addChild(this.scaffold.bolts);
+//			this.scaffold.y = 0;
+//			this.stage.addChild(this.scaffold);
+//
+//
+//			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
+//
+//
+//			E.Ticker.useRAF = true;
+//			E.Ticker.setFPS(30);
+//
+//
+//			this.stage.width =  1000;
+			//$(window).resize(this.resize);
 
 			//debugger;
 		},
@@ -73,14 +80,14 @@ define(['backbone',
 		
 
 		addHud : function() {
-			this.indicator.model = this.selectedPoint;
-			this.scaffold.addChildAt(this.indicator.container, 1);
-			this.renderHud = true;
+			//this.indicator.model = this.selectedPoint;
+			//this.scaffold.addChildAt(this.indicator.container, 1);
+			//this.renderHud = true;
 		},
 
 		removeHud: function() {
 			this.renderHud = false;
-			this.scaffold.removeChild(this.indicator.container);
+			//this.scaffold.removeChild(this.indicator.container);
 		},
 
 		drawBG: function() {
@@ -91,6 +98,7 @@ define(['backbone',
 		},
 
 		resize : function() {
+            return;
 			if(window.innerWidth > 500) {
 				this.scaffold.scaleX = this.scaffold.scaleY = 1;
 			}else {
@@ -137,7 +145,7 @@ define(['backbone',
 				this.model.get('points').on('add', this.addBolt);
 				this.model.get('sticks').on('add', this.addRod);
 				this.model.get('points').each(function(point){
-					//console.log('AddPoint', point)
+					console.log('AddPoint', point)
 					this.addBolt(point);
 				}, this);
 				this.model.get('sticks').each(function(stick){
@@ -204,10 +212,10 @@ define(['backbone',
 				}
 
 				AssetPool.on('complete', function() {
-					this.world.model = this.model;
-					this.world.load(AssetPool.get('img/worlds/basic.json'), AssetPool.get('img/worlds/basic.png'));
+					//this.world.model = this.model;
+					//this.world.load(AssetPool.get('img/worlds/basic.json'), AssetPool.get('img/worlds/basic.png'));
 
-						SignalMap.engineReady.dispatch(this);
+					SignalMap.engineReady.dispatch(this);
 				}, this);
 
 				AssetPool.load();
@@ -219,20 +227,21 @@ define(['backbone',
 		
 		addRod : function(stick) {
 			var rod = new Rod({model:stick, assets:AssetPool});
-			this.scaffold.rods.addChild(rod.container);
+            this.scaffold.rods.addChild(rod.container);
 			this.objects.push(rod);
 		},
 
 		addBolt : function(point){
 			var bolt = new Bolt({model:point, assets:AssetPool});
 			bolt.on('selected', this.selectBolt)
-			this.scaffold.bolts.addChild(bolt.container);
+			$(this.el).find('#bolts').append(bolt.el)
+            //this.scaffold.bolts.addChild(bolt.container);
 			this.objects.push(bolt);
 		},
 
 		selectBolt: function(bolt) {
 			
-			this.bg.onPress = this.addStick;
+			//
 			if(this.feature.get('type') == 0) {
 				bolt.model.set('fixed', true);
 				bolt.draw();
@@ -249,20 +258,22 @@ define(['backbone',
 			}
 			this.selectedPoint = bolt.model;
 			bolt.setSelected(true);
+            this.$el.click(this.addStick);
 			this.addHud();
 		},
 
 
 		addPoint : function(e) {
 
-			point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
-			var dx = point.get('x') - this.selectedPoint.get('x');
+			//point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
+            point = new Point({x: (e.offsetX), y: (e.offsetY)});
+            var dx = point.get('x') - this.selectedPoint.get('x');
 			var dy = point.get('y') - this.selectedPoint.get('y');
 			var d = Math.sqrt(dx*dx + dy*dy);
-
+            console.log('Add Point', d)
 			if(d > this.feature.get('maxLength')) {
 
-				return null
+				//return null
 			}
 			this.model.dirty = true;
 			this.model.get('points').add(point);
@@ -270,25 +281,29 @@ define(['backbone',
 		},
 
 		addStick: function(e) {
+
 			var point;
 			if(e instanceof Bolt
 				 ) {
 				point = e.model;
 			}else {
-				point = this.addPoint(e);		
+
+				point = this.addPoint(e);
+                console.log('add stick', e);
 				//this.addBolt();
 			}
-			
+
+            console.log('add stick point', point);
 			if(point instanceof Point) {
 				var dx = point.get('x') - this.selectedPoint.get('x');
 				var dy = point.get('y') - this.selectedPoint.get('y');
 				var d = Math.sqrt(dx*dx + dy*dy);
 				if(d > this.feature.get('maxLength')) {
 
-					return null
+					//return null
 				}
 			}else {
-				return null;
+				//return null;
 			} 
 
 
@@ -296,7 +311,7 @@ define(['backbone',
 
 
 
-			
+			console.log('Do Add Stick', s)
 			this.model.get('sticks').add(s);
 			var points = this.model.get('points'); 
 			points.each(function(point) {				
@@ -368,15 +383,24 @@ define(['backbone',
 				}
 			}
 				this.lift *= 0.88;
+<<<<<<< HEAD
 				this.scaffold.y += 3 * this.lift;
 				this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight  -500)
 				this.delta = this.scaffold.y;
 				this.world.render(this.scaffold.y);
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
+=======
+				//this.scaffold.y += 3 * this.lift;
+				//this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
+				///this.delta = this.scaffold.y;
+				//this.world.render(this.scaffold.y);
+			//var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
+			//if(pX.y < 150) {
+>>>>>>> 231ad2fc74e0f4b0d617f2e742c93f2f4bf519cd
 				
 				//this.drawBG();
-			}
+			//}
 
 			var gameObjects = this.objects;
 			var i = gameObjects.length;
@@ -393,7 +417,7 @@ define(['backbone',
 
 			}
 						
-			this.stage.update();
+			//this.stage.update();
 		},
 
 	});
