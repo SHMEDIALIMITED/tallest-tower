@@ -1,42 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="60" tilewidth="60" tileheight="60">
- <tileset firstgid="1" name="basic" tilewidth="60" tileheight="60">
-  <image source="basic.png" width="360" height="1080"/>
-  <terraintypes>
-   <terrain name="New Terrain" tile="-1"/>
-   <terrain name="New Terrain2" tile="-1"/>
-  </terraintypes>
-  <tile id="0" terrain=",,,1"/>
-  <tile id="1" terrain=",,1,1"/>
-  <tile id="5" terrain=",,1,"/>
-  <tile id="6" terrain=",1,,1"/>
-  <tile id="7" terrain="1,1,1,1"/>
-  <tile id="11" terrain="1,,1,"/>
-  <tile id="30" terrain=",1,,"/>
-  <tile id="31" terrain="1,1,,"/>
-  <tile id="35" terrain="1,,,"/>
-  <tile id="36" terrain=",,,0"/>
-  <tile id="37" terrain=",,0,0"/>
-  <tile id="38" terrain=",,0,"/>
-  <tile id="42" terrain=",0,,0"/>
-  <tile id="43" terrain="0,0,0,0"/>
-  <tile id="44" terrain="0,,0,"/>
-  <tile id="48" terrain=",0,,"/>
-  <tile id="49" terrain="0,0,,"/>
-  <tile id="50" terrain="0,,,"/>
-  <tile id="60" terrain="0,0,0,"/>
-  <tile id="61" terrain="0,0,,0"/>
-  <tile id="66" terrain="0,,0,0"/>
-  <tile id="67" terrain=",0,0,0"/>
+<map version="1.0" orientation="orthogonal" width="35" height="60" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="basic" tilewidth="64" tileheight="64">
+  <image source="basic.png" width="768" height="4096"/>
  </tileset>
- <layer name="Tile Layer 2" width="20" height="60">
+ <layer name="Tile Layer 3" width="35" height="60" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztlUkKwzAMRdV5Tqek6XyA3P+AfSKrGkNrrEJIJXgLbR7WT5BEvLy8+lYDmMDUyDeDFayNfBvYw8HId4Qazka+CzzgaeTz/PLK88urvuen+24IIxjLe37ap+5Cna+ALeyknTXsU2a39mleJVRwkja7sE/J0n3/5SuMfaX7knyxfdDl/6WOvDd3X+X49J7NYQFLaW9bl79HFXlvyi3We3aFG9wNfGF+7vuNr3Hf177YPvjkewEu5hks
+   eJztljEKgEAMBC//f5n22muvvVYSznTbKTjIDqSVYZOLae05Q7Q2xgsfesGD4jJFrxngskSvFeCyRa/9Y5eck+Ou82OXCeKRLCCXmhOCCyWTpHIh7LnKhbLnVtCe2wF7LqkeUeaX9JZILpTbJSG5UO6ohHJHJYQ7qiC9I7to7KLxO9LYReN50fjfqCH1yLeUxvOicS4au2g8LxrnonEuGv8bNaQekVzcI41z0fzV5QJhvHzL
   </data>
  </layer>
- <layer name="Tile Layer 1" width="20" height="60" visible="0">
+ <layer name="Tile Layer 1" width="35" height="60" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztkTEKwCAQBO8z0cKksrYy/39TDuKBCTYaIQgzMLDVCJ4IAAAAAADAGmyqK/oJvaDuxWNC13pJjVX3a88aK/Sy3H9ot+rZZ9Vw8rxNGNwt8+utno2I/3gBjZo16w==
+   eJztl8dOAzEURWfWdDZ0/guJ3jd0NiShbChbeu+9914/jcPC0sjYihNewsZHOtL46WY8M1Is3SDweDwej8fj8Xg8Ho/Hk2mawiBoxhZsxTZsxw7tujPM/LN0sUc39mAv9mE/DmjXg1l4liH2iGEcEziMIziqXY9l41kwJpCRYBwnBDISTOOMQEaCddwQyEhwjCcCGQnu8SH4fb78oK5VJtOYzhfTWfNf54vprMnG+RLHhEBGgkmcEshIMItzAhkJNnFLICPBKZ4JZCR4xCeBTLrk8P/MxTzMxwIsxCIsDt0zEpRwr1Isw3KswEqswurQPSNFDdZiHdZjAzamkfkr87iAi7iEy7iCq7iWQiYZLu+yjTu4i3u4jwd4iEcpZJLtqb+P6T2kv4ttT/19TO8h/V1se57jBV7iFV7jnfZbU+YGbyNZl4ztfirzjC/4im/4jl/ab02ZD/yMZF0ytvupjN4fTH3C1jGic5eMbabWen8w9Qlbx4jOXTK2mVrr/cHUJ2wdIzp3ydhmaq33B1OfsHWM6NwlY5uptd4fTH3C1jGic5eMbabWen8w9Qlbx4jOXTK2mVp/Ax542n0=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="35" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt07dOxEAUQFFPSaYhb0PehkzF75BDQw4SmUUi55xz6OH7uCtYeTTCxeDXIL0rHfl5NBiLMUGgaZqmaZqmaZqmaZqmaZpERzjGCU5xhnNc4NJjj0R3uMcDHvGEZ7zg1WOPRNOYEZglSmFVYJZoD/sCs0RXuBaYJXrDu8As0Qc+BWaJOtElMEt0gEOBOU7ZJghycMN8+7MWZ45TMe9Rgjzko8DzmpkLTfx3qeIZ1ShDOSo8r5k5IfAujTyjCbWoQ73nNTMnPd8ly4TfR651Li1oRRvaY9z7VGTC76PUOhf7fBIe9+66T5Um/D5qrHOxzyfpce+u+9Rgwu+j2frb/vVM3PVufkcPetGHfgxg0JnTe9L/ex3m+2r77Wejnhm1PoRhjGAUYxjHBCadOWqP1PoUZjGHeSxgEUtYduaoPVLrK1jDOjawiS1sY8eZo/ZIre/qGf2LM/oC71Pckg==
   </data>
  </layer>
 </map>

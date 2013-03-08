@@ -98,8 +98,9 @@ define(['backbone',
 			}
 			this.stage.canvas.width = window.innerWidth;
        		this.stage.canvas.height = window.innerHeight-32;      
-			this.scaffold.x = this.world.container.x = window.innerWidth * .5;
+			this.scaffold.x = this.world.container.x = window.innerWidth * .58;
 			this.scaffold.y = window.innerHeight - 232;
+			this.world.container.y = 200;
 			this.delta = 0;
 
 			//this.world.container.x +=450;;
@@ -368,7 +369,7 @@ define(['backbone',
 			}
 				this.lift *= 0.88;
 				this.scaffold.y += 3 * this.lift;
-				this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
+				this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight  -500)
 				this.delta = this.scaffold.y;
 				this.world.render(this.scaffold.y);
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
