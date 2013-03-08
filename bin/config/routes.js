@@ -8,8 +8,11 @@ module.exports = function (app, config) {
 	var features = require('../app/controllers/features')(config);
 	var gameData = require('../app/controllers/gamedata')(config);
 
-	// Backbone App
+	// Web App
 	app.get('/', pages.index);
+
+	// FB Canvas App
+	app.post('/', pages.canvas);
 	
 
 	////////////////

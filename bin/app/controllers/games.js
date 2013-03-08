@@ -131,7 +131,7 @@ module.exports = function(config) {
 
             console.log('here', err, user);
 
-            if(!user) return res.send('auth_error');
+            if(!user) return res.send(403, {error: 'auth_error'});
             user =null;
              Feature.find( {'_id': { $in: data.features} }, function(err, features) {
             
@@ -221,7 +221,7 @@ module.exports = function(config) {
                     var authURL = 'http://api.wordnik.com//v4/words.json/randomWord';
                     authURL += '?hasDictionaryDef=true';
                     authURL += '&minLength=3';
-                    authURL += '&maxLength=7';
+                    authURL += '&maxLength=8';
                     authURL += '&includePartOfSpeech=noun';
                     authURL += '&api_key=b2d9add059b15b5b8800c01235f0597462ca01800619b5db6';
                     
@@ -236,7 +236,7 @@ module.exports = function(config) {
                         
                             var word = JSON.parse(buffer);
                             console.log(word);
-                             game.fbID = game.data[0].fbID = req.userID;
+                             game.fbID = req.userID;
                              game.name = word.word;
                             game.save(function(err, model){
                                 user.save(function(err, user) {
@@ -264,7 +264,7 @@ module.exports = function(config) {
 	api.update = function(req, res) {
        
        if(!req.userID) {
-        return res.send('auth_error');
+        return res.send(403, {error: 'auth_error'});
        }
 
         Game.findOne({_id: req.body._id}, function(err, p) {
@@ -276,11 +276,15 @@ module.exports = function(config) {
 
             p.data = req.body.data;
 
-            console.log(p);
+            console.log('HEREEEE __------- ',p);
+
+            
 
             _.each(p.data, function(d) {
                 console.log(d)
             });
+
+
 
             p.save(function(err) {
                   if (err)

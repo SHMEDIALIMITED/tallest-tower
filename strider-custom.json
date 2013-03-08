@@ -1,5 +1,5 @@
 {
-  "prepare": "npm install && grunt",
+  "prepare": "git subtree push heroku master",
   "test": "jasmine-node src/test/spec",
-  "deploy": "git subtree push heroku master"
+  "deploy": "echo done"
 }
