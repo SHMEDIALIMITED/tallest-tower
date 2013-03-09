@@ -1,5 +1,5 @@
 {
-  "prepare": "npm install && grunt",
+  "prepare": "sudo npm install && grunt",
   "test": "jasmine-node src/test/spec",
   "deploy": "echo done"
 }
