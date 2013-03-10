@@ -5,7 +5,7 @@
 	'view/GamePageView',
 	'facebook',
 	'jquery',
-	'view/lobbyPage',
+	'view/LobbyPage',
 	'model/GameCollection',
 	'view/CreatePageView',
 	'model/FeatureCollection',
