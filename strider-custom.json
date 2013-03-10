@@ -1,5 +1,5 @@
 {
   "prepare": "sudo npm install && grunt",
   "test" : "echo tesing",
-  "deploy": "git subtree push --force --prefix bin heroku master"
+  "deploy": "git --force subtree push --prefix bin heroku master"
 }
