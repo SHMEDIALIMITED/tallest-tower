@@ -1,7 +1,7 @@
 define(	['backbone',
-		'model/points',
-		'model/point',
-		'model/sticks'],
+		'model/Points',
+		'model/Point',
+		'model/Sticks'],
 
 	function(	Backbone, 
 				Points, 
