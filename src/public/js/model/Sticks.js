@@ -1,4 +1,4 @@
-define(['backbone', 'model/stick'], function(Backbone, Stick) {
+define(['backbone', 'model/Stick'], function(Backbone, Stick) {
 	return Backbone.Collection.extend({
 		model : Stick,
 

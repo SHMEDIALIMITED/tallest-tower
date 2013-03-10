@@ -6,7 +6,9 @@ module.exports = function(grunt) {
 
         exec: {
           build: {
-            command: 'node r.js -o r.config.js'
+            command: 'node r.js -o r.config.js',
+            stdout: true, 
+            stderr: true
           },
           deploy : {
             command : 'git subtree push --prefix bin heroku master'

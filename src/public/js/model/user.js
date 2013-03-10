@@ -1,9 +1,6 @@
-define(['backbone', 
-		'model/points', 
-		'model/point', 
-		'model/sticks'], 
+define(['backbone'], 
 
-function(Backbone, Points, Point, Sticks) {
+function(Backbone) {
 
 	return Backbone.Model.extend({
 		url : '/api/users',

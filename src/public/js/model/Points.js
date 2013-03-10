@@ -1,4 +1,4 @@
-define(['backbone', 'model/point'], function(Backbone, Point) {
+define(['backbone', 'model/Point'], function(Backbone, Point) {
 	return Backbone.Collection.extend({
 		model : Point
 	});	
