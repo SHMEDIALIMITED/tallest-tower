@@ -67,14 +67,14 @@ define(['backbone',
 //			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
 //
 //
-			//E.Ticker.useRAF = true;
-			//E.Ticker.setFPS(30);
+			E.Ticker.useRAF = true;
+			E.Ticker.setFPS(30);
 //
 //
 //			this.stage.width =  1000;
-			//$(window).resize(this.resize);
+			$(window).resize(this.resize);
 
-			//debugger;
+			debugger;
 		},
 
 		
@@ -98,7 +98,7 @@ define(['backbone',
 		},
 
 		resize : function() {
-            return;
+            
 			if(window.innerWidth > 500) {
 				this.scaffold.scaleX = this.scaffold.scaleY = 1;
 			}else {
