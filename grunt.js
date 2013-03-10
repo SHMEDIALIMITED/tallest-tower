@@ -99,7 +99,7 @@ module.exports = function(grunt) {
       return parts.join('.');
     });
 
-    grunt.registerTask('default',  'bump clean:init copy:init clean:css imageEmbed cssmin clean:js copy:js exec:build clean:post jsdoc');
+    grunt.registerTask('default',  'bump clean:init copy:init clean:css imageEmbed cssmin clean:js copy:js exec:build clean:post');
     grunt.registerTask('deploy', 'exec:deploy');
 
 };
