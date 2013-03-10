@@ -1,7 +1,7 @@
 describe('sample spec node', function(){
 
   it('should pass', function(){
-    expect(1+2).toEqual(4);
+    expect(1+2).toEqual(3);
   });
 
   it('shows asynchronous test', function(){
