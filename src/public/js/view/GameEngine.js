@@ -67,8 +67,8 @@ define(['backbone',
 //			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
 //
 //
-//			E.Ticker.useRAF = true;
-//			E.Ticker.setFPS(30);
+			E.Ticker.useRAF = true;
+			E.Ticker.setFPS(30);
 //
 //
 //			this.stage.width =  1000;
