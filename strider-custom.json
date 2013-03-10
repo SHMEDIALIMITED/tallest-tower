@@ -1,5 +1,4 @@
 {
-  "prepare": "sudo npm install && grunt",
   "test" : "jasmine-node src/test/spec",
   "deploy": "git subtree push --prefix bin heroku master"
 }
