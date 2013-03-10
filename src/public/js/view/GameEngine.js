@@ -383,24 +383,23 @@ define(['backbone',
 				}
 			}
 				this.lift *= 0.88;
-<<<<<<< HEAD
 				this.scaffold.y += 3 * this.lift;
 				this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight  -500)
 				this.delta = this.scaffold.y;
 				this.world.render(this.scaffold.y);
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
-=======
+
 				//this.scaffold.y += 3 * this.lift;
 				//this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
 				///this.delta = this.scaffold.y;
 				//this.world.render(this.scaffold.y);
 			//var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			//if(pX.y < 150) {
->>>>>>> 231ad2fc74e0f4b0d617f2e742c93f2f4bf519cd
+
 				
 				//this.drawBG();
-			//}
+			}
 
 			var gameObjects = this.objects;
 			var i = gameObjects.length;
