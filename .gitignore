@@ -1,4 +1,4 @@
 src/node_modules/
 .sass-cache
-bin/
+bin/node_modules/
 docs/
