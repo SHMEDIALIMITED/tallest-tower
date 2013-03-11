@@ -74,7 +74,7 @@ define(['backbone',
 //			this.stage.width =  1000;
 			$(window).resize(this.resize);
 
-			debugger;
+			//debugger;
 		},
 
 		
