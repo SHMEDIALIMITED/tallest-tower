@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             stderr: true
           },
           deploy : {
-            command : 'git subtree push --prefix bin heroku master'
+            command : 'git add package.json && git add src/package.json && git commit && git push heroku master'
           }
         },
 
@@ -101,7 +101,7 @@ module.exports = function(grunt) {
       return parts.join('.');
     });
 
-    grunt.registerTask('default',  'bump clean:init copy:init clean:css imageEmbed cssmin clean:js copy:js exec:build clean:post');
-    grunt.registerTask('deploy', 'exec:deploy');
+    grunt.registerTask('default',  'clean:init copy:init clean:css imageEmbed cssmin clean:js copy:js exec:build clean:post');
+    grunt.registerTask('deploy', 'bump exec:deploy');
 
 };
