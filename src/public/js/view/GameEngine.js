@@ -16,7 +16,7 @@ define(['backbone',
 	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool, template) {
 
 	return Backbone.View.extend({
-		tagName: 'div',
+		tagName: 'canvas',
 		stage : null,
 		scaffold : null,
 		bg : null,
@@ -38,33 +38,31 @@ define(['backbone',
 
 			
 			
-			console.log('-----------------------', this.$el);
+			//console.log('-----------------------', this.$el);
 
 
 
-            this.$el.append(_.template(template));
+           // this.$el.append(_.template(template));
 
             
+			this.stage = new E.Stage(this.el);
+			this.stage.enableMouseOver(30);
 
-            console.log('-----------------------', this.$el);
-//			this.stage = new E.Stage(this.el);
-//			this.stage.enableMouseOver(30);
-//
-//			this.bg = new E.Shape();
-//			this.stage.addChild(this.bg);
-//
-//			this.world = new World();
-//			this.scaffold = new E.Container();
-//			this.scaffold.rods = new E.Container();
-//			this.scaffold.bolts = new E.Container();
-//			this.stage.addChild(this.world.container)
-//			this.scaffold.addChild(this.scaffold.rods)
-//			this.scaffold.addChild(this.scaffold.bolts);
-//			this.scaffold.y = 0;
-//			this.stage.addChild(this.scaffold);
+			this.bg = new E.Shape();
+			this.stage.addChild(this.bg);
+
+			this.world = new World();
+			this.scaffold = new E.Container();
+			this.scaffold.rods = new E.Container();
+			this.scaffold.bolts = new E.Container();
+			this.stage.addChild(this.world.container)
+			this.scaffold.addChild(this.scaffold.rods)
+			this.scaffold.addChild(this.scaffold.bolts);
+			this.scaffold.y = 0;
+			this.stage.addChild(this.scaffold);
 //
 //
-//			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
+			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
 //
 //
 			E.Ticker.useRAF = true;
@@ -80,9 +78,9 @@ define(['backbone',
 		
 
 		addHud : function() {
-			//this.indicator.model = this.selectedPoint;
-			//this.scaffold.addChildAt(this.indicator.container, 1);
-			//this.renderHud = true;
+			this.indicator.model = this.selectedPoint;
+			this.scaffold.addChildAt(this.indicator.container, 1);
+			this.renderHud = true;
 		},
 
 		removeHud: function() {
@@ -95,6 +93,8 @@ define(['backbone',
 			this.bg.graphics.beginFill('#efefef')
 				.drawRect(0,0,this.el.width, this.el.height)
 				.beginFill(null);	
+
+			console.log('DRAW ----------------')
 		},
 
 		resize : function() {
@@ -212,8 +212,8 @@ define(['backbone',
 				}
 
 				AssetPool.on('complete', function() {
-					//this.world.model = this.model;
-					//this.world.load(AssetPool.get('img/worlds/basic.json'), AssetPool.get('img/worlds/basic.png'));
+					this.world.model = this.model;
+					this.world.load(AssetPool.get('img/worlds/basic.json'), AssetPool.get('img/worlds/basic.png'));
 
 					SignalMap.engineReady.dispatch(this);
 				}, this);
@@ -234,8 +234,8 @@ define(['backbone',
 		addBolt : function(point){
 			var bolt = new Bolt({model:point, assets:AssetPool});
 			bolt.on('selected', this.selectBolt)
-			$(this.el).find('#bolts').append(bolt.el)
-            //this.scaffold.bolts.addChild(bolt.container);
+			console.log('here')
+            this.scaffold.bolts.addChild(bolt.container);
 			this.objects.push(bolt);
 		},
 
@@ -330,7 +330,7 @@ define(['backbone',
 		},
 
 		tick: function() {
-			//console.log('tick')	
+			
 			var points = this.model.get('points').models;
 			i = points.length;
 			var point;
@@ -390,10 +390,10 @@ define(['backbone',
 			var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			if(pX.y < 150) {
 
-				//this.scaffold.y += 3 * this.lift;
-				//this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
-				///this.delta = this.scaffold.y;
-				//this.world.render(this.scaffold.y);
+				// this.scaffold.y += 3 * this.lift;
+				// this.scaffold.y = Math.max(this.scaffold.y ,window.innerHeight-  200)
+				// this.delta = this.scaffold.y;
+				// this.world.render(this.scaffold.y);
 			//var pX = this.scaffold.localToGlobal(0, this.scaffoldHeight);
 			//if(pX.y < 150) {
 
@@ -416,7 +416,7 @@ define(['backbone',
 
 			}
 						
-			//this.stage.update();
+			this.stage.update();
 		},
 
 	});

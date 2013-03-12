@@ -106,7 +106,7 @@ define(
 				item.release();
 			}, this);
 			this.children.length = 0;
-						this.$el.empty().append(this.engine.render().el);
+			this.$el.empty().append(this.engine.render().el);
 			this.$el.append('<ol id="features" class="span1"></ol>');
 			this.$el.append('<div class="btn-group"><button id="back-btn" class="btn"><i class="back-btn"></i>Back</button><button id="refresh-btn" class="btn"><i class="refresh-btn"></i>Refresh</button></div>')
 			this.$el.append(this.gameScoreView.render().el);

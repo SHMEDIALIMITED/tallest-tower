@@ -56,6 +56,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 
 
 		initLayer: function(layer, layerData, tilesetSheet, tilewidth, tileheight) {
+			console.log('add world layer')
 			for ( var y = 0; y < layerData.height; y++) {
 				for ( var x = 0; x < layerData.width; x++) {
 					// create a new Bitmap for each cell

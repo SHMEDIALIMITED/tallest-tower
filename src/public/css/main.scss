@@ -114,6 +114,7 @@ footer {
 canvas {
   position: relative;
   overflow-y: scroll;
+  z-index: 100000;
 }
 
 

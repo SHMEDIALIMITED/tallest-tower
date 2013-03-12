@@ -44,7 +44,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
             //var image = assets.get('img/bolt.png').cloneNode(true);
            // this.$el.append(image);
 
-            this.$el.click(this.clicked);
+            //this.$el.click(this.clicked);
 
 			this.bitmap.onPress = this.clicked;
 			this.bitmap.onMouseOver = this.mouseOver;
@@ -79,9 +79,9 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		//	this.el.style['-webkit-transform'] = 'translate(' + this.model.get('x') + 'px, ' + this.model.get('y') + 'px);';
 
 
-            this.el.style.WebkitTransform = 'translate(' + this.model.get('x') + 'px,' + this.model.get('y') + 'px)';
-
-          //  this.container.y = this.model.get('y');
+            //this.el.style.WebkitTransform = 'translate(' + this.model.get('x') + 'px,' + this.model.get('y') + 'px)';
+            this.container.x = this.model.get('x');
+          this.container.y = this.model.get('y');
 		},
 
 		release : function() {
