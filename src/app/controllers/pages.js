@@ -1,17 +1,17 @@
 //var Feature = require('app/models').Feature;
 
-// SERVER RENDERED
-exports.index = function(req, res) {
-	res.render('index', {title: 'Tallest Tower', description:'Tallest Tower Facebook game.'});
-}
 
-exports.canvas = function(req, res) {
-	res.redirect('/');
-}
+module.exports = function(config) {
+	var api = {};
 
-// // CLIENT RENDERED
-// epxorts.create = function(req, res) {
-// 	Feature.find(function(features) {
-// 		return features; 
-// 	}) 
-// }
+	api.index = function(req, res) {
+
+
+		res.render('index', {layout:false,locals:{title: 'Tallest Tower', description:'Tallest Tower Facebook game.', fbAppID: config.facebook.clientID}});
+	}
+
+	api.canvas = function(req, res) {
+		res.redirect('/');
+	}
+	return api;
+}

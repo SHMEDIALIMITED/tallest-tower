@@ -2,7 +2,7 @@
 
 module.exports = function (app, config) { 
 
-	var pages = require('../app/controllers/pages');
+	var pages = require('../app/controllers/pages')(config);
 	var users = require('../app/controllers/users')(config);
 	var games = require('../app/controllers/games')(config);
 	var features = require('../app/controllers/features')(config);

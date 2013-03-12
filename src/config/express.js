@@ -50,8 +50,17 @@ module.exports = function (app, config) {
 
   // set views path, template engine and default layout
   app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/public');
-  app.engine('html', require('ejs').renderFile);
+
+ app.engine('.html', require('ejs').__express);
+
+// Optional since express defaults to CWD/views
+
+app.set('views',  config.root + '/app/views');
+
+// Without this you would need to
+// supply the extension to res.render()
+// ex: res.render('users.html').
+app.set('view engine', 'html');
 
   app.configure(function () {
     // dynamic helpers

@@ -4,6 +4,7 @@
 
 
 
-### Staging URL
+### Staging URLS
 
 http://apps.facebook.com/ms-stage
+http://mega-structures-stage.herokuapp.com/
