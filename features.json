@@ -1,0 +1,12 @@
+{ "price" : 1, "image" : "img/create/fixed_bolt.png", "type" : 0, "factor" : 1, "_id" : { "$oid" : "510fb797f001baf214000005" }, "__v" : 0 }
+{ "price" : 2, "image" : "img/create/bamboo_rod_short.png", "type" : 1, "factor" : 1, "_id" : { "$oid" : "510fb7d7f001baf214000006" }, "__v" : 0 }
+{ "price" : 3, "image" : "img/create/bamboo_rod_long.png", "type" : 2, "factor" : 1, "_id" : { "$oid" : "510fb7e8f001baf214000007" }, "__v" : 0 }
+{ "price" : 4, "image" : "img/create/copper_rod_short.png", "type" : 3, "factor" : 1, "_id" : { "$oid" : "510fb7fcf001baf214000008" }, "__v" : 0 }
+{ "price" : 5, "image" : "img/create/copper_rod_long.png", "type" : 4, "factor" : 1, "_id" : { "$oid" : "510fb809f001baf214000009" }, "__v" : 0 }
+{ "price" : 6, "image" : "img/create/metal_rod_short.png", "type" : 5, "factor" : 1, "_id" : { "$oid" : "510fb816f001baf21400000a" }, "__v" : 0 }
+{ "price" : 7, "image" : "img/create/metal_rod_long.png", "type" : 6, "factor" : 1, "_id" : { "$oid" : "510fb827f001baf21400000b" }, "__v" : 0 }
+{ "price" : 9, "image" : "img/create/metal_rod_long.png", "type" : 6, "factor" : 9, "_id" : { "$oid" : "510ff7d0e3a3768216000005" }, "__v" : 0 }
+{ "price" : 6, "image" : "img/create/metal_rod_short.png", "type" : 5, "factor" : 5, "_id" : { "$oid" : "510ff7fbe3a3768216000006" }, "__v" : 0 }
+{ "price" : 5, "image" : "img/create/copper_rod_long.png", "type" : 4, "factor" : 4, "_id" : { "$oid" : "510ff807e3a3768216000007" }, "__v" : 0 }
+{ "price" : 4, "image" : "img/create/copper_rod_short.png", "type" : 3, "factor" : 1, "_id" : { "$oid" : "510ff80fe3a3768216000008" }, "__v" : 0 }
+{ "price" : 4, "image" : "img/create/copper_rod_short.png", "type" : 3, "factor" : 7, "_id" : { "$oid" : "510ff814e3a3768216000009" }, "__v" : 0 }
