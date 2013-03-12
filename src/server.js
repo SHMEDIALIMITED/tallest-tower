@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , http = require('http')
+  , https = require('https')
   , path = require('path');
 
 // Load configurations
@@ -29,6 +29,6 @@ require('./config/routes')(app, config);
 
 
 
-http.createServer(app).listen(app.get('port'), function(){
+https.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
