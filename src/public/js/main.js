@@ -89,7 +89,7 @@ require([
 	$(function(){
 		
 		FB.init({
-	      appId      : '462951157109577', // App ID
+	      appId      : window.FB_APP_ID, // App ID
 	      //channelUrl : 'http://localhost:3000/channel.html', // Channel File
 	      status     : true, // check login status
 	      cookie     : true, // enable cookies to allow the server to access the session
