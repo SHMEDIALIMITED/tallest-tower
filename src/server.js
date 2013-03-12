@@ -13,7 +13,6 @@ var env = process.env.NODE_ENV || 'development'
   , mongoose = require('mongoose');
 
 
-
 var app = express();
 console.log("SHOW ME THAT ENVIRONMENT ", process.env);
 

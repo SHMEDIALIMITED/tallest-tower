@@ -1,5 +1,7 @@
+var fs = require('fs');
 module.exports = {
     development: {
+      version : JSON.parse(fs.readFileSync('./package.json')).version,
       root: require('path').normalize(__dirname + '/..'),
       app: {
         name: 'Tallest Tower Dev'
