@@ -89,7 +89,7 @@
 			// 
 			
 			SignalMap.engineReady.add(function(engine) {
-
+				SignalMap.popupAction.dispatch();
 				console.log('Engine start')
 	    		engine.start();
 	    	}, this);
@@ -282,7 +282,7 @@
 		},
 
 		enterGame: function() {	
-
+			SignalMap.showPopup.dispatch('loading', true);
 
 			this.$el.find('#main').css({'padding-left': '0px', 'padding-right': '0px'});
 			var fbID = this.model.get('fbID');

@@ -85,7 +85,7 @@ define(['backbone',
 
 		removeHud: function() {
 			this.renderHud = false;
-			//this.scaffold.removeChild(this.indicator.container);
+			this.scaffold.removeChild(this.indicator.container);
 		},
 
 		drawBG: function() {
@@ -258,15 +258,15 @@ define(['backbone',
 			}
 			this.selectedPoint = bolt.model;
 			bolt.setSelected(true);
-            this.$el.click(this.addStick);
+            this.bg.onPress = this.addStick;
 			this.addHud();
 		},
 
 
 		addPoint : function(e) {
 
-			//point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
-            point = new Point({x: (e.offsetX), y: (e.offsetY)});
+			point = new Point({x: (e.stageX - this.scaffold.x) / this.scaffold.scaleX, y: (e.stageY - this.scaffold.y) / this.scaffold.scaleY});
+            //point = new Point({x: (e.offsetX), y: (e.offsetY)});
             var dx = point.get('x') - this.selectedPoint.get('x');
 			var dy = point.get('y') - this.selectedPoint.get('y');
 			var d = Math.sqrt(dx*dx + dy*dy);
