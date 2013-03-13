@@ -11,7 +11,7 @@ define(
 				console.log(options);
 				this.destroy = (options && options.destroy) ? true : false;
 				this.container = new E.Container();
-				this.txt = new E.Text("", "72px Wendy One", "#E2B230");
+				this.txt = new E.Text("", "80px Wendy One", "#E2B230");
 				this.txt.textAlign = 'center';
 				if(this.destroy) {
 					this.container.x = options.point.x;

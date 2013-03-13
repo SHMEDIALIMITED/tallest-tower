@@ -330,12 +330,12 @@ define(['backbone',
 				var dx = point.get('x') - this.selectedPoint.get('x');
 				var dy = point.get('y') - this.selectedPoint.get('y');
 				var d = Math.sqrt(dx*dx + dy*dy);
-				if(d > this.feature.get('maxLength')) {
+				if(d > this.feature.get('maxLength')) { 
 
 					//return null
 				}
 			}else {
-				//return null;
+	 			//return null;
 			} 
 
 			 //this.textOverlay.render('HERE WE GOOO OOO');

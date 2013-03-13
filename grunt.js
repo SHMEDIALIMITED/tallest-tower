@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             stderr: true
           },
           deploy : {
-            command : 'git add package.json && git add src/package.json && git commit --amend -m "Build:' + grunt.file.readJSON('package.json').version + '" && git push origin master --force',
+            command : 'git add package.json && git add src/package.json && git commit -m "Build:' + grunt.file.readJSON('package.json').version + '" && git push origin master --force',
             stdout: true, 
             stderr: true 
           }
