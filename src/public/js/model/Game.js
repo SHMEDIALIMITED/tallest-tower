@@ -8,7 +8,9 @@ define(['backbone',
 			var that;
 	return Backbone.Model.extend({
 
-		url: '/api/games',
+		url: function() {	
+			return '/api/games';
+		},
 
 		idAttribute: '_id',
 		

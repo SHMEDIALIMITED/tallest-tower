@@ -40,7 +40,42 @@ module.exports = function(config) {
 	}
 
 	api.update = function(req, res) {
+         if(!req.userID) {
+        return res.send(403, {error: 'auth_error'});
+       }
 
+        User.findOne({_id: req.body._id}, function(err, p) {
+          if (!p)
+            return next(new Error('Could not load Document'));
+          else {
+            // do your updates here
+            p.modified = new Date();
+
+            p.cash = req.body.cash;
+
+            console.log('HEREEEE __------- ',p);
+
+            
+
+           
+
+
+            p.save(function(err) {
+                  if (err)
+                    console.log('error')
+                  else {
+                   
+                    res.send(p)
+                  }
+
+                   
+                }); 
+
+           
+
+           
+          }
+        });
 	}
 
 	api.del = function(req, res){

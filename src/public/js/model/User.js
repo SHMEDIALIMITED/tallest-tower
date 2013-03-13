@@ -1,18 +1,17 @@
 define(['backbone'], 
 
 function(Backbone) {
-
+	
 	return Backbone.Model.extend({
-		url : '/api/users',
+		
+		urlRoot : '/api/users/',
 
+		idAttribute: '_id',
 
 		defaults : {
 			games : new Backbone.Collection(),
-			cash : 100
 		},
 
-		save : function(attrs, options) {
-	        Backbone.Model.prototype.save.call(this, attrs, options);
-	    }
+	
 	});
 })

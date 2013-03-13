@@ -353,7 +353,10 @@ define(['backbone',
 			var that = this;
 			this.comboTimeout = setTimeout( function() {
 			 	that.inCombo = false; 
-			 	if(that.combos != 0 )that.textOverlay.render(that.combos + 'x\nCombo');
+			 	if(that.combos != 0 ) {
+			 		that.textOverlay.render(that.combos + 'x\nCombo');
+			 		that.trigger('combo', that.combos);
+			 	}
 				that.combos = 0;
 			 },1000)
 

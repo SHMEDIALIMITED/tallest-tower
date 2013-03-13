@@ -127,7 +127,8 @@
 
 			SignalMap.saveGame.add(function(game) {
 				SignalMap.showPopup.dispatch('loading');
-				this.model.save();
+
+				
 				game.save({}, {success: function(err, model) {
 							
 
@@ -149,7 +150,10 @@
 
 			SignalMap.saveGameData.add(function(gamePage, auto) {
 				SignalMap.showPopup.dispatch('loading');
-				this.model.save();
+				//debugger;
+				// this.model.save({cash:300}, {success: function() {
+				// 	console.log('USER SAVE SUCCESS')
+				// }});
 
 
 				
@@ -238,10 +242,26 @@
 
 			//this.gamePage.set({game: this.currentGame, gameData: gameData})
 			
+				
 			if(this.gamePage.get('gameData') && this.gamePage.get('gameData').dirty) {
-
+				this.model.save({},  {success: function(err, model) {
+								
+							console.log('KKK');
+								
+							}, error: function(model, xhr, options){
+								console.log('ERROR');
+								if(xhr.status == 403) {
+									SignalMap.showPopup.dispatch('login', false);
+								}
+							}});
 
 				SignalMap.saveGameData.dispatch(this.gamePage, true);
+				
+				
+					
+				
+			
+			
 				this.gamePage.get('gameData').dirty = false;
 				return;
 			}else {

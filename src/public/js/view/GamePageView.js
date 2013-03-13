@@ -56,9 +56,20 @@ define(
 			//this.listenTo(this.model.get('gameData').get('sticks'), 'add',this.processRemainingSticks, this);
 			this.engine = new GameEngine({model: this.model.get('gameData')});
 			this.engine.on('feature_run_out', this.selectAvailableFeature, this);	
+			this.engine.on('combo', this.onGameEngineCombo, this);	
 			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')}); 
 			this.countdown = new CountDownView({});		
 			this.children = [];
+		},
+
+		onGameEngineCombo : function(numCombos) {
+			
+			var user = this.model.get('user');
+			var cash = user.get('cash');
+			cash += 10 * numCombos;
+			user.set({cash: cash });
+			//debugger;
+			console.log('________CASH UP DATE', user)
 		},
 
 		selectAvailableFeature: function(feature, init) {

@@ -2,7 +2,7 @@ require.config({
 	urlArgs: 'cb=' + Math.random(),
 	'paths': {
 		'jquery': 'libs/jquery-1.8.3.min',
-		'backbone': 'libs/backbone-0.9.10',
+		'backbone': 'libs/backbone-min',//'libs/backbone-0.9.10',
 		'underscore': 'libs/underscore-min',
 		'easel' : 'libs/easeljs-0.5.0.min',
 		'facebook' : '//connect.facebook.net/en_US/all',
@@ -59,7 +59,7 @@ require([
 	'view/Popup',
 	'SignalMap'
 ], function(App, $, FB, User, Preloader, SignalMap) {
-
+	
 	var user = new User();
 	FB.loginResponse = function(response) {	
 		if(!response.authResponse) {
@@ -115,14 +115,32 @@ require([
 	    	if(response.status == 'connected') {
 	    		
 	    		
-	    		user.fetch({success: function(model, res, options) {
-	    			FB.api('/me', function(me) {
-	    				user.set({facebook:me});
-	    				app = new App({model:user});
-	    			});
-				}, error:function() {
-					//console.log('error')
-				}});
+	    		
+				FB.api('/me', function(me) {
+					
+
+					user.set({facebook:me});
+					
+					user.fetch({success:function(err, model) {
+						console.log('++++++', model)
+						if(!model) {
+							user.save({},{success:function(err, model) {
+								
+								app = new App({model:user});
+							}, error : function() {
+								
+							}});
+							return;
+						}
+						app = new App({model:user});
+					}, error : function() {
+						
+					}});
+
+
+					// console.log('HERE------', that.model)
+					
+				});
 	    		
 	    	} else  {
 	    		// USER NOT LOGGED IN
