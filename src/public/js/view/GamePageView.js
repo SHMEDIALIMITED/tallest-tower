@@ -26,7 +26,7 @@ define(
 		},
 
 		save : function( ){
-			console.log('SAVE: ', this.model.get('game').get('data'));
+			
 			//SignalMap.saveGameData.dispatch(this.model)
 		},
 
@@ -52,6 +52,7 @@ define(
 		initialize: function(options) {
 
 			console.log('Game Page ::::: init');
+
 			//this.listenTo(this.model.get('gameData').get('sticks'), 'add',this.processRemainingSticks, this);
 			this.engine = new GameEngine({model: this.model.get('gameData')});
 			this.engine.on('feature_run_out', this.selectAvailableFeature, this);	
@@ -172,12 +173,12 @@ define(
 		},
 
 		release : function() {
-			console.log('Game Page ::::: release');
+			
 			this.model = null;
 			this.engine.off('feature_run_out');	
 			this.gameScoreView.release();
 			this.engine.stop();
-
+			this.engine.release();
 			this.engine = null;
 			this.gameScoreView = null;
 

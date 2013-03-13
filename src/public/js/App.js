@@ -62,7 +62,7 @@
 				that.model.set({facebook:me});
 
 				that.model.save({success:function(err, user) {
-					console.log('User saved', user);
+					
 					SignalMap.popupAction.dispatch();
 				}});
 			});
@@ -90,7 +90,8 @@
 			
 			SignalMap.engineReady.add(function(engine) {
 				SignalMap.popupAction.dispatch();
-				console.log('Engine start')
+				
+
 	    		engine.start();
 	    	}, this);
 
@@ -128,7 +129,7 @@
 				SignalMap.showPopup.dispatch('loading');
 				this.model.save();
 				game.save({}, {success: function(err, model) {
-							console.log('GAME SAVED: ', game);
+							
 
 							model = game.toJSON();
 							model.features = model.features.toJSON();
@@ -137,7 +138,7 @@
 							that.popup.render('gameSuccess', model)
 							//SignalMap.showPopup.dispatch('gameDataSuccess');
 						}, error: function(model, xhr, options){
-							console.log('GAME SAVED EROR: ', xhr);
+							
 							if(xhr.status == 403) {
 								SignalMap.showPopup.dispatch('login', false);
 							}
@@ -151,7 +152,7 @@
 				this.model.save();
 
 
-				console.log('GAME SAVING: ', gamePage.get('game'));
+				
 				
 				gamePage.get('game').save(null,  {success: function(err, model) {
 							
@@ -169,7 +170,7 @@
 							
 							//SignalMap.showPopup.dispatch('gameDataSuccess');
 						}, error: function(model, xhr, options){
-							console.log('GAME SAVED EROR: ', xhr);
+							
 							if(xhr.status == 403) {
 								SignalMap.showPopup.dispatch('login', false);
 							}
@@ -221,7 +222,7 @@
 			this.$el.find('#preloader').fadeOut('fast', function() {
 				setTimeout(function() {
 
-					console.log('HISTORY start')
+					
 					Backbone.history.start()
 				}, 500);
 			});
@@ -236,7 +237,7 @@
 		enterLobby : function() {	
 
 			//this.gamePage.set({game: this.currentGame, gameData: gameData})
-			console.log('ENTERN LOBBY',this.gamePage.get('gameData') ? this.gamePage.get('gameData').toJSON(): false)
+			
 			if(this.gamePage.get('gameData') && this.gamePage.get('gameData').dirty) {
 
 
@@ -268,7 +269,7 @@
 			this.createPage.get('features').fetch({success:_.bind(function() {
 				SignalMap.popupAction.dispatch();
 			}, this), error:function(model, xhr) {
-				console.log('Feature fetch error', xhr);
+				
 			}});
 			
 		},
@@ -288,17 +289,17 @@
 			var fbID = this.model.get('fbID');
 			
 			var gameData = this.currentGame.get('data').find(function(data) {
-				console.log('Data', data)
+				
 				return data.get('fbID') == fbID;
 			})
 
 			if(!gameData) {
 				gameData = new GameData({fbID: fbID});
 				this.currentGame.get('data').add(gameData);
-				console.log('GAMEDATA --- ', gameData)
+				
 				this.model.get('games').push(fbID);
 			}else {
-				console.log('GAMEDATA OLD --- ', gameData)
+				
 			}
 			
 

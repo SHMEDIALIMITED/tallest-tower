@@ -68,16 +68,16 @@ require([
 			user.fetch({success:function(err, model) {
 				if(!model) {
 					user.save({},{success:function(err, model) {
-						console.log('User saved', user);
+						
 						SignalMap.popupAction.dispatch();
 					}, error : function() {
-						console.log('USER SAVE ERROR')
+						
 					}});
 					return;
 				}
 				SignalMap.popupAction.dispatch();
 			}, error : function() {
-				console.log('USER SAVE ERROR')
+				
 			}});
 
 
@@ -101,9 +101,9 @@ require([
 
 		
 	    FB.getLoginStatus(function (response) {
-	    	console.log(response.status)
+	    	
 	    	if(response.status == 'connected') {
-	    		console.log('USER AUTHORIZED');
+	    		
 	    		
 	    		user.fetch({success: function(model, res, options) {
 	    			FB.api('/me', function(me) {

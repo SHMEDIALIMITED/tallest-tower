@@ -39,7 +39,7 @@ define(
 			route = route.replace('route:', '');
 			var JQel = $('#' + route + '-btn');
 			
-			console.log('RENDER:::::' , JQel);
+			
 			this.$el.find('li.active').removeClass('active');
 			JQel.addClass('active');
 			return this;

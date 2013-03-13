@@ -16,6 +16,17 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 			this.container.mouseEnabled = false;
 		},
 
+		release:function() {
+			_.each(this.layers, function(layer) {
+				var cell;
+				layer.removeAllChildren();
+				// while(layer.numChildren != 0) {
+				// 	console.log('REMOVE  CELL')
+				// 	cell = layer.removeChildAt(0);
+				// }
+			});
+		},
+
 		resize: function() {
 			this.numX = Math.ceil(window.innerWidth / 120);
 			this.numY = Math.ceil(window.innerHeight / 120);
@@ -56,7 +67,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 
 
 		initLayer: function(layer, layerData, tilesetSheet, tilewidth, tileheight) {
-			console.log('add world layer')
+			
 			for ( var y = 0; y < layerData.height; y++) {
 				for ( var x = 0; x < layerData.width; x++) {
 					// create a new Bitmap for each cell

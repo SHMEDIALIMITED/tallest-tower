@@ -11,7 +11,9 @@ module.exports = function(grunt) {
             stderr: true
           },
           deploy : {
-            command : 'git add package.json && git add src/package.json && git commit && git push heroku master'
+            command : 'git add package.json && git add src/package.json && git commit -m "bumping" && git push origin master --force',
+            stdout: true, 
+            stderr: true 
           }
         },
 

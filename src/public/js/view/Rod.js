@@ -78,7 +78,7 @@ define(['backbone', 'easel'], function(Backbone, E) {
 		},
 
 		release : function() {
-			console.log('Rod::release');
+			
 			delete this.bitmap.onPress;
 			delete this.bitmap.onMouseOut;
 			delete this.bitmap.onMouseOver;

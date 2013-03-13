@@ -70,7 +70,8 @@ define(
 					case 'confirm' : template = confirm; break;
 				}
 				this.type  = type;
-				console.log(data);
+				
+				
 
 				this.$el.empty().append(_.template(template, data));
 					

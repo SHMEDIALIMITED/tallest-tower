@@ -20,6 +20,13 @@ define(
 				this.container.addChild(this.bitmap);
 			},
 
+			release : function() {
+				this.model = null;
+				this.container.removeChild(this.shape);
+				this.container.removeChild(this.bitmap);
+				this.shape.graphics.clear();
+			},
+
 			render: function(mouse, d) {
 				
 

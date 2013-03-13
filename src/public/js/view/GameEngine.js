@@ -66,7 +66,7 @@ define(['backbone',
 //
 //
 			E.Ticker.useRAF = true;
-			E.Ticker.setFPS(30);
+			E.Ticker.setFPS(60);
 //
 //
 //			this.stage.width =  1000;
@@ -75,6 +75,25 @@ define(['backbone',
 			//debugger;
 		},
 
+		release : function() {
+			_.each(this.objects, function(obj){
+				obj.release();
+			})
+			this.objects.length = 0;
+			this.selectedPoint = null;
+
+			this.indicator.release();
+
+			this.stage.removeChild(this.world.container);
+			this.stage.removeChild(this.scaffold);	
+			this.scaffold.removeChild(this.scaffold.rods)
+			this.scaffold.removeChild(this.scaffold.bolts);
+			this.stage.removeChild(this.bg);
+			this.bg.graphics.clear();
+
+			this.world.release();
+			$(window).unbind('resize', this.resize);
+		},	
 		
 
 		addHud : function() {
@@ -94,7 +113,7 @@ define(['backbone',
 				.drawRect(0,0,this.el.width, this.el.height)
 				.beginFill(null);	
 
-			console.log('DRAW ----------------')
+			
 		},
 
 		resize : function() {
@@ -120,7 +139,7 @@ define(['backbone',
 		up : function() {
 			if(this.lift <= 0) this.lift = 0;
 			this.lift += 6 + this.lift;
-			console.log(this.lift)
+			
 		},
 
 		down : function() {
@@ -145,11 +164,11 @@ define(['backbone',
 				this.model.get('points').on('add', this.addBolt);
 				this.model.get('sticks').on('add', this.addRod);
 				this.model.get('points').each(function(point){
-					console.log('AddPoint', point)
+					
 					this.addBolt(point);
 				}, this);
 				this.model.get('sticks').each(function(stick){
-					//console.log('Addstick', stick)
+					
 					this.addRod(stick);
 				}, this);
 			this.resize();
@@ -234,7 +253,7 @@ define(['backbone',
 		addBolt : function(point){
 			var bolt = new Bolt({model:point, assets:AssetPool});
 			bolt.on('selected', this.selectBolt)
-			console.log('here')
+			
             this.scaffold.bolts.addChild(bolt.container);
 			this.objects.push(bolt);
 		},
@@ -270,7 +289,7 @@ define(['backbone',
             var dx = point.get('x') - this.selectedPoint.get('x');
 			var dy = point.get('y') - this.selectedPoint.get('y');
 			var d = Math.sqrt(dx*dx + dy*dy);
-            console.log('Add Point', d)
+            
 			if(d > this.feature.get('maxLength')) {
 
 				//return null
@@ -289,11 +308,11 @@ define(['backbone',
 			}else {
 
 				point = this.addPoint(e);
-                console.log('add stick', e);
+                
 				//this.addBolt();
 			}
 
-            console.log('add stick point', point);
+            
 			if(point instanceof Point) {
 				var dx = point.get('x') - this.selectedPoint.get('x');
 				var dy = point.get('y') - this.selectedPoint.get('y');
@@ -311,7 +330,7 @@ define(['backbone',
 
 
 
-			console.log('Do Add Stick', s)
+			
 			this.model.get('sticks').add(s);
 			var points = this.model.get('points'); 
 			points.each(function(point) {				

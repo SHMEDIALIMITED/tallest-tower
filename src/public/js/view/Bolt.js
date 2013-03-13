@@ -85,7 +85,7 @@ define(['backbone', 'easel', 'underscore'], function(Backbone, E, _) {
 		},
 
 		release : function() {
-			console.log('Bolt:release')
+			
 			delete this.bitmap.onPress;
 			delete this.bitmap.onMouseOut;
 			delete this.bitmap.onMouseOver;

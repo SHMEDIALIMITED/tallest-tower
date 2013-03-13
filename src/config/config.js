@@ -4,12 +4,12 @@ module.exports = {
       version : JSON.parse(fs.readFileSync('./package.json')).version,
       root: require('path').normalize(__dirname + '/..'),
       app: {
-        name: 'Tallest Tower Dev'
+        name: 'Mega Structures Dev'
       },
       db: 'mongodb://localhost/tallest_tower_dev',
       facebook: {
-          clientID: "490996157610487"
-        , clientSecret: "eb96c08874d3e31a1440a941dabe0c6a"
+          clientID: "351418368295988"
+        , clientSecret: "a5a572f8cbca84075fbeeec6a65e1657"
         , callbackURL: "http://localhost:3000/auth/facebook/callback"
       },
       
