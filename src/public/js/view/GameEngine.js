@@ -12,8 +12,9 @@ define(['backbone',
 		'preload',
 		'SignalMap',
 		'model/AssetPool',
-        'text!templates/game-engine.html'],
-	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World, RodLengthIndicator, GameData, Loader, SignalMap, AssetPool, template) {
+        'view/TextOverlay'],
+	function(Backbone, $, E, Stick, _, Point, Bolt, Rod, World,
+			 RodLengthIndicator, GameData, Loader, SignalMap, AssetPool, TextOverlay) {
 
 	return Backbone.View.extend({
 		tagName: 'canvas',
@@ -63,7 +64,9 @@ define(['backbone',
 //
 //
 			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
-//
+			this.textOverlay = new TextOverlay();
+			this.textOverlay.render('HERE WE GOOO OOO')
+			this.stage.addChild(this.textOverlay.container);
 //
 			E.Ticker.useRAF = true;
 			E.Ticker.setFPS(60);
