@@ -88,7 +88,7 @@ define(
 					}, this), 300);
 				}else {
 					_timeout = setTimeout(function() {
-						if(_timeout != 0) this.$el.fadeOut(200);
+						if(_timeout != 0 && this.$el) this.$el.fadeOut(200);
 						_timeout = 0;
 					}, 300);
 					this.$el.fadeIn(200);

@@ -49,14 +49,14 @@ define(
 
 		renderTotal : function() {
 			
-			console.log('renderTotal', this.model)
+			
 			//this.$el.find('.row-fluid #total').html('$ ' + this.model.get('game').get('value'));
 		},
 
 		render : function() {
 
 
-			console.log('Create Page Render');
+			
 			
 			var t = _.template(template);
 			this.$el.append(t);
