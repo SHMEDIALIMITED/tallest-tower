@@ -8,7 +8,8 @@ require.config({
 		'facebook' : '//connect.facebook.net/en_US/all',
 		'signal' : 'libs/signals.min',
 		'preload' : 'http://code.createjs.com/preloadjs-0.3.0.min',
-        'sugar' : 'https://raw.github.com/kitao/divsugar/master/build/divsugar'
+        'sugar' : 'https://raw.github.com/kitao/divsugar/master/build/divsugar',
+        'tween' : 'http://code.createjs.com/tweenjs-0.4.0.min'
 	},
  
 	shim: {
@@ -36,6 +37,10 @@ require.config({
 
         'sugar' : {
             exports: 'sugar'
+        },
+
+        'tween' : {
+        	exports : 'tween'
         }
 
 	}

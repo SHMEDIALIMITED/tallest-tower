@@ -23,6 +23,9 @@ define(['backbone',
 		bg : null,
 		selectedPoint : null,
 		scaffoldHeight : 0.0,
+		comboTimeout : 0,
+		inCombo : false,
+		combos : 0,
 		objects: [],
 
 		lift :0,
@@ -62,14 +65,16 @@ define(['backbone',
 			this.scaffold.y = 0;
 			this.stage.addChild(this.scaffold);
 //
-//
+//				
 			this.indicator = new RodLengthIndicator({model:this.selectedPoint});
 			this.textOverlay = new TextOverlay();
-			this.textOverlay.render('HERE WE GOOO OOO')
+			
 			this.stage.addChild(this.textOverlay.container);
 //
 			E.Ticker.useRAF = true;
 			E.Ticker.setFPS(60);
+
+
 //
 //
 //			this.stage.width =  1000;
@@ -137,6 +142,7 @@ define(['backbone',
 			
 			this.drawBG();
 			this.world.resize();
+			this.textOverlay.resize();
 		},
 
 		up : function() {
@@ -177,6 +183,8 @@ define(['backbone',
 			this.resize();
 			
 			E.Ticker.addListener(this);
+
+			this.textOverlay.render('HERE WE GOOO OOO');
 		},
 
 		stop: function() {
@@ -258,6 +266,7 @@ define(['backbone',
 			bolt.on('selected', this.selectBolt)
 			
             this.scaffold.bolts.addChild(bolt.container);
+
 			this.objects.push(bolt);
 		},
 
@@ -328,10 +337,27 @@ define(['backbone',
 				//return null;
 			} 
 
+			 //this.textOverlay.render('HERE WE GOOO OOO');
+			
+			if(this.inCombo) {
+				this.combos++;
+				this.scaffold.addChild(new TextOverlay({destroy:true, point: point.attributes}).render(this.combos + 'x').container);
+			} else {
+				
+			}
+			clearTimeout(this.comboTimeout);
+			this.inCombo = true;
+			var that = this;
+			this.comboTimeout = setTimeout( function() {
+			 	that.inCombo = false; 
+			 	if(that.combos != 0 )that.textOverlay.render(that.combos + 'x\nCombo');
+				that.combos = 0;
+			 },1000)
 
 			var s = new Stick({a:point, b:this.selectedPoint, type:this.feature.get('type')});
 
 
+			
 
 			
 			this.model.get('sticks').add(s);
