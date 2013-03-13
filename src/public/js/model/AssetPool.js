@@ -1,11 +1,12 @@
 define(
-		['backbone','easel'],
+		['backbone','easel', 'sound'],
 
 		function(Backbone, E) {
 
 			var items = [];
 			var assets = [];
 			var index;
+			
 			return _.extend({
 
 				loaded : function() {
@@ -70,6 +71,13 @@ define(
 					index++;
 					if(index < items.length) this.loadItem();
 					else {
+						E.Sound.registerSound("img/sounds/click.mp3|img/sounds/click.ogg", "click");
+						E.Sound.registerSound("img/sounds/combo_1.mp3", "combo_1");
+						E.Sound.registerSound("img/sounds/combo_2.mp3", "combo_2");
+						E.Sound.registerSound("img/sounds/combo_3.mp3", "combo_3");
+						E.Sound.registerSound("img/sounds/combo_4.mp3", "combo_4");
+						E.Sound.registerSound("img/sounds/combo_5.mp3", "combo_5");
+						E.Sound.registerSound("img/sounds/combo_6.mp3", "combo_6");
 						this.trigger('complete');
 					}
 				},

@@ -308,6 +308,7 @@ define(['backbone',
 			}
 			this.model.dirty = true;
 			this.model.get('points').add(point);
+			E.Sound.play('click');
 			return point
 		},
 
@@ -342,6 +343,8 @@ define(['backbone',
 			if(this.inCombo) {
 				this.combos++;
 				this.scaffold.addChild(new TextOverlay({destroy:true, point: point.attributes}).render(this.combos + 'x').container);
+				E.Sound.play('combo_' + this.combos).setVolume(0.2);
+
 			} else {
 				
 			}

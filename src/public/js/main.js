@@ -9,7 +9,8 @@ require.config({
 		'signal' : 'libs/signals.min',
 		'preload' : 'http://code.createjs.com/preloadjs-0.3.0.min',
         'sugar' : 'https://raw.github.com/kitao/divsugar/master/build/divsugar',
-        'tween' : 'http://code.createjs.com/tweenjs-0.4.0.min'
+        'tween' : 'http://code.createjs.com/tweenjs-0.4.0.min',
+        'sound' : 'http://code.createjs.com/soundjs-0.4.0.min'
 	},
  
 	shim: {
@@ -41,6 +42,10 @@ require.config({
 
         'tween' : {
         	exports : 'tween'
+        },
+
+        'sound' : {
+        	exports : 'sound'
         }
 
 	}
