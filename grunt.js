@@ -58,6 +58,24 @@ module.exports = function(grunt) {
           js : 'bin/public/js',
           css : 'bin/public/css',
           post : ['bin/public/css/main_temp.css', 'bin/public/css/img', 'bin/.DS_Store', 'bin/public/test', 'bin/test']
+        },
+
+        concat: {
+          js: {
+            src: [                            'src/public/js/libs/MIDI/AudioDetect.js', 
+                                              'src/public/js/libs/MIDI/LoadPlugin.js',
+                                              'src/public/js/libs/MIDI/Player.js',
+                                              'src/public/js/libs/MIDI/Plugin.js',
+                                              'src/public/js/libs/Window/DOMLoader.XMLHttp.js',
+                                              'src/public/js/libs/Window/DOMLoader.script.js',
+                                              'src/public/js/libs/jasmid/stream.js',
+                                              'src/public/js/libs/jasmid/midifile.js',
+                                              'src/public/js/libs/jasmid/replayer.js',
+                                              'src/public/js/libs/WebMIDIAPI.js',
+                                              'src/public/js/libs/Base64.js',
+                                              'src/public/js/libs/base64binary.js'],
+            dest: 'src/public/js/libs/midi.all.min.js'
+          },
         }
 
     });
@@ -68,6 +86,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-css');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.registerTask('bump', function(versionType) {
       versionType = grunt.option('type') || 'patch';
@@ -105,5 +124,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default',  'clean:init copy:init clean:css imageEmbed cssmin clean:js copy:js exec:build clean:post');
     grunt.registerTask('deploy', 'bump exec:deploy');
+    grunt.registerTask('midi', 'concat');
+
 
 };

@@ -11,13 +11,7 @@ require.config({
         'sugar' : 'https://raw.github.com/kitao/divsugar/master/build/divsugar',
         'tween' : 'http://code.createjs.com/tweenjs-0.4.0.min',
         'sound' : 'http://code.createjs.com/soundjs-0.4.0.min',
-        'midi' : 'libs/midi',
-        'WebMIDIAPI' : 'libs/WebMIDIAPI',
-        'base64binary' : 'libs/base64binary',
-        'Base64' : 'libs/Base64',
-        'midifile': 'libs/jasmid/midifile',
-        'replayer': 'libs/jasmid/replayer',
-        'stream': 'libs/jasmid/stream',
+        'midi' : 'libs/midi.all.min'
 
 	},
  
@@ -58,33 +52,6 @@ require.config({
 
         'midi': {
         	exports : 'MIDI',
-        },
-
-        'Base64' : {
-        	exports : 'Base65'
-        },
-
-
-        'base64binary' : {
-        	exports : 'base64binary'
-        },
-
-        'WebMIDIAPI' : {
-        	exports : 'WebMIDIAPI',
-        
-        },
-
-        'midifile' : {
-            exports : 'midifile',
-        
-        },
-
-         'replayer' : {
-            exports : 'Replayer'
-        },
-
-        'stream' : {
-            exports : 'Stream'
         }
 
 	}
@@ -97,11 +64,8 @@ require([
 	'model/User',
 	'view/Popup',
 	'SignalMap',
-    'midi',
-    'base64binary'
 ], function(App, $, FB, User, Preloader, SignalMap) {
 	
-
 
 	
 	var user = new User();
@@ -147,22 +111,6 @@ require([
         
 
 
-        MIDI.loadPlugin({
-      
-        instrument: 18,
-        callback: function() {
-            var delay = 0; // play one note every quarter second
-            var note = 50; // the MIDI note
-            var velocity = 127; // how hard the note hits
-            // play the note
-            // 
-            console.log('HERE   ')
-            MIDI.setVolume(0, 127);
-            MIDI.noteOn(0, note, velocity, delay);
-            MIDI.noteOff(0, note, delay + 0.75);
-        }
-    });
-        return;
 		
 		FB.init({
 	      appId      : window.FB_APP_ID, // App ID

@@ -17,7 +17,8 @@
 	'model/FindGameCollection',
 	'SignalMap',
 	'view/Popup',
-	'view/GameEngine'
+	'view/GameEngine',
+	'midi'
 
 	], function(Router, 
 				Backbone, 
@@ -241,6 +242,26 @@
 		enterLobby : function() {	
 
 			//this.gamePage.set({game: this.currentGame, gameData: gameData})
+			//
+			
+			MIDI.loadPlugin({
+		      soundfontUrl: "img/soundfont/",
+		      instruments: ["acoustic_grand_piano"],
+		      callback: function() {
+		        var delay = 0; // play one note every quarter second
+		        var note = 36; // the MIDI note
+		        var velocity = 127; // how hard the note hits
+		        // play the note
+		      
+				// play the note
+				//MIDI.setVolume(0, 127);
+				//MIDI.noteOn(0, note, velocity, delay);
+				//MIDI.noteOff(0, note, delay + 0.75);
+
+				
+		        MIDI.Player.loadFile('img/midi/basic.mid', MIDI.Player.start)
+		      }
+		    });
 			
 				
 			if(this.gamePage.get('gameData') && this.gamePage.get('gameData').dirty) {
@@ -322,7 +343,19 @@
 				
 			}
 			
+			// MIDI.loadPlugin({
+		 //      soundfontUrl: "img/soundfont/",
+		 //      instrument: [ "acoustic_grand_piano" , "synth_drum" ],
+		 //      callback: function() {
+		 //        var delay = 0; // play one note every quarter second
+		 //        var note = 50; // the MIDI note
+		 //        var velocity = 127; // how hard the note hits
+		 //        // play the note
+		      
 
+		 //       // MIDI.Player.loadFile('img/midi/rachmaninov3.mid', MIDI.Player.start)
+		 //      }
+		 //    });
 
 			
 			this.$el.find('header').addClass('hide-header');
