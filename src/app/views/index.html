@@ -7,11 +7,40 @@
     <title><%= title %> : <%= description %></title>
     <link href='http://fonts.googleapis.com/css?family=Wendy+One' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='css/main.css' />
+    
+ <script src="js/libs/MIDI/AudioDetect.js" type="text/javascript"></script>
+  <script src="js/libs/MIDI/loadPlugin.js" type="text/javascript"></script>
+   <script src="js/libs/MIDI/Player.js" type="text/javascript"></script>
+    <script src="js/libs/MIDI/Plugin.js" type="text/javascript"></script>
+    <script src="js/libs/Window/DOMLoader.XMLHttp.js" type="text/javascript"></script>
+ <script src="js/libs/Window/DOMLoader.script.js" type="text/javascript"></script>
+ <!-- extras -->
+<script src="js/libs/jasmid/stream.js"></script>
+ <script src="js/libs/jasmid/midifile.js"></script>
+ <script src="js/libs/jasmid/replayer.js"></script>
 
-   <script data-main="js/main" src="js/libs/require-min.js"></script>
+ <script src="js/libs/WebMIDIAPI.js" type="text/javascript"></script>  
+ <script src="js/libs/Base64.js" type="text/javascript"></script>
+ <script src="js/libs/base64binary.js" type="text/javascript"></script>
 
    <script>
-    
+      window.onload = function () {
+    MIDI.loadPlugin({
+      soundfontUrl: "img/soundfont/",
+      instrument: "acoustic_grand_piano",
+      callback: function() {
+        var delay = 0; // play one note every quarter second
+        var note = 50; // the MIDI note
+        var velocity = 127; // how hard the note hits
+        // play the note
+      
+
+        MIDI.Player.loadFile('img/midi/bangles-walk_like_an_egyptian.mid', MIDI.Player.start)
+      }
+    });
+
+
+};
       window.FB_APP_ID = '<%=fbAppID%>';
    </script>
     
