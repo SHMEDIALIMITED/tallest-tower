@@ -249,17 +249,27 @@
 		      instruments: ["acoustic_grand_piano"],
 		      callback: function() {
 		        var delay = 0; // play one note every quarter second
-		        var note = 36; // the MIDI note
+		        var note = 0x15; // the MIDI note
 		        var velocity = 127; // how hard the note hits
 		        // play the note
-		      
-				// play the note
-				//MIDI.setVolume(0, 127);
-				//MIDI.noteOn(0, note, velocity, delay);
-				//MIDI.noteOff(0, note, delay + 0.75);
+		      	
+		        
+
+				// // play the note
+				// MIDI.setVolume(0, 127);
+				// MIDI.noteOn(0, note, velocity, delay);
+				// MIDI.noteOff(0, note, delay + 0.75);
+
+
+				// var delay = 1; // play one note every quarter second
+		  //       var note = 0x21; // the MIDI note
+		  //       var velocity = 127; // how hard the note hits
+				// MIDI.setVolume(0, 127);
+				// MIDI.noteOn(0, note, velocity, delay);
+				// MIDI.noteOff(0, note, delay + 0.75);
 
 				
-		        MIDI.Player.loadFile('img/midi/basic.mid', MIDI.Player.start)
+		       MIDI.Player.loadFile('img/midi/basic.mid', MIDI.Player.start)
 		      }
 		    });
 			
