@@ -57,8 +57,10 @@ define(
 			this.engine = new GameEngine({model: this.model.get('gameData')});
 			this.engine.on('feature_run_out', this.selectAvailableFeature, this);	
 			this.engine.on('combo', this.onGameEngineCombo, this);	
-			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')}); 
-			this.countdown = new CountDownView({});		
+			this.gameScoreView = new GameScoreView({model:this.model.get('gameData')});
+
+			var countDownModel = new Backbone.Model({created: this.model.get('game').get('created')}); 
+			this.countdown = new CountDownView({model:countDownModel});		
 			this.children = [];
 		},
 
@@ -192,7 +194,8 @@ define(
 			this.engine.release();
 			this.engine = null;
 			this.gameScoreView = null;
-
+			this.countdown.release();
+			this.countdown = null;
 			
 			_.each(this.children, function(item) {
 				item.remove();

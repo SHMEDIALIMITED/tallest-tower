@@ -57,7 +57,7 @@ var Game = new Schema({
 	data: [GameData],
 	features: [GameFeature],
 	users : [Number],
-    modified: { type: Date, default: Date.now }
+	created : { type: Date, default: Date.now }
 });
 
 module.exports = { 

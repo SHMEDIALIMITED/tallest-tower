@@ -269,7 +269,7 @@
 				// MIDI.noteOff(0, note, delay + 0.75);
 
 				
-		       MIDI.Player.loadFile('img/midi/basic.mid', MIDI.Player.start)
+		       MIDI.Player.loadFile('img/midi/egypt.mid', MIDI.Player.start)
 		      }
 		    });
 			
