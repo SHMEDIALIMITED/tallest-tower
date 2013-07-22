@@ -20,8 +20,10 @@ define(
 			},
 
 			release: function() {
+				if(this.model == null) return;
 				this.model.off('change:height', this.render, this);
 				this.model = null;
+				return this;
 			}
 
 		});

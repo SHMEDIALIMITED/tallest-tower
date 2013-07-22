@@ -5,7 +5,8 @@ define(
 		'view/GameScoreView',
 		'model/GameData',
 		'SignalMap',
-		'view/CountDownView'], 
+		'view/CountDownView',
+		'view/GameOverviewView'], 
 	
 	function(	Backbone ,
 				GameEngine,
@@ -13,7 +14,8 @@ define(
 				GameScoreView,
 				GameData,
 				SignalMap,
-				CountDownView) {
+				CountDownView,
+				GameOverviewView) {
 
 	return Backbone.View.extend({
 		
@@ -61,7 +63,18 @@ define(
 
 			var countDownModel = new Backbone.Model({created: this.model.get('game').get('created')}); 
 			this.countdown = new CountDownView({model:countDownModel});		
+			//this.countdown.on('time_run_out', this.onGameEnd, this);
 			this.children = [];
+		},
+
+		onGameEnd: function() {
+			this.countdown.off('time_run_out', this.onGameEnd);
+			this.countdown.release().remove();
+			this.gameScoreView.release().remove();
+			this.$el.find('#features').remove();
+			this.$el.find('#refresh-btn').remove();
+			this.gameOverviewView = new GameOverviewView({model:this.model})
+			this.$el.append(this.gameOverviewView.render().el);
 		},
 
 		onGameEngineCombo : function(numCombos) {
@@ -97,7 +110,7 @@ define(
 			}, this);
 
 			if(!init && this.engine.feature == feature) {
-				alert('Game Finished');
+				this.onGameEnd();
 			}	
 		},
 
@@ -171,6 +184,9 @@ define(
 				if(e.keyCode == 87) this.engine.up();
 				else if(e.keyCode == 83) this.engine.down();
 			}, this));
+
+		
+
 			return this;
 		},
 
@@ -194,6 +210,7 @@ define(
 			this.engine.release();
 			this.engine = null;
 			this.gameScoreView = null;
+			this.countdown.off('time_run_out', this.onGameEnd);
 			this.countdown.release();
 			this.countdown = null;
 			

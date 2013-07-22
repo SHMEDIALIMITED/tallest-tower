@@ -1,0 +1,22 @@
+<div id="game-end" class="popup">
+	<h2><%=name%></h2>
+	<ol>
+	<% _.each(data, function(gameData){ 
+		if(gameData.mine == true) {
+		%>
+		<li class="mine clearfix">
+			<img src="http://graph.facebook.com/<%=gameData.fbID%>/picture?width=35&height=35" />
+			<span class="name"><%=gameData.fbName%></span>	
+			<span class="height"><%=gameData.height%> m</span>
+		</li>
+		<% } else { %>
+		<li class="clearfix">
+			<img src="http://graph.facebook.com/<%=gameData.fbID%>/picture?width=35&height=35" />
+			<span class="name"><%=gameData.fbName%></span>	
+			<span class="height"><%=gameData.height%> m</span>
+		</li>
+
+
+	<% }}); %>
+	</ol>
+</div>

@@ -274,15 +274,13 @@ module.exports = function(config) {
             // do your updates here
             p.modified = new Date();
 
-            p.data = req.body.data;
 
-            console.log('HEREEEE __------- ',p);
+
+            p.data = req.body.data;
 
             
 
-            _.each(p.data, function(d) {
-                console.log(d)
-            });
+
 
 
 

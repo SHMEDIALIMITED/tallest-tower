@@ -3268,31 +3268,39 @@ i.icon-facebook {
   top: 3px;
   right: 5px; }
 
+#game-end {
+  width: 700px;
+  height: 480px;
+  border: 2px solid #333;
+  margin-top: -240px;
+  /* negative half the size of height */
+  margin-left: -350px;
+  /* negative half the size of width */ }
 
-.game-object {
-    position: absolute;
-}
+#game-end ol {
+  padding: 25px 23px;
+  overflow-y: scroll;
+  height: 350px; }
 
-#scaffold {
-    background: #002a80;
-    width: 400px;
-    height: 600px;
-    left: 50%;
-    top:400px;
-}
+div#game-end h2 {
+  font-size: 4em;
+  text-transform: uppercase; }
 
-#bolts {
-    background: #006400;
+#game-end ol li {
+  border-bottom: 1px solid #999;
+  font-size: 2.8em;
+  vertical-align: center;
+  padding-top: 10px; }
 
+#game-end ol li.mine {
+  background: #e2b230; }
 
-}
+#game-end ol li img {
+  padding-left: 10px; }
 
-.bolt {
-    -webkit-transform-origin:25px 25px;
-    width: 50px; height: 50px;
-    background-image:url('../img/bolt.png');
-}
-
-.red {
-    background: red;
-}
+#game-end ol li span.height {
+  float: right;
+  position: relative;
+  top: 18px;
+  text-align: right;
+  right: 10px; }

@@ -10,7 +10,7 @@ define(
 
 	function(Backbone, SignalMap, FB,
 
-			login, loading,gameSuccess, gameDataSuccess, confirm) {
+			login, loading,gameSuccess, gameDataSuccess, confirm, end) {
 
 			
 			var _timeout = 0;
@@ -68,6 +68,7 @@ define(
 					case 'gameSuccess' : template = gameSuccess; break;
 					case 'gameDataSuccess' : template = gameDataSuccess; break;
 					case 'confirm' : template = confirm; break;
+					case 'end' : template = end; break;
 				}
 				this.type  = type;
 				

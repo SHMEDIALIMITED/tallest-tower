@@ -114,7 +114,6 @@ footer {
 canvas {
   position: relative;
   overflow-y: scroll;
-  z-index: 100000;
 }
 
 
@@ -856,4 +855,45 @@ i.icon-facebook {
   right: 5px;
 }
 
+#game-end {
+  width: 700px;
+  height: 480px;
+  border:2px solid #333;
+  margin-top:-240px; /* negative half the size of height */
+  margin-left:-350px; /* negative half the size of width */
+}
 
+#game-end ol {
+  padding: 25px 23px;
+  overflow-y: scroll;
+  height: 350px;
+
+} 
+
+div#game-end h2 {
+  font-size: 4em;
+  text-transform:uppercase;
+}
+
+#game-end ol li {
+  border-bottom: 1px solid #999;
+  font-size: 2.8em;
+  vertical-align: center;
+  padding-top:10px;
+}
+
+#game-end ol li.mine {
+  background: $yellow;
+}
+
+#game-end ol li img {
+  padding-left: 10px;
+}
+
+#game-end ol li span.height {
+  float: right;
+  position:relative;
+  top: 18px;
+  text-align: right;
+  right: 10px;
+}

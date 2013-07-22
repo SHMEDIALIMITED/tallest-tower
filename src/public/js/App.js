@@ -90,9 +90,7 @@
 			// 
 			
 			SignalMap.engineReady.add(function(engine) {
-				SignalMap.popupAction.dispatch();
-				
-
+				SignalMap.popupAction.dispatch();	
 	    		engine.start();
 	    	}, this);
 
@@ -352,21 +350,7 @@
 			}else {
 				
 			}
-			
-			// MIDI.loadPlugin({
-		 //      soundfontUrl: "img/soundfont/",
-		 //      instrument: [ "acoustic_grand_piano" , "synth_drum" ],
-		 //      callback: function() {
-		 //        var delay = 0; // play one note every quarter second
-		 //        var note = 50; // the MIDI note
-		 //        var velocity = 127; // how hard the note hits
-		 //        // play the note
-		      
-
-		 //       // MIDI.Player.loadFile('img/midi/rachmaninov3.mid', MIDI.Player.start)
-		 //      }
-		 //    });
-
+		
 			
 			this.$el.find('header').addClass('hide-header');
 			this.$el.find('header').removeClass('show-header');
