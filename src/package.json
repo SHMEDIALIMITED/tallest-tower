@@ -1,6 +1,6 @@
 {
   "name": "Tallest-Tower",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Patrick Wolleb <patrick.wolleb@shmedia.co.uk",
   "description": "Tallest Tower JS/HTML5 game with Facebook integration",
   "scripts": {
